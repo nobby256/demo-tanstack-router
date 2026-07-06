@@ -1,0 +1,50 @@
+{
+  "name": "demo-api-client",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./api-fetch": "./dist/api-fetch.js",
+    "./api/detail_page": "./dist/api/detail_page.js",
+    "./api/detail_page.schemas": "./dist/api/detail_page.schemas.js",
+    "./api/gentest_page": "./dist/api/gentest_page.js",
+    "./api/gentest_page.schemas": "./dist/api/gentest_page.schemas.js",
+    "./api/gentest2_page": "./dist/api/gentest2_page.js",
+    "./api/gentest2_page.schemas": "./dist/api/gentest2_page.schemas.js",
+    "./api/summary_page": "./dist/api/summary_page.js",
+    "./api/summary_page.schemas": "./dist/api/summary_page.schemas.js",
+    "./msw": "./dist/msw.js",
+    "./zod/detail_page": "./dist/zod/detail_page.js",
+    "./zod/gentest_page": "./dist/zod/gentest_page.js",
+    "./zod/gentest2_page": "./dist/zod/gentest2_page.js",
+    "./zod/summary_page": "./dist/zod/summary_page.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "clean": "rimraf .turbo dist generated",
+    "nuke": "rimraf .turbo dist generated node_modules",
+    "build": "tsdown",
+    "generate": "orval --config ./orval.config.ts",
+    "check": "tsc -b tsconfig.json"
+  },
+  "peerDependencies": {
+    "ofetch": "catalog:",
+    "zod": "catalog:"
+  },
+  "dependencies": {
+    "msw": "catalog:",
+    "@faker-js/faker": "catalog:",
+    "@vendor/typespec-validation": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "orval": "catalog:",
+    "rimraf": "catalog:",
+    "tsdown": "catalog:",
+    "demo-api-spec": "workspace:*",
+    "@orval/zod": "workspace:*",
+    "@vendor/tsconfig": "workspace:*",
+    "@vendor/tsdown-config": "workspace:*"
+  }
+}

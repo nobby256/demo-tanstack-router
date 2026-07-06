@@ -1,0 +1,8 @@
+{
+  "extends": "@vendor/tsconfig/node",
+  "compilerOptions": {
+    "types": ["node"],
+    "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.node.tsbuildinfo"
+  },
+  "include": ["*.config.ts"]
+}

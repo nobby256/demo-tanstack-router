@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/turbo/schema.json",
+  "tasks": {
+    "generate": {
+      "dependsOn": ["^build", "^generate"],
+      "outputs": ["generated/**"]
+    },
+    "check": {
+      "dependsOn": ["generate", "^check"],
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["^build", "check"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "dependsOn": ["generate"],
+      "cache": false,
+      "persistent": true
+    },
+    "format": {
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["generate", "^test"],
+      "outputs": []
+    },
+    "clean": {
+      "dependsOn": ["^clean"],
+      "cache": false
+    },
+    "nuke": {
+      "dependsOn": ["^nuke"],
+      "cache": false
+    }
+  }
+}

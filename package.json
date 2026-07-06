@@ -1,0 +1,26 @@
+{
+  "name": "demo-tanstack-router",
+  "private": true,
+  "engines": {
+    "pnpm": ">=11.x.x"
+  },
+  "packageManager": "pnpm@11.8.0",
+  "scripts": {
+    "clean": "turbo run clean",
+    "nuke": "turbo run nuke",
+    "generate": "turbo run generate",
+    "check": "eslint . && prettier --check . && turbo run check",
+    "dev": "turbo run react-app#dev",
+    "build": "turbo run build",
+    "format": "eslint --fix . && prettier --write ."
+  },
+  "devDependencies": {
+    "turbo": "catalog:",
+    "prettier": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-perfectionist": "catalog:"
+  }
+}

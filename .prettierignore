@@ -1,0 +1,11 @@
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+dist
+**/dist
+**/dist/**
+.turbo
+.tanstack
+node_modules
+vendor/fork
+**/routeTree.gen.ts

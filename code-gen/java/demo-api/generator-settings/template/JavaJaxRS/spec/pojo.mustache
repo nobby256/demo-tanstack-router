@@ -1,0 +1,26 @@
+{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
+ * {{.}}
+ **/{{/description}}
+{{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}
+@lombok.Data
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}}{{#parent}} extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+
+  {{#vars}}
+  {{#isEnum}}
+  {{^isContainer}}{{#description}}/** 列挙型：{{.}}。 */
+  {{/description}}{{>enumClass}}{{! prevent indent}}
+  {{/isContainer}}
+  {{#isContainer}}
+  {{#mostInnerItems}}
+  {{>enumClass}}{{! prevent indent}}
+  {{/mostInnerItems}}
+  {{/isContainer}}
+{{/isEnum}}{{#description}}  /** {{.}}。 */
+{{/description}}{{#useBeanValidation}}{{>beanValidation2}}{{/useBeanValidation}}{{#vendorExtensions.x-field-extra-annotation}}  {{{.}}}
+{{/vendorExtensions.x-field-extra-annotation}}  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+
+  {{/vars}}
+}

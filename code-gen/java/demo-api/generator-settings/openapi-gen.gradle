@@ -1,0 +1,240 @@
+// =====================================================
+// 使い方
+// =====================================================
+// plugins {
+//     id 'java-library'
+//     id 'org.openapi.generator'
+// }
+//
+// apply from: "$rootDir/openapi-generator-custom/openapi-gen.gradle"
+//
+// generateApiSdk(
+//     specDir: "../api-spec/openapi",
+//     basePackage: "com.example.demo",
+//
+//     // optional（指定しない場合は client + server 両方）
+//     // type: "server"
+//
+//     // optional テンプレート指定
+//     // templateDirServer: "path/to/server/template"
+//     // templateDirClient: "path/to/client/template"
+//
+//     // optional YAML変換ルール
+//     // x-field-extra-annotation の中身を書き換える
+//     // replaceMap: [
+//     //     "@decimal": "@com.example.demo.common.DecimalValue",
+//     //     "@string" : "@com.example.demo.common.StringValue",
+//     //     "@date"   : "@com.example.demo.common.DateValue"
+//     // ]
+// )
+
+ext.generateApiSdk = { Map args ->
+
+    def projectRef = project
+
+    def specDirPath        = args.specDir
+    def basePackage        = args.basePackage
+    def types              = args.type ? [args.type] : ["client", "server"]
+    def templateDirServer  = args.templateDirServer
+    def templateDirClient  = args.templateDirClient
+    def replaceMap = args.replaceMap ?: [:]
+
+    def specDir = projectRef.file(specDirPath)
+
+    if (!specDir.exists()) {
+        throw new org.gradle.api.GradleException("Spec directory not found: ${specDir}")
+    }
+
+    def generatedDir = projectRef.layout.buildDirectory.dir("generated/sources/openapi-generator")
+    def tmpDirBase   = "${projectRef.buildDir}/tmp/openapi-generator"
+
+    // -----------------------------
+    // processResourcesでyaml加工
+    // -----------------------------
+    projectRef.tasks.named("processResources") {
+        from(specDir) {
+            include("**/*.yaml", "**/*.yml")
+            into("META-INF/openapi")
+            filter { line ->
+                if (line.contains("x-field-extra-annotation")) {
+                    def result = line
+                    replaceMap.each { k, v ->
+                        result = result.replace(k as String, v as String)
+                    }
+                    return result
+                }
+                return line
+            }
+        }
+    }
+
+    def extractTasks = []
+
+    def specFiles = projectRef.fileTree(specDir) {
+        include "*.yaml", "*.yml"
+    }
+
+    def generateTaskClass = projectRef.tasks.named("openApiGenerate").get().class
+
+    specFiles.each { File specFile ->
+
+        def name = specFile.name
+                .replaceAll(/\.ya?ml$/, "")
+                .replaceAll(/[^a-zA-Z0-9]/, "_")
+
+        types.each { type ->
+
+            def generateTaskName = "generate_${type}_${name}"
+            def extractTaskName  = "extract_${type}_${name}"
+
+            // -----------------------------
+            // generator設定
+            // -----------------------------
+            def genName
+            def configOptionsMap = [:]
+
+            if (type == "server") {
+
+                genName = "jaxrs-spec"
+
+                // https://openapi-generator.tech/docs/generators/jaxrs-spec/
+                configOptionsMap = [
+                    interfaceOnly: "true",
+                    useJakartaEe : "false",
+                    dateLibrary  : "java8",
+                    useSwaggerAnnotations : "false",
+                    openApiNullable : "false",
+                    generatePom  : "false",
+                    enumPropertyNaming : "original",
+                    useTags : "true"
+                ]
+
+            } else if (type == "client") {
+
+                genName = "java"
+                // https://openapi-generator.tech/docs/generators/java/
+                configOptionsMap = [
+                    library               : "apache-httpclient",
+                    dateLibrary           : "java8",
+                    serializationLibrary  : "jackson",
+                    useBeanValidation     : "true",
+                    openApiNullable       : "false",
+                    enumPropertyNaming    : "original",
+                    useRuntimeException   : "true"
+                ]
+
+            } else {
+                throw new GradleException("Unknown type: ${type}")
+            }
+
+            // -----------------------------
+            // 加工後yaml
+            // -----------------------------
+            def processedSpecPath =
+                    "${projectRef.buildDir}/resources/main/META-INF/openapi/${specFile.name}"
+
+            // -----------------------------
+            // generate
+            // -----------------------------
+            // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc
+            def generateTask = projectRef.tasks.register(generateTaskName, generateTaskClass) {
+
+                dependsOn("processResources")
+
+                generatorName = genName
+                inputSpec.set(projectRef.file(processedSpecPath))
+
+                // 除外指定ファイルの指定
+                ignoreFileOverride.set(
+                    file("${projectRef.projectDir}/generator-settings/.openapi-generator-ignore")
+                )
+
+                // ✅ テンプレート指定
+                if (type == "server" && templateDirServer) {
+                    templateDir.set(projectRef.file(templateDirServer))
+                }
+                if (type == "client" && templateDirClient) {
+                    templateDir.set(projectRef.file(templateDirClient))
+                }
+
+                outputDir.set(
+                    projectRef.layout.buildDirectory.dir("tmp/openapi-generator/${type}/${name}")
+                )
+
+                // ✅ パッケージ分離（ここが今回の修正）
+                apiPackage     = "${basePackage}.${type}.${name}.api"
+                modelPackage   = "${basePackage}.${type}.${name}.model"
+                invokerPackage = "${basePackage}.${type}.${name}.invoker"
+
+                configOptions = configOptionsMap
+
+                //https://openapi-generator.tech/docs/globals
+                globalProperties = [
+                    modelDocs : "false",
+                    apiDocs   : "false",
+                    modelTests: "false",
+                    apiTests  : "false",
+                    //supportingFiles: "src",
+                ]
+
+            }
+
+            // -----------------------------
+            // extract
+            // -----------------------------
+            def sourcePath = (type == "server")
+                    ? "src/gen/java"
+                    : "src/main/java"
+
+            def extractTask = projectRef.tasks.register(extractTaskName, Copy) {
+                from("${tmpDirBase}/${type}/${name}/${sourcePath}")
+                into(generatedDir)
+
+                dependsOn generateTask
+
+                outputs.upToDateWhen { false }
+
+                onlyIf {
+                    projectRef.file("${tmpDirBase}/${type}/${name}/${sourcePath}").exists()
+                }
+            }
+
+            generateTask.configure {
+                finalizedBy extractTask
+            }
+
+            extractTasks.add(extractTask)
+        }
+    }
+
+    // -----------------------------
+    // aggregate
+    // -----------------------------
+    def aggregateTask = projectRef.tasks.register("generateApi") {
+        dependsOn extractTasks
+    }
+
+    // -----------------------------
+    // sourceSets
+    // -----------------------------
+    projectRef.sourceSets {
+        main {
+            java {
+                srcDir generatedDir.get().asFile
+            }
+        }
+    }
+
+    // -----------------------------
+    // compile連動
+    // -----------------------------
+    projectRef.tasks.named("compileJava") {
+        dependsOn aggregateTask
+    }
+
+    projectRef.tasks.withType(Jar).configureEach {
+        if (name == "sourcesJar") {
+            dependsOn aggregateTask
+        }
+    }
+}

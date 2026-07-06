@@ -1,0 +1,9 @@
+  /** 列挙型：{{description}}{{^description}}{{{name}}}{{/description}}。*/
+  {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}} {
+    {{#allowableValues}}
+      {{#enumVars}}
+    {{#enumDescription}}/** {{.}}。*/
+    {{/enumDescription}}{{{name}}}{{^-last}},
+{{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{/allowableValues}}
+  }

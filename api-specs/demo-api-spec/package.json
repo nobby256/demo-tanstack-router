@@ -1,0 +1,22 @@
+{
+  "name": "demo-api-spec",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf .turbo dist generated",
+    "nuke": "rimraf .turbo dist generated node_modules",
+    "generate": "tsp compile typespec/main.tsp",
+    "debug": "pnpm exec node --inspect-brk ./node_modules/@typespec/compiler/cmd/tsp.js compile typespec/main.tsp",
+    "format": "tsp format .",
+    "check": "spectral lint generated/openapi/*.yaml"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "catalog:",
+    "@typespec/http": "catalog:",
+    "@typespec/openapi": "catalog:",
+    "@typespec/openapi3": "catalog:",
+    "@stoplight/spectral-cli": "catalog:",
+    "rimraf": "catalog:",
+    "@vendor/typespec-validation": "workspace:*"
+  }
+}

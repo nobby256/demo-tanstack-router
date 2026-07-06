@@ -1,0 +1,17 @@
+{
+  "name": "@vendor/tsdown-config",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./config/*.ts"
+  },
+  "scripts": {
+    "check": "tsc -b tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "tsdown": "catalog:",
+    "@vendor/tsconfig": "workspace:*"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.src.decorators.json"
+    },
+    {
+      "path": "./tsconfig.src.zod.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

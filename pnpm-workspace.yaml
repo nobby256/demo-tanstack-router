@@ -1,0 +1,77 @@
+nodeVersion: 22.20.0
+engineStrict: true
+
+allowBuilds:
+  core-js: set this to true or false
+  esbuild: true
+  msw: true
+  unrs-resolver: true
+
+packages:
+  - 'apps/**'
+  - 'packages/**'
+  - 'api-specs/**'
+  - 'vendor/**'
+  - 'vendor/fork/**'
+
+overrides:
+  '@orval/zod': 'link:./vendor/fork/orval-8.15.0/packages/zod'
+
+catalog:
+  # Turbo
+  'turbo': 2.9.18
+
+  # React
+  react: 19.2.7
+  react-dom: 19.2.7
+  '@types/react': 19.2.17
+  '@types/react-dom': 19.2.3
+  '@vitejs/plugin-react': 6.0.2
+
+  # Tanstack Router
+  '@tanstack/react-router': 1.170.16
+  '@tanstack/router-core': '1.171.13'
+  '@tanstack/router-plugin': 1.168.18
+
+  # Node
+  '@types/node': 22.20.0
+
+  # TypeScript
+  typescript: 6.0.3
+
+  # ビルド
+  vite: 8.0.16
+  tsdown: 0.22.3
+
+  # フォーム・バリデーション
+  'react-hook-form': 7.75.0
+  '@hookform/resolvers': 5.2.2
+  zod: 4.4.3
+
+  # event bus
+  mitt: 3.0.1
+
+  # API
+  ofetch: 1.5.1
+
+  # Orval
+  orval: 8.15.0
+  msw: 2.13.4
+  '@faker-js/faker': 10.5.0
+
+  # TypeSpec
+  '@typespec/compiler': 1.13.0
+  '@typespec/http': 1.13.0
+  '@typespec/openapi': 1.13.0
+  '@typespec/openapi3': 1.13.0
+
+  # util
+  rimraf: 6.1.3
+
+  # linter
+  eslint: 10.0.1
+  'typescript-eslint': 8.62.0
+  'eslint-config-prettier': 10.1.8
+  prettier: 3.8.4
+  '@stoplight/spectral-cli': 6.16.0
+  'eslint-plugin-perfectionist': '5.9.1'

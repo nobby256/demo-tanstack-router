@@ -1,0 +1,8 @@
+{
+  "extends": "@vendor/tsconfig/browser",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
+  },
+  "include": ["src", "generated"]
+}

@@ -1,0 +1,17 @@
+**/.github/**
+**/gradle/**
+**/.openapi-generator/**
+
+**/api/*.yaml
+**/.gitignore
+**/.openapi-generator-ignore
+**/.travis.yml
+**/build.gradle
+**/build.sbt
+**/git_push.sh
+**/gradle.properties
+**/gradlew.bat
+**/pom.xml
+**/README.md
+**/settings.gradle
+**/gradlew

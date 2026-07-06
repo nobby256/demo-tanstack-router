@@ -1,0 +1,7 @@
+{
+  "extends": "@vendor/tsconfig/neutral",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
+  },
+  "include": ["zod/src"]
+}

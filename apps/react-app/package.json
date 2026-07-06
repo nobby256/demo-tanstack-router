@@ -1,0 +1,43 @@
+{
+  "name": "react-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf .turbo dist generated",
+    "nuke": "rimraf .turbo dist generated node_modules",
+    "build": "vite build --mode demo",
+    "dev": "vite dev --port 3000 --mode demo",
+    "preview": "vite preview",
+    "check": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "@tanstack/router-core": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-hook-form": "catalog:",
+    "zod": "catalog:",
+    "mitt": "catalog:",
+    "ofetch": "catalog:",
+    "demo-api-client": "workspace:*",
+    "@vendor/router-enhancer": "workspace:*",
+    "@vendor/typespec-validation": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "@tanstack/router-plugin": "catalog:",
+    "rimraf": "catalog:",
+    "demo-api-spec": "workspace:*",
+    "@vendor/tsconfig": "workspace:*"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

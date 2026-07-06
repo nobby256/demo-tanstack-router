@@ -1,0 +1,34 @@
+{
+  "name": "@vendor/router-enhancer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "clean": "rimraf .turbo dist",
+    "nuke": "rimraf .turbo dist node_modules",
+    "build": "tsdown",
+    "check": "tsc -b tsconfig.json"
+  },
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@tanstack/react-router": "catalog:",
+    "@tanstack/router-core": "catalog:"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:",
+    "rimraf": "catalog:",
+    "tsdown": "catalog:",
+    "@vendor/tsconfig": "workspace:*",
+    "@vendor/tsdown-config": "workspace:*"
+  }
+}

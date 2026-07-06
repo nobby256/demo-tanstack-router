@@ -1,0 +1,11 @@
+{
+  "name": "@vendor/tsconfig",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./browser": "./config/tsconfig.browser.json",
+    "./node": "./config/tsconfig.node.json",
+    "./neutral": "./config/tsconfig.neutral.json",
+    "./react": "./config/tsconfig.react.json"
+  }
+}

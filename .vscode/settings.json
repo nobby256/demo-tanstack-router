@@ -1,0 +1,29 @@
+{
+  // エディタ設定
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true,
+    "**/node_modules/**": true,
+    "**/.*/**": true
+  },
+  "search.exclude": {
+    "**/routeTree.gen.ts": true,
+    "**/node_modules/**": true,
+    "**/.*/**": true
+  },
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true
+  },
+  // "explorer.fileNesting.enabled": true,
+  // "explorer.fileNesting.patterns": {
+  //   "tsconfig.json": "tsconfig.*.json"
+  // },
+  // Java設定
+  "java.compile.nullAnalysis.mode": "disabled"
+}

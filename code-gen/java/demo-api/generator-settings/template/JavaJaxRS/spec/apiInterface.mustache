@@ -1,0 +1,15 @@
+    /**
+     * {{{notes}}}
+     *
+     {{#allParams}}
+     * @param {{paramName}}{{#description}} {{description}}{{/description}}
+     {{/allParams}}
+     {{#responses}}
+     * @return{{#message}} {{message}}{{/message}}
+     {{/responses}}
+     */
+    @{{httpMethod}}{{#subresourceOperation}}
+    @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
+    @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
+    @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+    {{>returnTypeInterface}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}});
