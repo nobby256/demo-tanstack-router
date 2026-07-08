@@ -4,14 +4,19 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./*": "./config/*.ts"
+    ".": "./dist/config.mjs",
+    "./package.json": "./package.json"
   },
   "scripts": {
+    "clean": "rimraf .turbo dist",
+    "nuke": "rimraf .turbo dist node_modules",
+    "build": "tsdown",
     "check": "tsc -b tsconfig.json"
   },
   "devDependencies": {
     "typescript": "catalog:",
     "tsdown": "catalog:",
+    "rimraf": "catalog:",
     "@vendor/tsconfig": "workspace:*"
   }
 }

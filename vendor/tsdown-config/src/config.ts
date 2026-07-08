@@ -33,3 +33,13 @@ export const neutralConfig = {
   platform: 'neutral',
   target: 'esnext',
 } satisfies UserConfig
+
+export const browserConfig = {
+  ...baseConfig,
+
+  platform: 'browser',
+  target: 'esnext',
+  css: {
+    module: false,
+  },
+} satisfies UserConfig

@@ -1,7 +1,7 @@
 {
-  "extends": "@vendor/tsconfig/neutral.json",
+  "extends": "@vendor/tsconfig/node.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
   },
-  "include": ["zod/src"]
+  "include": ["src"]
 }

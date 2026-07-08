@@ -1,4 +1,4 @@
-import { neutralConfig, nodeConfig } from '@vendor/tsdown-config/base.config'
+import { neutralConfig, nodeConfig } from '@vendor/tsdown-config'
 import { defineConfig } from 'tsdown'
 
 export default defineConfig([

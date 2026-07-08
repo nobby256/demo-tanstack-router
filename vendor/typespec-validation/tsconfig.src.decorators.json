@@ -1,5 +1,5 @@
 {
-  "extends": "@vendor/tsconfig/node",
+  "extends": "@vendor/tsconfig/node.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.decorators.tsbuildinfo"
   },

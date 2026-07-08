@@ -1,4 +1,4 @@
-import { neutralConfig } from '@vendor/tsdown-config/base.config'
+import { neutralConfig } from '@vendor/tsdown-config'
 import { defineConfig } from 'tsdown'
 
 // https://tsdown.dev/guide/

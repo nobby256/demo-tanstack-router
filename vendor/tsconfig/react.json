@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.browser.json",
+  "extends": "./base.json",
   "compilerOptions": {
     "types": ["vite/client"],
     "jsx": "react-jsx",

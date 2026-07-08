@@ -1,5 +1,5 @@
 {
-  "extends": "@vendor/tsconfig/browser",
+  "extends": "@vendor/tsconfig/browser.json",
   "compilerOptions": {
     "types": ["vite/client"],
     "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
