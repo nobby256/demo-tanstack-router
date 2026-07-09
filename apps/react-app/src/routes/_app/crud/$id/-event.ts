@@ -1,16 +1,16 @@
 import { createEventHook, useRouteNavigation } from '@vendor/router-enhancer'
 import { update } from 'demo-api-client/api/detail_page'
-import { useFormContext } from 'react-hook-form'
 
-import { type FormValues } from './-form'
+import type { FormValues, PageForm } from './-form'
+
 import { Route } from './route'
+
 // ─────────────────────────────────────
 // Event Hook
 // ─────────────────────────────────────
 
-export const usePageEvents = createEventHook(() => {
+export const usePageEvents = createEventHook((form: PageForm) => {
   const navigation = useRouteNavigation(Route)
-  const form = useFormContext<FormValues>()
 
   /*
    * 更新ボタンのハンドラ

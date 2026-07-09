@@ -17,6 +17,7 @@ export const usePageForm = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   })
-
   return form
 }
+
+export type PageForm = ReturnType<typeof usePageForm>

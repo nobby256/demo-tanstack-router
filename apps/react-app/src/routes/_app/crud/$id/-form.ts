@@ -33,3 +33,5 @@ export const usePageForm = () => {
 
   return form
 }
+
+export type PageForm = ReturnType<typeof usePageForm>
