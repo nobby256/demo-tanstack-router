@@ -56,37 +56,42 @@ function useWrappedEvents<T extends PageEvents>(events: T): T {
  * 各イベントへ `event(...)` を自動適用し、
  * 開発者が個別にラップする手間をなくす。
  *
- * ## 使用例
+ * ## 使用例（引数なし）
  *
  * ```ts
- * export const usePageEvents = definePageEvents(() => {
- *   const navigate = useNavigate()
- *
+ * export const usePageEvents = createEventHook(() => {
  *   const onSave = async () => {
  *     await saveUser()
- *
- *     navigate({
- *       to: '/users',
- *     })
- *   }
- *
- *   const onDelete = async () => {
- *     await deleteUser()
  *   }
  *
  *   return {
  *     onSave,
- *     onDelete,
  *   }
  * })
  * ```
  *
  * ```tsx
  * const events = usePageEvents()
+ * ```
  *
- * <Button onClick={events.onSave}>
- *   保存
- * </Button>
+ * ## 使用例（引数あり）
+ *
+ * ```ts
+ * export const usePageEvents = createEventHook(
+ *   (form: UseFormReturn<FormValues>) => {
+ *     const onSave = async () => {
+ *       form.reset()
+ *     }
+ *
+ *     return {
+ *       onSave,
+ *     }
+ *   },
+ * )
+ * ```
+ *
+ * ```tsx
+ * const events = usePageEvents(form)
  * ```
  *
  * ## 効果
@@ -109,11 +114,12 @@ function useWrappedEvents<T extends PageEvents>(events: T): T {
  * @param factory イベント群を生成するHook
  * @returns イベント群を返すHook
  */
-export function createEventHook<T extends PageEvents>(
-  factory: () => T,
-): () => T {
-  return () => {
-    const events = factory()
+export function createEventHook<
+  TArgs extends unknown[],
+  TEvents extends PageEvents,
+>(factory: (...args: TArgs) => TEvents): (...args: TArgs) => TEvents {
+  return (...args: TArgs) => {
+    const events = factory(...args)
 
     return useWrappedEvents(events)
   }
