@@ -9,7 +9,7 @@ import { load } from 'demo-api-client/api/detail_page'
 import { LoadBody } from 'demo-api-client/zod/detail_page'
 import { z } from 'zod'
 
-import { Page } from './-page/page'
+import { Page } from './-page'
 
 // ─────────────────────────────────────────────
 // URL Schema

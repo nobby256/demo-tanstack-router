@@ -8,7 +8,7 @@ import {
 import { load } from 'demo-api-client/api/summary_page'
 import { LoadBody } from 'demo-api-client/zod/summary_page'
 
-import { Page } from './-page/page'
+import { Page } from './-page'
 
 // URL schema
 // `_` prefix は UI state

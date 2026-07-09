@@ -39,6 +39,7 @@
 export function registerBfCacheReload() {
   const handlePageShow = (event: PageTransitionEvent) => {
     if (event.persisted) {
+      // eslint-disable-next-line no-restricted-properties
       window.location.reload()
     }
   }

@@ -41,7 +41,7 @@ const navigationErrorStrategy: NavigationErrorStrategy = {
     fallback: (error) => {
       const statusCode = error.statusCode
       const url = import.meta.env.DEV ? '/fatal-error.html' : '/fatal-error'
-
+      // eslint-disable-next-line no-restricted-properties
       window.location.href = `${url}?status=${statusCode}`
     },
   },

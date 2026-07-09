@@ -7,7 +7,7 @@ import {
 } from '@vendor/router-enhancer'
 import { z } from 'zod'
 
-import { Page } from './-page/page'
+import { Page } from './-page'
 
 // URL schema
 // `_` prefix は UI state

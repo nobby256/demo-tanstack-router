@@ -1,6 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 
-import { Route } from '../route'
+import { Route } from './route'
 
 // ─────────────────────────────────────
 // Page Component

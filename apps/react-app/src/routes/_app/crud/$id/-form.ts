@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Route } from '../route'
+import { Route } from './route'
 
 // ─────────────────────────────────────
 // Form Hook

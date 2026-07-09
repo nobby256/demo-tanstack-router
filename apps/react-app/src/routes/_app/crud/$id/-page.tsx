@@ -1,9 +1,9 @@
 import { useLeaveGuard, useRouteNavigation } from '@vendor/router-enhancer'
 import { FormProvider } from 'react-hook-form'
 
-import { Route } from '../route'
-import { usePageEvents } from './event'
-import { usePageForm } from './form'
+import { usePageEvents } from './-event'
+import { usePageForm } from './-form'
+import { Route } from './route'
 
 // ─────────────────────────────────────
 // Page Component

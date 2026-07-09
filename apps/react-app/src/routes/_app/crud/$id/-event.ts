@@ -2,8 +2,8 @@ import { createEventHook, useRouteNavigation } from '@vendor/router-enhancer'
 import { update } from 'demo-api-client/api/detail_page'
 import { useFormContext } from 'react-hook-form'
 
-import { Route } from '../route'
-import { type FormValues } from './form'
+import { type FormValues } from './-form'
+import { Route } from './route'
 // ─────────────────────────────────────
 // Event Hook
 // ─────────────────────────────────────
