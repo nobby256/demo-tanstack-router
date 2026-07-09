@@ -1,4 +1,4 @@
-export { event } from './event'
+export { createEventHook } from './createEventHook'
 export {
   notifyEventError,
   registerEventErrorNotifier,

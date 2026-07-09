@@ -2,6 +2,10 @@ import { Link, useLocation } from '@tanstack/react-router'
 
 import { Route } from '../route'
 
+// ─────────────────────────────────────
+// Page Component
+// ─────────────────────────────────────
+
 export function Page() {
   const loaderData = Route.useLoaderData()
   const location = useLocation()

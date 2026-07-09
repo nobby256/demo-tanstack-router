@@ -31,6 +31,30 @@ export default [
           },
         },
       ],
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'location',
+          message: 'useLocation() を使用してください',
+        },
+        {
+          name: 'history',
+          message: 'useRouteNavigation() を使用してください',
+        },
+      ],
+      'no-restricted-properties': [
+        'error',
+        {
+          object: 'window',
+          property: 'location',
+          message: 'useLocation() を使用してください',
+        },
+        {
+          object: 'window',
+          property: 'history',
+          message: 'useRouteNavigation() を使用してください',
+        },
+      ],
     },
   },
   {

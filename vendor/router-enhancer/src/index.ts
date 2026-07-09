@@ -16,7 +16,7 @@ export {
 } from './internal/error'
 
 // event
-export { event } from './internal/event'
+export { createEventHook } from './internal/event'
 
 // navigation
 export {
