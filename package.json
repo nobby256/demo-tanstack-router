@@ -6,7 +6,7 @@
   },
   "packageManager": "pnpm@11.8.0",
   "scripts": {
-    "clean": "turbo run clean",
+    "clean": "rimraf .turbo && turbo run clean",
     "nuke": "turbo run nuke",
     "generate": "turbo run generate",
     "check": "eslint . && prettier --check . && turbo run check",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "turbo": "catalog:",
+    "rimraf": "catalog:",
     "prettier": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",
