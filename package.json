@@ -7,9 +7,9 @@
   "packageManager": "pnpm@11.8.0",
   "scripts": {
     "clean": "rimraf .turbo && turbo run clean",
-    "check": "prettier --check . && turbo run check",
+    "check": "turbo run check && prettier --check .",
     "dev": "turbo run react-app#dev",
-    "build": "prettier --check . && turbo run build",
+    "build": "turbo run build",
     "format": "turbo run format && prettier --write .",
     "nuke": "turbo run clean && rimraf **/.turbo && rimraf '**/node_modules'"
   },
