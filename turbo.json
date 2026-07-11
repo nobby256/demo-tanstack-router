@@ -19,7 +19,7 @@
       "persistent": true
     },
     "format": {
-      "dependsOn": ["generate"],
+      "dependsOn": ["generate", "^format"],
       "cache": false
     },
     "test": {
@@ -27,7 +27,6 @@
       "outputs": []
     },
     "clean": {
-      "dependsOn": ["^clean"],
       "cache": false
     }
   }
