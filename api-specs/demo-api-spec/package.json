@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf .turbo dist generated",
     "nuke": "rimraf .turbo dist generated node_modules",
-    "generate": "tsp compile typespec/main.tsp",
+    "generate": "tsp compile src/main.tsp",
     "debug": "pnpm exec node --inspect-brk ./node_modules/@typespec/compiler/cmd/tsp.js compile typespec/main.tsp",
     "format": "tsp format .",
     "check": "spectral lint generated/openapi/*.yaml"
