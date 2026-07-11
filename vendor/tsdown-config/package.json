@@ -16,9 +16,7 @@
     "format": "eslint --fix ."
   },
   "devDependencies": {
-    "typescript": "catalog:",
     "tsdown": "catalog:",
-    "rimraf": "catalog:",
     "@vendor/tsconfig": "workspace:*"
   }
 }

@@ -27,9 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "typescript": "catalog:",
     "tsdown": "catalog:",
-    "rimraf": "catalog:",
     "@vendor/tsconfig": "workspace:*",
     "@vendor/tsdown-config": "workspace:*"
   }

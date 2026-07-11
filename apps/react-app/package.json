@@ -29,11 +29,9 @@
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "typescript": "catalog:",
     "vite": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@tanstack/router-plugin": "catalog:",
-    "rimraf": "catalog:",
     "demo-api-spec": "workspace:*",
     "@vendor/tsconfig": "workspace:*"
   },

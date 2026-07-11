@@ -43,9 +43,7 @@
   "devDependencies": {
     "vite": "catalog:",
     "@types/node": "catalog:",
-    "typescript": "catalog:",
     "orval": "catalog:",
-    "rimraf": "catalog:",
     "tsdown": "catalog:",
     "demo-api-spec": "workspace:*",
     "@orval/zod": "workspace:*",

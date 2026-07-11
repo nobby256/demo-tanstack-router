@@ -27,8 +27,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "typescript": "catalog:",
-    "rimraf": "catalog:",
     "tsdown": "catalog:",
     "@vendor/tsconfig": "workspace:*",
     "@vendor/tsdown-config": "workspace:*"

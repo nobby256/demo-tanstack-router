@@ -17,7 +17,6 @@
     "@typespec/openapi": "catalog:",
     "@typespec/openapi3": "catalog:",
     "@stoplight/spectral-cli": "catalog:",
-    "rimraf": "catalog:",
     "@vendor/typespec-validation": "workspace:*"
   }
 }

@@ -125,6 +125,9 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.22.3(tsx@4.22.4)(typescript@6.0.3)(unrun@0.2.39)
       turbo:
         specifier: 'catalog:'
         version: 2.9.18
@@ -155,9 +158,6 @@ importers:
       '@vendor/typespec-validation':
         specifier: workspace:*
         version: link:../../vendor/typespec-validation
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
 
   apps/react-app:
     dependencies:
@@ -216,12 +216,6 @@ importers:
       demo-api-spec:
         specifier: workspace:*
         version: link:../../api-specs/demo-api-spec
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
       vite:
         specifier: 'catalog:'
         version: 8.0.16(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0)
@@ -262,15 +256,9 @@ importers:
       orval:
         specifier: 'catalog:'
         version: 8.15.0(@faker-js/faker@10.5.0)(prettier@3.8.4)(typescript@6.0.3)
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
       tsdown:
         specifier: 'catalog:'
         version: 0.22.3(tsx@4.22.4)(typescript@6.0.3)(unrun@0.2.39)
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
       vite:
         specifier: 'catalog:'
         version: 8.0.16(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0)
@@ -333,15 +321,9 @@ importers:
       '@vendor/tsdown-config':
         specifier: workspace:*
         version: link:../tsdown-config
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
       tsdown:
         specifier: 'catalog:'
         version: 0.22.3(tsx@4.22.4)(typescript@6.0.3)(unrun@0.2.39)
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
 
   vendor/tsconfig: {}
 
@@ -350,15 +332,9 @@ importers:
       '@vendor/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
       tsdown:
         specifier: 'catalog:'
         version: 0.22.3(tsx@4.22.4)(typescript@6.0.3)(unrun@0.2.39)
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
 
   vendor/typespec-validation:
     dependencies:
@@ -381,15 +357,9 @@ importers:
       '@vendor/tsdown-config':
         specifier: workspace:*
         version: link:../tsdown-config
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
       tsdown:
         specifier: 'catalog:'
         version: 0.22.3(tsx@4.22.4)(typescript@6.0.3)(unrun@0.2.39)
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
 
 packages:
 
