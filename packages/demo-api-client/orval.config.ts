@@ -4,8 +4,8 @@ import { mkdirSync, readdirSync } from 'node:fs'
 import { basename, extname, join } from 'node:path'
 import { defineConfig } from 'orval'
 
-const OPENAPI_DIR = '../../api-specs/demo-api-spec/generated/openapi'
-const OUTPUT_DIR = './generated/orval'
+const OPENAPI_DIR = './node_modules/demo-api-spec/dist/openapi'
+const OUTPUT_DIR = './.generated/orval'
 
 // ✅ 出力ディレクトリが無ければ作る
 mkdirSync(OUTPUT_DIR, { recursive: true })

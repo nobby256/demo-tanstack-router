@@ -2,15 +2,15 @@
   "$schema": "./node_modules/turbo/schema.json",
   "tasks": {
     "generate": {
-      "dependsOn": ["^build", "^generate"],
-      "outputs": ["generated/**"]
+      "dependsOn": ["^build"],
+      "outputs": [".generated/**"]
     },
     "check": {
       "dependsOn": ["generate", "^check"],
       "outputs": []
     },
     "build": {
-      "dependsOn": ["^build", "check"],
+      "dependsOn": ["generate"],
       "outputs": ["dist/**"]
     },
     "dev": {
@@ -19,18 +19,15 @@
       "persistent": true
     },
     "format": {
+      "dependsOn": ["generate"],
       "cache": false
     },
     "test": {
-      "dependsOn": ["generate", "^test"],
+      "dependsOn": ["build", "^test"],
       "outputs": []
     },
     "clean": {
       "dependsOn": ["^clean"],
-      "cache": false
-    },
-    "nuke": {
-      "dependsOn": ["^nuke"],
       "cache": false
     }
   }

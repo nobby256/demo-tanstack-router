@@ -7,12 +7,12 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 export default [
   {
     ignores: [
-      '**/dist/**',
-      '**/generated/**',
-      '**/*.gen.ts',
-      '**/public/**',
-      './vendor/fork/**',
+      '**/.*',
+      '**/dist',
+      '**/public',
+      './vendor/fork',
 
+      '**/*.gen.ts',
       '**/*.js',
       '**/*.mjs',
       '**/*.cjs',

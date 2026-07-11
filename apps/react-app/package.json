@@ -3,12 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "rimraf .turbo dist generated",
-    "nuke": "rimraf .turbo dist generated node_modules",
+    "clean": "rimraf dist",
+    "check": "pnpm check-types && pnpm lint",
+    "check-types": "tsc -b --noEmit",
+    "lint": "eslint .",
+    "format": "eslint --fix .",
     "build": "vite build --mode demo",
-    "dev": "vite dev --port 3000 --mode demo",
-    "preview": "vite preview",
-    "check": "tsc -b tsconfig.json"
+    "dev": "vite dev --mode demo",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "catalog:",

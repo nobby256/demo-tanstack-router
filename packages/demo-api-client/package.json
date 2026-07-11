@@ -23,11 +23,13 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "clean": "rimraf .turbo dist generated",
-    "nuke": "rimraf .turbo dist generated node_modules",
+    "clean": "rimraf dist .generated",
+    "check": "pnpm check-types && pnpm lint",
+    "check-types": "tsc -b --noEmit",
+    "lint": "eslint .",
+    "format": "eslint --fix .",
     "build": "tsdown",
-    "generate": "orval --config ./orval.config.ts",
-    "check": "tsc -b tsconfig.json"
+    "generate": "orval --config ./orval.config.ts"
   },
   "peerDependencies": {
     "ofetch": "catalog:",

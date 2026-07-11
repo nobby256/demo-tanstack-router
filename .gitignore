@@ -16,7 +16,7 @@ pnpm-debug.log*
 *.tsbuildinfo
 
 # generate files
-generated/
+.generated/
 
 # Java / Gradle build outputs
 .gradle/

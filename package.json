@@ -7,11 +7,11 @@
   "packageManager": "pnpm@11.8.0",
   "scripts": {
     "clean": "rimraf .turbo && turbo run clean",
-    "nuke": "turbo run nuke",
-    "check": "eslint . && prettier --check . && turbo run check",
+    "check": "prettier --check . && turbo run check",
     "dev": "turbo run react-app#dev",
-    "build": "turbo run build",
-    "format": "eslint --fix . && prettier --write ."
+    "build": "prettier --check . && turbo run build",
+    "format": "turbo run format && prettier --write .",
+    "nuke": "turbo run clean && rimraf **/.turbo && rimraf '**/node_modules'"
   },
   "devDependencies": {
     "turbo": "catalog:",

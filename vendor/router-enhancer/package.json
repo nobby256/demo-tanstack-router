@@ -9,10 +9,12 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "clean": "rimraf .turbo dist",
-    "nuke": "rimraf .turbo dist node_modules",
+    "clean": "rimraf dist",
+    "check": "pnpm check-types && pnpm lint",
     "build": "tsdown",
-    "check": "tsc -b tsconfig.json"
+    "lint": "eslint .",
+    "check-types": "tsc -b --noEmit",
+    "format": "eslint --fix ."
   },
   "peerDependencies": {
     "react": "catalog:",

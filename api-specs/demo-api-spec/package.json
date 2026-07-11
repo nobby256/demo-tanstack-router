@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "clean": "rimraf .turbo dist generated",
-    "nuke": "rimraf .turbo dist generated node_modules",
-    "generate": "tsp compile src/main.tsp",
-    "debug": "pnpm exec node --inspect-brk ./node_modules/@typespec/compiler/cmd/tsp.js compile typespec/main.tsp",
-    "format": "tsp format .",
-    "check": "spectral lint generated/openapi/*.yaml"
+    "clean": "rimraf dist",
+    "build": "tsp compile src",
+    "check": "pnpm check-types && pnpm lint",
+    "check-types": "tsp compile src --noEmit",
+    "lint": "spectral lint dist/**/*.{json,yml,yaml}",
+    "format": "tsp format src",
+    "debug": "pnpm exec node --inspect-brk ./node_modules/@typespec/compiler/cmd/tsp.js compile src/main.tsp"
   },
   "devDependencies": {
     "@typespec/compiler": "catalog:",
