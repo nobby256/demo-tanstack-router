@@ -1,4 +1,10 @@
-import type { DecoratorContext, Model, ModelProperty } from '@typespec/compiler'
+import type {
+  DecoratorContext,
+  Model,
+  ModelProperty,
+  Program,
+  Type,
+} from '@typespec/compiler'
 
 import { isStringType, NoTarget } from '@typespec/compiler'
 
@@ -25,6 +31,51 @@ function isModelProperty(value: unknown): value is ModelProperty {
   )
 }
 
+/**
+ * string、または最終要素がstringである配列かを再帰的に判定する。
+ *
+ * 対応例:
+ *
+ * - string
+ * - string[]
+ * - string[][]
+ * - string[][][]
+ *
+ * 非対応例:
+ *
+ * - number
+ * - number[]
+ * - object[]
+ * - stringとnumberのunion配列
+ */
+function isStringOrStringArray(
+  program: Program,
+  type: Type,
+  visited = new Set<Type>(),
+): boolean {
+  // string
+  if (isStringType(program, type)) {
+    return true
+  }
+
+  // 循環的な型定義による無限再帰を防止する。
+  if (visited.has(type)) {
+    return false
+  }
+
+  visited.add(type)
+
+  // Array<T>
+  //
+  // Tがstringであればstring[]として許可する。
+  // TがさらにArray<U>であれば再帰的に終端要素を確認する。
+  if (type.kind === 'Model' && type.name === 'Array' && type.indexer?.value) {
+    return isStringOrStringArray(program, type.indexer.value, visited)
+  }
+
+  return false
+}
+
 export function validateStringPropertyTarget(
   context: DecoratorContext,
   target: unknown,
@@ -40,12 +91,12 @@ export function validateStringPropertyTarget(
     return false
   }
 
-  // ✅ stringチェック（型確定後 → targetをそのまま利用）
-  if (!isStringType(context.program, target.type)) {
+  // ✅ stringまたはstringの多次元配列チェック
+  if (!isStringOrStringArray(context.program, target.type)) {
     report(
       context,
       'invalid-target-type',
-      `@${decoratorName} can only be applied to string properties`,
+      `@${decoratorName} can only be applied to string or string array properties`,
       target,
     )
     return false
