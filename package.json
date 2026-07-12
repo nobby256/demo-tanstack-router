@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rimraf .turbo && turbo run clean",
     "check": "turbo run check && prettier --check .",
-    "dev": "turbo run react-app#dev",
+    "dev": "turbo run dev",
     "build": "turbo run build",
     "format": "turbo run format && prettier --write .",
     "nuke": "turbo run clean && rimraf **/.turbo && rimraf '**/node_modules'"

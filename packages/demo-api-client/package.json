@@ -29,7 +29,8 @@
     "lint": "eslint .",
     "format": "eslint --fix .",
     "build": "tsdown",
-    "generate": "orval --config ./orval.config.ts"
+    "generate": "orval --clean --config ./orval.config.ts",
+    "dev": "concurrently \"orval --watch --config ./orval.config.ts\" \"tsdown --watch\""
   },
   "peerDependencies": {
     "ofetch": "catalog:",
@@ -45,6 +46,7 @@
     "@types/node": "catalog:",
     "orval": "catalog:",
     "tsdown": "catalog:",
+    "concurrently": "10.0.3",
     "demo-api-spec": "workspace:*",
     "@orval/zod": "workspace:*",
     "@vendor/tsconfig": "workspace:*",
