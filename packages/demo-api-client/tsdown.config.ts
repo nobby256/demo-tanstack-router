@@ -7,10 +7,8 @@ export default defineConfig([
     ...neutralConfig,
     entry: {
       'api-fetch': './src/client/api-fetch.ts',
-      'api/*': [
-        './.generated/orval/client/api/*.ts',
-        '!./.generated/orval/client/api/*.msw.ts',
-      ],
+      'api/*': ['./.generated/orval/client/api/*.ts'],
+      'schema/*': ['./.generated/orval/client/schema/*/index.ts'],
       'zod/*': './.generated/orval/client/zod/*.ts',
       msw: './src/msw/index.ts',
     },

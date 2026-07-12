@@ -7,11 +7,9 @@ using Http;
 /**
  * 一覧画面
  */
-@info(#{ title: "PG002", version: "1.0.0" })
-@tag("SummaryPage")
-@service
+@tag("summary-page")
 @route("/api/summary-page")
-namespace summary_page {
+namespace demo.summary_page {
   /**
    * ロード
    */

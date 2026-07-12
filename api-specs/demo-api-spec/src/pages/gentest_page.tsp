@@ -8,11 +8,9 @@ using Http;
 /**
  * ジェネレートテスト画面
  */
-@info(#{ title: "PG003", version: "1.0.0" })
-@tag("GentestPage")
-@service
+@tag("gentest-page")
 @route("/api/gentest-page")
-namespace gentest_page {
+namespace demo.gentest_page {
   /**
    * 列挙体
    */

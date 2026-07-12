@@ -1,12 +1,8 @@
-import type { RequestHandler } from 'msw'
-
 import { setupWorker } from 'msw/browser'
 
-const modules = import.meta.glob<{
-  default: RequestHandler[]
-}>('./internal/*.ts', { eager: true })
+import * as mocks from '../../.generated/orval/client/msw/index.msw'
 
-const handlers = Object.values(modules).flatMap((mod) => mod.default ?? [])
+const handlers = Object.values(mocks).flatMap((createMock) => createMock())
 
 export async function startMockWorker() {
   const worker = setupWorker(...handlers)

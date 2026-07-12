@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UpdateBody } from 'demo-api-client/zod/detail_page'
+import { DetailPageUpdateBody } from 'demo-api-client/zod/detail-page'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -11,7 +11,7 @@ import { Route } from './route'
 // ─────────────────────────────────────
 
 // UIフォーム用スキーマはAPI Bodyを変換して定義する
-const formSchema = UpdateBody.omit({
+const formSchema = DetailPageUpdateBody.omit({
   // none
 }).extend({
   // none

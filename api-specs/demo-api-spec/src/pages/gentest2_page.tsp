@@ -8,11 +8,9 @@ using OpenAPI;
 /**
  * 詳細画面API
  */
-@info(#{ title: "PG004", version: "0.0.0" })
-@tag("Gentest2Page")
-@service
+@tag("gentest2-page")
 @route("/api/gentest2-page")
-namespace gentest2_page {
+namespace demo.gentest2_page {
   /**
    * GET API
    */

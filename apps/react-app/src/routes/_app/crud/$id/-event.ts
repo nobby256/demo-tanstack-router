@@ -1,5 +1,5 @@
 import { createEventHook, useRouteNavigation } from '@vendor/router-enhancer'
-import { update } from 'demo-api-client/api/detail_page'
+import { detailPageUpdate } from 'demo-api-client/api/detail-page'
 
 import type { FormValues, PageForm } from './-form'
 
@@ -19,7 +19,7 @@ export const usePageEvents = createEventHook((form: PageForm) => {
     // FormValues → API Body への変換ポイント
     const apiBody = { ...formValues }
 
-    await update(apiBody)
+    await detailPageUpdate(apiBody)
 
     alert('Update successful')
 
@@ -31,7 +31,7 @@ export const usePageEvents = createEventHook((form: PageForm) => {
     // FormValues → API Body への変換ポイント
     const apiBody = { ...formValues }
 
-    await update(apiBody)
+    await detailPageUpdate(apiBody)
 
     // URLを変えずにloaderの再実行
     await navigation.invalidate()

@@ -5,8 +5,8 @@ import {
   navigationTx,
   normalizeSearch,
 } from '@vendor/router-enhancer'
-import { load } from 'demo-api-client/api/detail_page'
-import { LoadBody } from 'demo-api-client/zod/detail_page'
+import { detailPageLoad } from 'demo-api-client/api/detail-page'
+import { DetailPageLoadBody } from 'demo-api-client/zod/detail-page'
 import { z } from 'zod'
 
 import { Page } from './-page'
@@ -15,7 +15,7 @@ import { Page } from './-page'
 // URL Schema
 // `_` prefix = UI state
 // ─────────────────────────────────────────────
-const searchSchema = LoadBody.omit({
+const searchSchema = DetailPageLoadBody.omit({
   id: true,
 }).extend({
   _returnTo: z.string(),
@@ -40,7 +40,7 @@ export const Route = createFileRoute('/_app/crud/$id')({
   // Router transaction
   loader: (args) =>
     navigationTx(args, async () => {
-      return await load(
+      return await detailPageLoad(
         { ...args.params, ...args.deps },
         { signal: args.abortController.signal },
       )

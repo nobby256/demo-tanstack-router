@@ -6,13 +6,11 @@ using Http;
 using OpenAPI;
 
 /**
- * デコレータのテスト
+ * デコレータのテスト2
  */
-@info(#{ title: "PG005", version: "0.0.0" })
-@tag("Gentest3Page")
-@service
+@tag("gentest3-page")
 @route("/api/gentest3-page")
-namespace gentest3_page {
+namespace demo.gentest3_page {
   /**
    * POST API
    */

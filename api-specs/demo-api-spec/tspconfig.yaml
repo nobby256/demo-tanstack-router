@@ -6,6 +6,6 @@ emit:
 options:
   '@typespec/openapi3':
     emitter-output-dir: '{output-dir}/openapi'
-    output-file: '{service-name-if-multiple}.{file-type}'
+    output-file: 'openapi-{service-name}.{file-type}'
     file-type: yaml
     omit-unreachable-types: true
