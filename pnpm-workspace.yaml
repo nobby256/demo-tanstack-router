@@ -13,9 +13,10 @@ packages:
   - 'api-specs/**'
   - 'vendor/**'
   - 'vendor/fork/**'
+  - '!vendor/fork/orval-8.15.0/**'
 
 overrides:
-  '@orval/zod': 'link:./vendor/fork/orval-8.15.0/packages/zod'
+  '@orval/zod': 'link:./vendor/fork/orval-8.20.0/packages/zod'
 
 catalog:
   # Turbo
@@ -55,7 +56,7 @@ catalog:
   ofetch: 1.5.1
 
   # Orval
-  orval: 8.15.0
+  orval: 8.20.0
   msw: 2.13.4
   '@faker-js/faker': 10.5.0
 
