@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf .turbo dist",
     "check": "pnpm check-types && pnpm lint",
     "check-types": "tsc -b --noEmit",
     "lint": "eslint .",

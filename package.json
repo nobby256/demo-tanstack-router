@@ -12,7 +12,7 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "format": "turbo run format && prettier --write .",
-    "nuke": "turbo run clean && rimraf **/.turbo && rimraf '**/node_modules'"
+    "nuke": "turbo run clean && rimraf '**/node_modules'"
   },
   "devDependencies": {
     "turbo": "catalog:",

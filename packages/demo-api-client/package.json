@@ -10,7 +10,7 @@
     "./msw": "./src/msw/index.ts"
   },
   "scripts": {
-    "clean": "rimraf dist .generated",
+    "clean": "rimraf .turbo dist .generated",
     "check": "pnpm check-types && pnpm lint",
     "check-types": "tsc -b --noEmit",
     "lint": "eslint .",

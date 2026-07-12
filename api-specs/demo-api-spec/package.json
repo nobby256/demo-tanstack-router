@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "rimraf dist && tsp compile src",
+    "clean": "rimraf .turbo dist",
+    "generate": "rimraf dist && tsp compile src",
+    "build": "pnpm generate && pnpm check-types",
     "dev": "tsp compile src --watch",
     "check": "pnpm check-types && pnpm lint",
     "check-types": "tsp compile src --noEmit",
