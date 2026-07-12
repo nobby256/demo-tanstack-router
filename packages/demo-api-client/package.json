@@ -3,24 +3,11 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./api-fetch": "./dist/api-fetch.js",
-    "./api/detail-page": "./dist/api/detail-page.js",
-    "./api/gentest-page": "./dist/api/gentest-page.js",
-    "./api/gentest2-page": "./dist/api/gentest2-page.js",
-    "./api/gentest3-page": "./dist/api/gentest3-page.js",
-    "./api/summary-page": "./dist/api/summary-page.js",
-    "./msw": "./dist/msw.js",
-    "./schema/detail-page": "./dist/schema/detail-page/index.js",
-    "./schema/gentest-page": "./dist/schema/gentest-page/index.js",
-    "./schema/gentest2-page": "./dist/schema/gentest2-page/index.js",
-    "./schema/gentest3-page": "./dist/schema/gentest3-page/index.js",
-    "./schema/summary-page": "./dist/schema/summary-page/index.js",
-    "./zod/detail-page": "./dist/zod/detail-page.js",
-    "./zod/gentest-page": "./dist/zod/gentest-page.js",
-    "./zod/gentest2-page": "./dist/zod/gentest2-page.js",
-    "./zod/gentest3-page": "./dist/zod/gentest3-page.js",
-    "./zod/summary-page": "./dist/zod/summary-page.js",
-    "./package.json": "./package.json"
+    "./fetch": "./src/orval/custom-fetch.ts",
+    "./api/*": "./.generated/orval/api/*.ts",
+    "./schema/*": "./.generated/orval/schema/*/index.ts",
+    "./zod/*": "./.generated/orval/zod/*.ts",
+    "./msw": "./src/msw/index.ts"
   },
   "scripts": {
     "clean": "rimraf dist .generated",
@@ -28,9 +15,8 @@
     "check-types": "tsc -b --noEmit",
     "lint": "eslint .",
     "format": "eslint --fix .",
-    "build": "tsdown",
     "generate": "orval --config ./orval.config.ts",
-    "dev": "concurrently \"orval --watch --config ./orval.config.ts\" \"tsdown --watch\""
+    "dev": "orval --watch --config ./orval.config.ts"
   },
   "dependencies": {
     "ofetch": "catalog:",

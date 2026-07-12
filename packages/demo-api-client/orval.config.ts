@@ -7,11 +7,11 @@ export default defineConfig({
   api: {
     input: INPUT_FILE,
     output: {
-      target: `${OUTPUT_DIR}/client/api`,
+      target: `${OUTPUT_DIR}/api`,
       client: 'fetch',
       mode: 'tags',
       schemas: {
-        path: `${OUTPUT_DIR}/client/schema`,
+        path: `${OUTPUT_DIR}/schema`,
         splitByTags: true,
       },
       formatter: 'prettier',
@@ -20,7 +20,7 @@ export default defineConfig({
         generators: [
           {
             type: 'msw',
-            path: `${OUTPUT_DIR}/client/msw`,
+            path: `${OUTPUT_DIR}/msw`,
             useExamples: true,
             // generateEachHttpStatus: true,
           },
@@ -31,7 +31,7 @@ export default defineConfig({
           includeHttpResponseReturnType: false,
         },
         mutator: {
-          path: 'src/client/api-fetch.ts',
+          path: 'src/orval/custom-fetch.ts',
           name: 'request',
         },
       },
@@ -40,7 +40,7 @@ export default defineConfig({
   zod: {
     input: INPUT_FILE,
     output: {
-      target: `${OUTPUT_DIR}/client/zod`,
+      target: `${OUTPUT_DIR}/zod`,
       client: 'zod',
       mode: 'tags',
       formatter: 'prettier',
@@ -55,7 +55,7 @@ export default defineConfig({
           },
         },
         mutator: {
-          path: 'src/client/zod-schema.ts',
+          path: 'src/orval/custom-validate.ts',
           name: 'schema',
         },
       },

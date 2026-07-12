@@ -1,6 +1,6 @@
 import { setupWorker } from 'msw/browser'
 
-import * as mocks from '../../.generated/orval/client/msw/index.msw'
+import * as mocks from '../../.generated/orval/msw/index.msw'
 
 const handlers = Object.values(mocks).flatMap((createMock) => createMock())
 

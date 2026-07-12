@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "format": "eslint --fix .",
     "build": "vite build --mode demo",
-    "dev": "vite dev --mode demo",
+    "dev": "vite dev --port 3000 --mode demo",
     "preview": "vite preview"
   },
   "dependencies": {

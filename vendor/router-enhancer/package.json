@@ -5,13 +5,11 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./dist/index.js",
-    "./package.json": "./package.json"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "clean": "rimraf dist",
     "check": "pnpm check-types && pnpm lint",
-    "build": "tsdown",
     "lint": "eslint .",
     "check-types": "tsc -b --noEmit",
     "format": "eslint --fix ."

@@ -4,7 +4,7 @@ import {
   type EventErrorStrategy,
   type NavigationErrorStrategy,
 } from '@vendor/router-enhancer'
-import { configureApiFetch } from 'demo-api-client/api-fetch'
+import { configureFetch } from 'demo-api-client/fetch'
 import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
 
@@ -132,7 +132,7 @@ if (appConfig.demoMode) {
 /**
  * アプリ全体で利用するAPI Clientを初期化する。
  */
-configureApiFetch(
+configureFetch(
   ofetch.create({
     baseURL: appConfig.apiBaseUrl,
     headers: {
