@@ -1,0 +1,56 @@
+diff --git a/packages/zod/src/index.ts b/packages/zod/src/index.ts
+index 2a5792056..5f38ab875 100644
+--- a/packages/zod/src/index.ts
++++ b/packages/zod/src/index.ts
+@@ -51,6 +51,14 @@ import {
+   resolveIsZodV4,
+ } from './compatible-v4';
+ 
++import {
++  applyValidationMetaBase,
++  assertExtensionCanBeApplied,
++  getValidationMeta,
++  renderSchemaInvocation,
++  type ValidationMetaArgs,
++} from './validation-extension';
++
+ export const getZodDependencies: ClientDependenciesBuilder = (
+   _hasGlobalMutator,
+   _hasParamsSerializerOptions,
+@@ -1015,6 +1023,14 @@ export const generateZodValidationSchemaDefinition = (
+     }
+   }
+ 
++  if (context.output.override?.mutator) {
++    const meta = getValidationMeta(schema);
++    if (meta !== undefined) {
++      assertExtensionCanBeApplied(schema);
++      applyValidationMetaBase(functions, meta);
++    }
++  }
++
+   if (!hasNonArrayEnum && isString(type) && minAndMaxTypes.has(type)) {
+     // Handle minimum constraints: exclusiveMinimum (>.gt()) takes priority over minimum (.min())
+     // Check if exclusive flag was set (boolean format in OpenAPI 3.0) or a different value (OpenAPI 3.1)
+@@ -1584,6 +1600,21 @@ ${Object.entries(objectArgs)
+   ): string => {
+     const [fn, args = ''] = property;
+ 
++    if (fn === 'validator') {
++      const mutator = context.output.override?.mutator;
++      if (!mutator) {
++        throw new Error(
++          '[orval/zod] x-type requires a mutator but none is configured in output.override.mutator',
++        );
++      }
++      if (!mutator.name) {
++        throw new Error(
++          '[orval/zod] x-type requires a named export (mutator.name) but it is missing. Default export is not supported here.',
++        );
++      }
++      return renderSchemaInvocation(args as ValidationMetaArgs, mutator.name);
++    }
++
+     if (fn === 'namedRef') {
+       const refArgs = args as { name: string; sourceRef: string };
+       usedRefs.add(refArgs.name);
