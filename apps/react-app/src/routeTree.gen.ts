@@ -11,9 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AppCrudRouteRouteImport } from './routes/_app/crud/route'
-import { Route as AppCrudSummaryRouteRouteImport } from './routes/_app/crud/summary/route'
-import { Route as AppCrudSearchRouteRouteImport } from './routes/_app/crud/search/route'
-import { Route as AppCrudIdRouteRouteImport } from './routes/_app/crud/$id/route'
+import { Route as AppCrudSummaryRouteImport } from './routes/_app/crud/summary'
+import { Route as AppCrudSearchRouteImport } from './routes/_app/crud/search'
+import { Route as AppCrudIdRouteImport } from './routes/_app/crud/$id'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/_app',
@@ -24,17 +24,17 @@ const AppCrudRouteRoute = AppCrudRouteRouteImport.update({
   path: '/crud',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppCrudSummaryRouteRoute = AppCrudSummaryRouteRouteImport.update({
+const AppCrudSummaryRoute = AppCrudSummaryRouteImport.update({
   id: '/summary',
   path: '/summary',
   getParentRoute: () => AppCrudRouteRoute,
 } as any)
-const AppCrudSearchRouteRoute = AppCrudSearchRouteRouteImport.update({
+const AppCrudSearchRoute = AppCrudSearchRouteImport.update({
   id: '/search',
   path: '/search',
   getParentRoute: () => AppCrudRouteRoute,
 } as any)
-const AppCrudIdRouteRoute = AppCrudIdRouteRouteImport.update({
+const AppCrudIdRoute = AppCrudIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => AppCrudRouteRoute,
@@ -43,24 +43,24 @@ const AppCrudIdRouteRoute = AppCrudIdRouteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppRouteRouteWithChildren
   '/crud': typeof AppCrudRouteRouteWithChildren
-  '/crud/$id': typeof AppCrudIdRouteRoute
-  '/crud/search': typeof AppCrudSearchRouteRoute
-  '/crud/summary': typeof AppCrudSummaryRouteRoute
+  '/crud/$id': typeof AppCrudIdRoute
+  '/crud/search': typeof AppCrudSearchRoute
+  '/crud/summary': typeof AppCrudSummaryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AppRouteRouteWithChildren
   '/crud': typeof AppCrudRouteRouteWithChildren
-  '/crud/$id': typeof AppCrudIdRouteRoute
-  '/crud/search': typeof AppCrudSearchRouteRoute
-  '/crud/summary': typeof AppCrudSummaryRouteRoute
+  '/crud/$id': typeof AppCrudIdRoute
+  '/crud/search': typeof AppCrudSearchRoute
+  '/crud/summary': typeof AppCrudSummaryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteRouteWithChildren
   '/_app/crud': typeof AppCrudRouteRouteWithChildren
-  '/_app/crud/$id': typeof AppCrudIdRouteRoute
-  '/_app/crud/search': typeof AppCrudSearchRouteRoute
-  '/_app/crud/summary': typeof AppCrudSummaryRouteRoute
+  '/_app/crud/$id': typeof AppCrudIdRoute
+  '/_app/crud/search': typeof AppCrudSearchRoute
+  '/_app/crud/summary': typeof AppCrudSummaryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -100,36 +100,36 @@ declare module '@tanstack/react-router' {
       id: '/_app/crud/summary'
       path: '/summary'
       fullPath: '/crud/summary'
-      preLoaderRoute: typeof AppCrudSummaryRouteRouteImport
+      preLoaderRoute: typeof AppCrudSummaryRouteImport
       parentRoute: typeof AppCrudRouteRoute
     }
     '/_app/crud/search': {
       id: '/_app/crud/search'
       path: '/search'
       fullPath: '/crud/search'
-      preLoaderRoute: typeof AppCrudSearchRouteRouteImport
+      preLoaderRoute: typeof AppCrudSearchRouteImport
       parentRoute: typeof AppCrudRouteRoute
     }
     '/_app/crud/$id': {
       id: '/_app/crud/$id'
       path: '/$id'
       fullPath: '/crud/$id'
-      preLoaderRoute: typeof AppCrudIdRouteRouteImport
+      preLoaderRoute: typeof AppCrudIdRouteImport
       parentRoute: typeof AppCrudRouteRoute
     }
   }
 }
 
 interface AppCrudRouteRouteChildren {
-  AppCrudIdRouteRoute: typeof AppCrudIdRouteRoute
-  AppCrudSearchRouteRoute: typeof AppCrudSearchRouteRoute
-  AppCrudSummaryRouteRoute: typeof AppCrudSummaryRouteRoute
+  AppCrudIdRoute: typeof AppCrudIdRoute
+  AppCrudSearchRoute: typeof AppCrudSearchRoute
+  AppCrudSummaryRoute: typeof AppCrudSummaryRoute
 }
 
 const AppCrudRouteRouteChildren: AppCrudRouteRouteChildren = {
-  AppCrudIdRouteRoute: AppCrudIdRouteRoute,
-  AppCrudSearchRouteRoute: AppCrudSearchRouteRoute,
-  AppCrudSummaryRouteRoute: AppCrudSummaryRouteRoute,
+  AppCrudIdRoute: AppCrudIdRoute,
+  AppCrudSearchRoute: AppCrudSearchRoute,
+  AppCrudSummaryRoute: AppCrudSummaryRoute,
 }
 
 const AppCrudRouteRouteWithChildren = AppCrudRouteRoute._addFileChildren(

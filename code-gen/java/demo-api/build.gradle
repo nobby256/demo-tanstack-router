@@ -12,7 +12,7 @@ version = '1.0.0'
 // ジェネレータ設定
 // =====================================================
 generateApiSdk(
-    specDir: "../../../api-specs/demo-api-spec/generated/openapi",
+    specDir: "../../../api-specs/demo-api-spec/dist/openapi",
     basePackage: "com.example.demo",
     templateDirClient: "./generator-settings/template/java",
     templateDirServer: "./generator-settings/template/JavaJaxRS/spec",

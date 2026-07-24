@@ -7,12 +7,15 @@
   },
   "packageManager": "pnpm@11.8.0",
   "scripts": {
+    "nuke": "turbo run clean && rimraf '**/node_modules'",
     "clean": "rimraf .turbo && turbo run clean",
-    "check": "turbo run check && prettier --check .",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --filter=react-app...",
+    "generate": "turbo run generate",
     "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
     "format": "turbo run format && prettier --write .",
-    "nuke": "turbo run clean && rimraf '**/node_modules'"
+    "all": "turbo run all"
   },
   "devDependencies": {
     "turbo": "catalog:",

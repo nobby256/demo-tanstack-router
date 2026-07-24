@@ -1,4 +1,11 @@
 {
-  "extends": "../../tsconfig.base.json"
-  // config that covers all files so eslint can use type checked rules
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

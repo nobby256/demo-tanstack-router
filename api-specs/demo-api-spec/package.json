@@ -4,11 +4,8 @@
   "private": true,
   "scripts": {
     "clean": "rimraf .turbo dist",
-    "generate": "rimraf dist && tsp compile src",
-    "build": "pnpm generate && pnpm check-types",
-    "dev": "tsp compile src --watch",
-    "check": "pnpm check-types && pnpm lint",
-    "check-types": "tsp compile src --noEmit",
+    "build": "tsp compile src",
+    "typecheck": "tsp compile src --noEmit",
     "lint": "spectral lint dist/**/*.{json,yml,yaml}",
     "format": "tsp format src",
     "debug": "pnpm exec node --inspect-brk ./node_modules/@typespec/compiler/cmd/tsp.js compile src/main.tsp"

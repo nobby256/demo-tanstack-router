@@ -1,5 +1,9 @@
-import { defineConfig } from 'tsdown';
+import { nodeConfig } from '@vendor/tsdown-config'
+import { defineConfig } from 'tsdown'
 
-import { baseConfig } from '../tsdown.base';
-
-export default defineConfig(baseConfig);
+export default defineConfig([
+  {
+    ...nodeConfig,
+    entry: './src/index.ts'
+  },
+])

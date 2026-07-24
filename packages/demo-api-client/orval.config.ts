@@ -7,11 +7,11 @@ export default defineConfig({
   api: {
     input: INPUT_FILE,
     output: {
-      target: `${OUTPUT_DIR}/api`,
+      target: `${OUTPUT_DIR}/op`,
       client: 'fetch',
       mode: 'tags',
       schemas: {
-        path: `${OUTPUT_DIR}/schema`,
+        path: `${OUTPUT_DIR}/model`,
         splitByTags: true,
       },
       formatter: 'prettier',

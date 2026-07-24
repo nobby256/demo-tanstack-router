@@ -1,13 +1,14 @@
-import { createEventHook, useRouteNavigation } from '@vendor/router-enhancer'
+import { useRouteNavigation } from '@vendor/router-enhancer'
 
-import { type FormValues } from './-form'
-import { Route } from './route'
+import { withActionBoundary } from '#/features/router'
+
+import { type PageForm, Route } from './-page-deps-internal'
 
 // ─────────────────────────────────────
-// Event Hook
+// Actions Hook
 // ─────────────────────────────────────
 
-export const usePageEvents = createEventHook(() => {
+export const useActions = withActionBoundary((form: PageForm) => {
   const navigation = useRouteNavigation(Route)
 
   const onChangeCheckbox = async (checked: boolean) => {
@@ -16,7 +17,14 @@ export const usePageEvents = createEventHook(() => {
     })
   }
 
-  const onSubmit = async (formValues: FormValues) => {
+  const onSubmit = async () => {
+    const valid = await form.trigger()
+    if (!valid) {
+      return
+    }
+
+    const formValues = form.getValues()
+
     await navigation.navigate({
       to: '/crud/summary',
       search: {

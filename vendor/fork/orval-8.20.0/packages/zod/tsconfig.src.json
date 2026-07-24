@@ -1,7 +1,6 @@
 {
-  "extends": "@vendor/tsconfig/react.json",
+  "extends": "@vendor/tsconfig/node.json",
   "compilerOptions": {
-    "paths": { "#/*": ["./src/*"] },
     "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
   },
   "include": ["src"]

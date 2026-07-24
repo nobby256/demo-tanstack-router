@@ -10,8 +10,8 @@ const formSchema = z.strictObject({
   keyword: z.string(),
   category: z.string(),
 })
-
 export type FormValues = z.infer<typeof formSchema>
+export type PageForm = ReturnType<typeof usePageForm>
 
 export const usePageForm = () => {
   const form = useForm<FormValues>({
@@ -19,5 +19,3 @@ export const usePageForm = () => {
   })
   return form
 }
-
-export type PageForm = ReturnType<typeof usePageForm>

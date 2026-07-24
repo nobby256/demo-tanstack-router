@@ -1,30 +1,47 @@
 {
   "$schema": "./node_modules/turbo/schema.json",
   "tasks": {
+    // generate → typecheck → buildの順番は保証されている
+    // ソースを直接公開するパッケージではbuildが省略されるため、typecheckが必要。
     "generate": {
       "dependsOn": ["^build"],
       "outputs": [".generated/**"]
     },
-    "build": {
+    "typecheck": {
       "dependsOn": ["generate"],
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["typecheck"],
       "outputs": ["dist/**"]
+    },
+    // 自身のbuildが保証されたうえで並列実行可能なタスク群
+    "lint": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["build", "^test"],
+      "outputs": []
+    },
+    "doc": {
+      "dependsOn": ["build", "^test"],
+      "outputs": []
     },
     "dev": {
       "dependsOn": ["build"],
       "cache": false,
       "persistent": true
     },
-    "check": {
-      "dependsOn": ["build", "^check"],
+    // 全てを実行するタスク。gradleにおけるbuildの役割。
+    "all": {
+      "dependsOn": ["lint", "test"],
       "outputs": []
     },
+    // 成果物に変更を行うタスクは特別扱い。
+    // formatはeslint --fix && prettier --write 相当を想定
     "format": {
-      "dependsOn": ["build", "^format"],
       "cache": false
-    },
-    "test": {
-      "dependsOn": ["build", "^test"],
-      "outputs": []
     },
     "clean": {
       "cache": false

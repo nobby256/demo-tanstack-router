@@ -1,25 +1,31 @@
-import { createEventHook, useRouteNavigation } from '@vendor/router-enhancer'
-import { detailPageUpdate } from 'demo-api-client/api/detail-page'
+import { useRouter } from '@tanstack/react-router'
+import { useRouteNavigation } from '@vendor/router-enhancer'
 
-import type { FormValues, PageForm } from './-form'
+import { withActionBoundary } from '#/features/router'
 
-import { Route } from './route'
+import { operation, type PageForm, Route } from './-page-deps-internal'
 
 // ─────────────────────────────────────
-// Event Hook
+// Actions Hook
 // ─────────────────────────────────────
 
-export const usePageEvents = createEventHook((form: PageForm) => {
+export const useActions = withActionBoundary((form: PageForm) => {
+  const router = useRouter()
+  const search = Route.useSearch()
+  // const navigate = useNavigate();
   const navigation = useRouteNavigation(Route)
 
   /*
    * 更新ボタンのハンドラ
    */
-  const onSubmitUpdate1 = async (formValues: FormValues) => {
-    // FormValues → API Body への変換ポイント
-    const apiBody = { ...formValues }
+  const onSubmitUpdate1 = async () => {
+    const valid = await form.trigger()
+    if (!valid) {
+      return
+    }
 
-    await detailPageUpdate(apiBody)
+    const formValues = form.getValues()
+    await operation.detailPageUpdate(formValues)
 
     alert('Update successful')
 
@@ -27,14 +33,18 @@ export const usePageEvents = createEventHook((form: PageForm) => {
     form.reset(formValues)
   }
 
-  const onSubmitUpdate2 = async (formValues: FormValues) => {
-    // FormValues → API Body への変換ポイント
-    const apiBody = { ...formValues }
+  const onSubmitUpdate2 = async () => {
+    const valid = await form.trigger()
+    if (!valid) {
+      return
+    }
 
-    await detailPageUpdate(apiBody)
+    const formValues = form.getValues()
+    await operation.detailPageUpdate(formValues)
 
     // URLを変えずにloaderの再実行
-    await navigation.invalidate()
+    // await navigation.invalidate()
+    await router.invalidate()
 
     alert('Update successful')
   }
@@ -45,7 +55,7 @@ export const usePageEvents = createEventHook((form: PageForm) => {
   const onClickReturn1 = async () => {
     // loaderの呼び出し "なし" で遷移
     await navigation.navigate({
-      href: navigation.search._returnTo,
+      href: search._returnTo,
       skipLoader: true,
     })
   }
@@ -61,31 +71,11 @@ export const usePageEvents = createEventHook((form: PageForm) => {
     await navigation.back()
   }
 
-  /*
-   * UIStateの変更ハンドラ
-   */
-  const onChangeCheckbox1 = async (checked: boolean) => {
-    await navigation.patchUiState({
-      _check1: checked,
-    })
-  }
-
-  const onChangeCheckbox2 = async (checked: boolean) => {
-    await navigation.patchUiState(
-      {
-        _check2: checked,
-      },
-      { ignoreBlocker: false },
-    )
-  }
-
   return {
     onSubmitUpdate1,
     onSubmitUpdate2,
     onClickReturn1,
     onClickReturn2,
     onClickReturn3,
-    onChangeCheckbox1,
-    onChangeCheckbox2,
   }
 })

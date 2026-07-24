@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "clean": "rimraf .turbo dist",
-    "check": "pnpm check-types && pnpm lint",
-    "check-types": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "format": "eslint --fix .",
     "build": "vite build --mode demo",

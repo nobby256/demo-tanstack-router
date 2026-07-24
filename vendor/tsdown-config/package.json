@@ -9,9 +9,8 @@
   },
   "scripts": {
     "clean": "rimraf .turbo dist",
-    "check": "pnpm check-types && pnpm lint",
     "lint": "eslint .",
-    "check-types": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
     "build": "tsdown",
     "format": "eslint --fix ."
   },
