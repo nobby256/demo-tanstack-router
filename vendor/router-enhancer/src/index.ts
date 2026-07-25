@@ -25,6 +25,7 @@ export {
   navigationTx,
   useLeaveGuard,
   useRouteNavigation,
+  useQueryState,
 } from './internal/navigation'
 
 // router

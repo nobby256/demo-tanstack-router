@@ -1,7 +1,5 @@
-import { useLeaveGuard } from '@vendor/router-enhancer'
+import { useLeaveGuard, useQueryState } from '@vendor/router-enhancer'
 import { z } from 'zod'
-
-import { useQueryState } from '#/features/router'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 

@@ -7,3 +7,4 @@ export {
   notifyNavigationError,
   registerNavigationErrorNotifier,
 } from './navigationErrorNotifier'
+export { useQueryState } from './useQueryState'
