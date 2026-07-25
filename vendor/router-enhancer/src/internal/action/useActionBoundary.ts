@@ -2,6 +2,7 @@ import type { UseFormReturn } from 'react-hook-form'
 
 import { useRef } from 'react'
 
+import { normalizeError } from '../error'
 import { runtimeEventBus } from '../event'
 
 type ActionHandler = (...args: never[]) => void | Promise<void>
@@ -15,7 +16,7 @@ export type ActionContext<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TForm extends UseFormReturn<any, any, any> = UseFormReturn<any, any, any>,
 > = {
-  form: TForm
+  form?: TForm
 }
 
 type WrappedActions<TActions extends Actions> = {
@@ -84,16 +85,9 @@ function onError<TContext extends ActionContext>(
   context: TContext,
   error: unknown,
 ) {
-  // const _form = context.form
-  // 将来ここで ValidationError を form.setError へ変換可能
-  //
-  // if (isValidationError(error)) {
-  //   applyValidationError(context.form, error)
-  //   return
-  // }
-
   runtimeEventBus.emit('event', {
-    type: 'recoverable-error',
+    type: 'action-error',
     error,
+    form: context.form,
   })
 }

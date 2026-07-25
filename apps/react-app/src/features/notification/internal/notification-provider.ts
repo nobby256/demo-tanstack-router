@@ -9,7 +9,7 @@ export function NotificationProvider() {
   useEffect(() => {
     const handler = (event: RuntimeEvent) => {
       switch (event.type) {
-        case 'recoverable-error':
+        case 'navigation-error':
           notifyError(event.error)
           break
       }
