@@ -293,12 +293,18 @@ importers:
       '@tanstack/router-core':
         specifier: 'catalog:'
         version: 1.171.13
+      mitt:
+        specifier: 'catalog:'
+        version: 3.0.1
       react:
         specifier: 'catalog:'
         version: 19.2.7
       react-dom:
         specifier: 'catalog:'
         version: 19.2.7(react@19.2.7)
+      react-hook-form:
+        specifier: 'catalog:'
+        version: 7.75.0(react@19.2.7)
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

@@ -1,37 +1,29 @@
-import { normalizeError } from '@vendor/router-enhancer'
+import {
+  normalizeError,
+  type RuntimeEvent,
+  runtimeEventBus,
+} from '@vendor/router-enhancer'
 import { useEffect } from 'react'
-
-import { notificationBus, type NotificationEvent } from './notification-bus'
 
 export function NotificationProvider() {
   useEffect(() => {
-    const handler = (event: NotificationEvent) => {
+    const handler = (event: RuntimeEvent) => {
       switch (event.type) {
-        case 'error':
+        case 'recoverable-error':
           notifyError(event.error)
-          break
-        case 'message':
-          notifyMessage(event.message)
           break
       }
     }
-
-    notificationBus.on('notification', handler)
-
+    runtimeEventBus.on('event', handler)
     return () => {
-      notificationBus.off('notification', handler)
+      runtimeEventBus.off('event', handler)
     }
   }, [])
-
-  return null
+  return undefined
 }
 
-function notifyError(error: Error) {
+export function notifyError(error: unknown) {
   const appError = normalizeError(error)
   const message = appError.message
   alert(message)
-}
-
-function notifyMessage(messages: string[]) {
-  alert(messages.join('\n'))
 }

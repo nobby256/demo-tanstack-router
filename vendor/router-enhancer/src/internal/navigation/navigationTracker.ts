@@ -3,7 +3,7 @@ import type { AnyRouter } from '@tanstack/react-router'
 import type { AppError } from '../error'
 
 import { createAppError } from '../error'
-import { notifyNavigationError } from './navigationErrorNotifier'
+import { runtimeEventBus } from '../event'
 
 /**
  * ナビゲーション状態
@@ -58,7 +58,8 @@ export function initNavigationTracker(router: AnyRouter): void {
     const redirectError = getLastRedirectError()
     endRedirect()
     if (redirectError) {
-      notifyNavigationError(redirectError)
+      // 疑似遷移キャンセルを発生させた継続可能エラーを通知
+      onRecoverableError(redirectError)
     }
   })
 }
@@ -89,6 +90,7 @@ export function beginRedirect(error: AppError) {
       },
     )
   }
+  // 疑似遷移キャンセルの発生原因となったエラーを格納
   state.redirectErrors.push(error)
 }
 
@@ -100,6 +102,7 @@ function getLastRedirectError(): AppError | undefined {
   if (state.redirectErrors.length === 0) {
     return undefined
   }
+  // 疑似遷移キャンセルの発生原因となったエラーを取得
   return state.redirectErrors[state.redirectErrors.length - 1]
 }
 
@@ -110,4 +113,11 @@ function getLastRedirectError(): AppError | undefined {
  */
 export function isInNavigationRollback() {
   return state.redirectErrors.length > 0
+}
+
+function onRecoverableError(error: unknown) {
+  runtimeEventBus.emit('event', {
+    type: 'recoverable-error',
+    error,
+  })
 }

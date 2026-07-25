@@ -6,8 +6,9 @@ import { type PageForm, Route } from './-page-deps-internal'
 // Actions Hook
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary((form: PageForm) => {
+export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   const navigation = useRouteNavigation(Route)
+  const { form } = ctx
 
   const onChangeCheckbox = async (checked: boolean) => {
     await navigation.patchUiState({

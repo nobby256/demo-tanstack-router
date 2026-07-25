@@ -50,7 +50,7 @@ export function PageComponent() {
   // Action
   // ─────────────────────────────
 
-  const actions = useActions(form)
+  const actions = useActions({ form })
 
   // ─────────────────────────────
   // DerivedData (watch/memo)

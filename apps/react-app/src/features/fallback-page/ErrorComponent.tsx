@@ -1,8 +1,18 @@
 import { Link } from '@tanstack/react-router'
 import { normalizeError } from '@vendor/router-enhancer'
 
-export function GonePageComponent(error: unknown) {
+export function ErrorComponent(error: unknown) {
   const appError = normalizeError(error)
+
+  // 継続不能の場合はSPA外のページにリダイレクトする
+  if (appError.category === 'Fatal') {
+    const statusCode = appError.statusCode
+    const url = import.meta.env.DEV ? '/fatal-error.html' : '/fatal-error'
+    // eslint-disable-next-line no-restricted-properties
+    window.location.href = `${url}?status=${statusCode}`
+    return
+  }
+
   const message =
     appError.statusCode == 410
       ? 'この処理は既に完了しています。'

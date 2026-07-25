@@ -7,11 +7,12 @@ import { operation, type PageForm, Route } from './-page-deps-internal'
 // Actions Hook
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary((form: PageForm) => {
+export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   const router = useRouter()
   const search = Route.useSearch()
   // const navigate = useNavigate();
   const navigation = useRouteNavigation(Route)
+  const { form } = ctx
 
   /*
    * 更新ボタンのハンドラ
@@ -28,7 +29,7 @@ export const useActions = useActionBoundary((form: PageForm) => {
     alert('Update successful')
 
     // 初期値を現在の値に更新することで、dirtyフラグをリセット
-    form.reset(formValues)
+    ctx.form.reset(formValues)
   }
 
   const onSubmitUpdate2 = async () => {

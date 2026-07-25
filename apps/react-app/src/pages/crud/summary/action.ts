@@ -6,7 +6,7 @@ import { type PageForm } from './-page-deps-internal'
 // Actions Hook
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary((_form: PageForm) => {
+export const useActions = useActionBoundary((_ctx: { form: PageForm }) => {
   return {
     // none
   }
