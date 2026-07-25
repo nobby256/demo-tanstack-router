@@ -1,4 +1,4 @@
-import { withActionBoundary } from '#/features/router'
+import { useActionBoundary } from '@vendor/router-enhancer'
 
 import { type PageForm } from './-page-deps-internal'
 
@@ -6,7 +6,7 @@ import { type PageForm } from './-page-deps-internal'
 // Actions Hook
 // ─────────────────────────────────────
 
-export const useActions = withActionBoundary((_form: PageForm) => {
+export const useActions = useActionBoundary((_form: PageForm) => {
   return {
     // none
   }

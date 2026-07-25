@@ -2,36 +2,49 @@ import { useRef } from 'react'
 
 import { notifyActionError } from './actionErrorNotifier'
 
-type ActionHandler = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...args: any[]
-) => void | Promise<void>
+type ActionHandler = (...args: never[]) => void | Promise<void>
 
 type Actions = Record<string, ActionHandler>
 
+type WrappedActions<TActions extends Actions> = {
+  [K in keyof TActions]: (
+    ...args: Parameters<TActions[K]>
+  ) => ReturnType<TActions[K]>
+}
+
 function useWrappedActions<TActions extends Actions>(
   actions: TActions,
-): TActions {
+): WrappedActions<TActions> {
   const actionsRef = useRef(actions)
   actionsRef.current = actions
-  const wrappedRef = useRef<TActions | null>(null)
+
+  const wrappedRef = useRef<WrappedActions<TActions> | null>(null)
 
   if (wrappedRef.current == null) {
-    const wrapped = {} as TActions
+    const wrapped = {} as WrappedActions<TActions>
+
     for (const key of Object.keys(actions) as Array<keyof TActions>) {
-      wrapped[key] = (async (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ...args: any[]
-      ) => {
+      wrapped[key] = ((...args: Parameters<TActions[typeof key]>) => {
         try {
           const action = actionsRef.current[key]
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          await action(...args)
+
+          const result = action(...args)
+
+          if (result instanceof Promise) {
+            return result.catch((error) => {
+              notifyActionError(error)
+            }) as ReturnType<TActions[typeof key]>
+          }
+
+          return result
         } catch (error) {
           notifyActionError(error)
+
+          return undefined as ReturnType<TActions[typeof key]>
         }
-      }) as TActions[typeof key]
+      }) as WrappedActions<TActions>[typeof key]
     }
+
     wrappedRef.current = wrapped
   }
 
@@ -41,7 +54,9 @@ function useWrappedActions<TActions extends Actions>(
 export function useActionBoundary<
   TArgs extends unknown[],
   TActions extends Actions,
->(factory: (...args: TArgs) => TActions): (...args: TArgs) => TActions {
+>(
+  factory: (...args: TArgs) => TActions,
+): (...args: TArgs) => WrappedActions<TActions> {
   return (...args: TArgs) => {
     const actions = factory(...args)
     return useWrappedActions(actions)

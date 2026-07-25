@@ -1,6 +1,4 @@
-import { useRouteNavigation } from '@vendor/router-enhancer'
-
-import { withActionBoundary } from '#/features/router'
+import { useActionBoundary, useRouteNavigation } from '@vendor/router-enhancer'
 
 import { type PageForm, Route } from './-page-deps-internal'
 
@@ -8,7 +6,7 @@ import { type PageForm, Route } from './-page-deps-internal'
 // Actions Hook
 // ─────────────────────────────────────
 
-export const useActions = withActionBoundary((form: PageForm) => {
+export const useActions = useActionBoundary((form: PageForm) => {
   const navigation = useRouteNavigation(Route)
 
   const onChangeCheckbox = async (checked: boolean) => {

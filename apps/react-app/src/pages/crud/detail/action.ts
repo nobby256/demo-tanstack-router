@@ -1,7 +1,5 @@
 import { useRouter } from '@tanstack/react-router'
-import { useRouteNavigation } from '@vendor/router-enhancer'
-
-import { withActionBoundary } from '#/features/router'
+import { useActionBoundary, useRouteNavigation } from '@vendor/router-enhancer'
 
 import { operation, type PageForm, Route } from './-page-deps-internal'
 
@@ -9,7 +7,7 @@ import { operation, type PageForm, Route } from './-page-deps-internal'
 // Actions Hook
 // ─────────────────────────────────────
 
-export const useActions = withActionBoundary((form: PageForm) => {
+export const useActions = useActionBoundary((form: PageForm) => {
   const router = useRouter()
   const search = Route.useSearch()
   // const navigate = useNavigate();

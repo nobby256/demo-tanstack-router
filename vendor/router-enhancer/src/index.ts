@@ -15,6 +15,12 @@ export {
   normalizeError,
 } from './internal/error'
 
+// action
+export {
+  useActionBoundary,
+  registerActionErrorNotifier,
+} from './internal/action'
+
 // event
 export { createEventHook } from './internal/event'
 
