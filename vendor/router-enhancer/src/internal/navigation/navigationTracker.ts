@@ -117,7 +117,7 @@ export function isInNavigationRollback() {
 
 function onRecoverableError(error: unknown) {
   runtimeEventBus.emit('event', {
-    type: 'recoverable-error',
+    type: 'navigation-error',
     error,
   })
 }
