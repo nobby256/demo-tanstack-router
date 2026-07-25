@@ -9,9 +9,7 @@ import { Route, useActions, usePageForm } from './-page-deps-internal'
 
 export const queryStateSchema = z.object({
   // Query Stateは _ で始まる名前で追加する
-  _returnTo: z.string(),
-  _check1: z.boolean().optional(),
-  _check2: z.boolean().optional(),
+  _returnTo: z.string().optional(),
 })
 type QueryState = z.infer<typeof queryStateSchema>
 

@@ -13,7 +13,6 @@ export const queryStateSchema = z.object({
   // Query Stateは _ で始まる名前で追加する
   _returnTo: z.string(),
   _check1: z.boolean().optional(),
-  _check2: z.boolean().optional(),
 })
 type QueryState = z.infer<typeof queryStateSchema>
 
@@ -37,11 +36,7 @@ export function PageComponent() {
   // State
   // ─────────────────────────────
 
-  const [check1, setCheck1] = useQueryState(Route, '_check1')
-  const [check2, setCheck2] = useQueryState(Route, '_check2')
-  // const [check2, setCkeck2] = useQueryState(Route, '_check2', {
-  //   ignoreBlocker: false,
-  // })
+  const [check1, setCheck1] = useQueryState(Route, '_check1', false)
 
   // ─────────────────────────────
   // Route
@@ -123,22 +118,14 @@ export function PageComponent() {
         </fieldset>
 
         <fieldset>
-          <legend>QueryStateのバリエーション</legend>
+          <legend>QueryState</legend>
           <div>
             <input
               type="checkbox"
               checked={check1}
               onChange={(e) => setCheck1(e.target.checked)}
             />
-            dirty時でもblockに反応しない
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked={check2}
-              onChange={(e) => setCheck2(e.target.checked)}
-            />
-            dirty時にはblockに反応する
+            dirty時でもblockに反応しない自己ナビゲートを発生する
           </div>
         </fieldset>
 

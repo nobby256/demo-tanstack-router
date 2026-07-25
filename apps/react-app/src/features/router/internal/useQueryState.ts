@@ -1,7 +1,7 @@
 /**
  * `_` prefix UI state
  */
-type UIStateKeys<T> = {
+type QueryStateKeys<T> = {
   [K in keyof T]: K extends `_${string}` ? K : never
 }[keyof T]
 
@@ -14,7 +14,7 @@ type RouteSearch<TRoute> = TRoute extends {
 /**
  * useQueryState
  * ---------------------------------------------------------------------------
- * Search Params 上の `_` prefix UI state を useState 風に扱う。
+ * Search Params 上の `_` prefix QueryState を useState 風に扱う。
  * 例:
  *   const [tab, setTab] = useQueryState(Route, "_tab")
  *   await setTab("common")
@@ -29,14 +29,14 @@ export function useQueryState<
       replace: boolean
     }) => Promise<void>
   },
-  TKey extends UIStateKeys<RouteSearch<TRoute>>,
->(route: TRoute, key: TKey) {
+  TKey extends QueryStateKeys<RouteSearch<TRoute>>,
+>(route: TRoute, key: TKey, defaultValue?: RouteSearch<TRoute>[TKey]) {
   type Search = RouteSearch<TRoute>
 
   const search = route.useSearch()
   const navigate = route.useNavigate()
 
-  const value = search[key]
+  const value = search[key] ?? defaultValue
 
   const setValue = async (nextValue: Search[TKey]): Promise<void> => {
     await navigate({

@@ -35,7 +35,7 @@ export function PageComponent() {
   // State
   // ─────────────────────────────
 
-  const [check, setCheck] = useQueryState(Route, '_check')
+  const [check, setCheck] = useQueryState(Route, '_check', false)
 
   // ─────────────────────────────
   // Route
