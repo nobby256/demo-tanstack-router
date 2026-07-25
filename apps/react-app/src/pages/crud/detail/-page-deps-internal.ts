@@ -19,6 +19,6 @@
 export * as operation from 'demo-api-client/op/detail-page'
 export * as model from 'demo-api-client/model/detail-page'
 export * as schema from 'demo-api-client/zod/detail-page'
-export { Route } from '#/routes/_app/crud/$id'
+export { Route } from '#/routes/crud.$id'
 export { usePageForm, type FormValues, type PageForm } from './form'
 export { useActions } from './action'

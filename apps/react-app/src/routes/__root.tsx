@@ -1,9 +1,11 @@
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { createRootRouteWithContext } from '@tanstack/react-router'
+
+import { LayoutComponent } from '#/layouts/layout'
 
 export const Route = createRootRouteWithContext()({
-  component: RootComponent,
+  staleTime: Infinity,
+  gcTime: Infinity,
+  shouldReload: () => false,
+  loaderDeps: () => ({}),
+  component: LayoutComponent,
 })
-
-function RootComponent() {
-  return <Outlet />
-}

@@ -155,6 +155,10 @@ export function createEnhancedRouter<
       TDehydrated
     >),
 
+    defaultStaleTime: 0,
+
+    defaultStaleReloadMode: 'blocking',
+
     defaultNotFoundComponent: () =>
       notFoundFallback(enhance.navigationErrorStrategy),
 

@@ -33,9 +33,11 @@ type LoaderDeps<TSearch> = {
  *
  * の変換に使用される。
  */
-export function extractLoaderDeps<TSearch extends Record<string, unknown>>(
-  search: TSearch,
-): LoaderDeps<TSearch> {
+export function extractLoaderDeps<TSearch extends Record<string, unknown>>({
+  search,
+}: {
+  search: TSearch
+}): LoaderDeps<TSearch> {
   const result: Partial<TSearch> = {}
 
   for (const key of Object.keys(search) as (keyof TSearch)[]) {
