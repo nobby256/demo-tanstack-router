@@ -17,21 +17,30 @@ namespace demo.detail_page;
 @route("/load")
 @opExample(#{
   returnType: #{
-    id: "1",
-    name: "Item 1",
-    num: "123.45",
-    description: "This is item 1",
-    version: 1,
+    data: #{
+      id: "1",
+      name: "Item 1",
+      num: "123.45",
+      description: "This is item 1",
+      version: 1,
+    },
   },
 })
-op load(@bodyRoot body: LoadBody): DetailItem;
+op load(@bodyRoot body: LoadInput): LoadOutput;
 
 /**
- * ロードの引数
+ * loadの引数
  */
-model LoadBody {
+model LoadInput {
   /** id */
   id: string;
+}
+
+/**
+ * loadの戻り値
+ */
+model LoadOutput {
+  data: DetailItem;
 }
 
 /**
@@ -39,12 +48,12 @@ model LoadBody {
  */
 @post
 @route("/update")
-op update(@bodyRoot body: UpdateBody): NoContentResponse;
+op update(@bodyRoot body: UpdateInput): NoContentResponse;
 
 /**
  * 更新の引数
  */
-model UpdateBody {
+model UpdateInput {
   /** id */
   id: string;
 

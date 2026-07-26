@@ -16,9 +16,9 @@
  * ページ内部実装のための依存関係集約ファイルです。
  */
 
-// export * as operation from 'demo-api-client/api/search-page'
-// export * as model from 'demo-api-client/schema/search-page'
-// export * as schema from 'demo-api-client/zod/search-page'
+export * as operation from 'demo-api-client/op/search-page'
+export * as model from 'demo-api-client/model/search-page'
+export * as schema from 'demo-api-client/zod/search-page'
 export { Route } from '#/routes/crud.search'
 export { usePageForm, type FormValues, type PageForm } from './form'
 export { useActions } from './action'

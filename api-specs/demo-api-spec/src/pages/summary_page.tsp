@@ -16,16 +16,25 @@ namespace demo.summary_page {
   @post
   @route("/load")
   @opExample(#{
-    returnType: #[#{ id: "1", name: "Item 1" }, #{ id: "2", name: "Item 2" }],
+    returnType: #{
+      data: #[#{ id: "1", name: "Item 1" }, #{ id: "2", name: "Item 2" }],
+    },
   })
-  op load(@bodyRoot body: LoadBody): SummaryItem[];
+  op load(@bodyRoot body: LoadInput): LoadOutput;
 
   /**
-   * ロードの引数
+   * loadの引数
    */
-  model LoadBody {
+  model LoadInput {
     keyword?: string;
     category?: string;
+  }
+
+  /**
+   * loadの戻り値
+   */
+  model LoadOutput {
+    data: SummaryItem[];
   }
 
   // ============================================

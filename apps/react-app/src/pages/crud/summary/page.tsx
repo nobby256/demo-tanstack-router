@@ -56,6 +56,8 @@ export function PageComponent() {
   // DerivedData (watch/memo)
   // ─────────────────────────────
 
+  const data = loaderData.data
+
   // ─────────────────────────────
   // Effect
   // ─────────────────────────────
@@ -67,7 +69,7 @@ export function PageComponent() {
     <div>
       <h2>Results</h2>
       <ul>
-        {loaderData.map((item) => (
+        {data.map((item) => (
           <li key={item.id}>
             <Link
               to="/crud/$id"

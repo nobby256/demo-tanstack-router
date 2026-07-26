@@ -1,5 +1,6 @@
 import "@typespec/openapi";
 
+import "./pages/search_page.tsp";
 import "./pages/detail_page.tsp";
 import "./pages/summary_page.tsp";
 import "./pages/gentest_page.tsp";

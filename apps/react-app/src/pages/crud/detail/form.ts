@@ -18,11 +18,11 @@ export const usePageForm = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: loaderData,
+    defaultValues: loaderData.data,
   })
   useEffect(() => {
     form.reset({
-      ...loaderData,
+      ...loaderData.data,
     })
   }, [loaderData, form.reset])
 

@@ -5,7 +5,7 @@ import { model, operation } from './-page-deps-internal'
 // ─────────────────────────────────────
 
 export async function load(
-  body: model.DetailPageLoadBody,
+  body: model.DetailPageLoadInput,
   options?: RequestInit,
 ) {
   return await operation.detailPageLoad(body, options)

@@ -58,6 +58,8 @@ export function PageComponent() {
   // DerivedData (watch/memo)
   // ─────────────────────────────
 
+  const data = loaderData.data
+
   // ─────────────────────────────
   // Effect
   // ─────────────────────────────
@@ -77,8 +79,8 @@ export function PageComponent() {
       <form>
         <fieldset>
           <legend>入力データ</legend>
-          <div>id: {loaderData.id}</div>
-          <div>version: {loaderData.version}</div>
+          <div>id: {data.id}</div>
+          <div>version: {data.version}</div>
           <div>
             Name:
             <input {...form.register('name')} />

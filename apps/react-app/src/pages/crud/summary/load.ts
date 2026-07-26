@@ -5,7 +5,7 @@ import { model, operation } from './-page-deps-internal'
 // ─────────────────────────────────────
 
 export async function load(
-  body: model.SummaryPageLoadBody,
+  body: model.SummaryPageLoadInput,
   options?: RequestInit,
 ) {
   return await operation.summaryPageLoad(body, options)
