@@ -3,23 +3,11 @@ type LoaderDeps<TSearch> = {
 }
 
 /**
- * extractLoaderDeps
+ * omitQueryState
  * ----------------------------------------------------------------------------
- * URL Search Params から LoaderDeps に使用する値のみを抽出する。
+ * URL Search Params から `_` prefix を持つキーを除外する。
  *
- * Router-first SPA では
- *
- *   URL = Application State
- *
- * であるため、URL には
- *
- *   - LoaderDeps
- *   - UI state
- *
- * の両方が含まれる。
- *
- * UI state は `_` prefix を持つキーとして表現され、
- * LoaderDeps には含めない。
+ * QueryState は `_` prefix を持つキーとして表現され、LoaderDeps には含めない。
  *
  * 例:
  *
@@ -33,7 +21,7 @@ type LoaderDeps<TSearch> = {
  *
  * の変換に使用される。
  */
-export function extractLoaderDeps<TSearch extends Record<string, unknown>>({
+export function omitQueryState<TSearch extends Record<string, unknown>>({
   search,
 }: {
   search: TSearch

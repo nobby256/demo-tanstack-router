@@ -22,12 +22,11 @@ export { useActionBoundary } from './internal/action'
 
 // navigation
 export {
-  dynamicShouldReload,
   useLeaveGuard,
-  useRouteNavigation,
+  dynamicShouldReload,
   useQueryState,
   routeBoundary,
 } from './internal/navigation'
 
 // router
-export { extractLoaderDeps } from './internal/router'
+export { omitQueryState } from './internal/router'

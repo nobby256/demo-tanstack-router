@@ -2,7 +2,6 @@ import type { UseFormReturn } from 'react-hook-form'
 
 import { useRef } from 'react'
 
-import { normalizeError } from '../error'
 import { runtimeEventBus } from '../event'
 
 type ActionHandler = (...args: never[]) => void | Promise<void>

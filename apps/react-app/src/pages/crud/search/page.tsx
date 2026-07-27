@@ -1,5 +1,4 @@
-import { useLeaveGuard, useQueryState } from '@vendor/router-enhancer'
-import { useState } from 'react'
+import { useQueryState } from '@vendor/router-enhancer'
 import { z } from 'zod'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
@@ -10,12 +9,8 @@ import { Route, useActions, usePageForm } from './-page-deps-internal'
 
 export const queryStateSchema = z.object({
   // Query Stateは _ で始まる名前で追加する
-  _check1: z.boolean().optional(),
-  _check2: z.boolean().optional(),
-  _check3: z.boolean().optional(),
-  check: z.boolean().optional(),
+  _check: z.boolean().optional(),
 })
-type QueryState = z.infer<typeof queryStateSchema>
 
 // ─────────────────────────────
 // Constants
@@ -37,47 +32,13 @@ export function PageComponent() {
   // State
   // ─────────────────────────────
 
-  const [check1, setCheck1] = useQueryState(Route, '_check1', false)
+  const [check, setCheck] = useQueryState(Route, '_check', false)
 
   // ─────────────────────────────
   // Route
   // ─────────────────────────────
 
-  const loaderData = Route.useLoaderData()
-
-  const navigate = Route.useNavigate()
-  const search = Route.useSearch()
-  const check = search.check ?? false
-  const check2 = search._check2 ?? false
-  const check3 = search._check3 ?? false
-  const changeChack = async () => {
-    await navigate({
-      search: {
-        ...search,
-        check: !check,
-      },
-      replace: true,
-    })
-  }
-  const changeChack2 = async () => {
-    await navigate({
-      search: {
-        ...search,
-        _check2: !check2,
-      },
-      replace: true,
-    })
-  }
-  const changeChack3 = async () => {
-    await navigate({
-      to: '/crud/search',
-      search: (prev) => ({
-        prev,
-        _check3: !prev._check3,
-      }),
-      replace: true,
-    })
-  }
+  const _loaderData = Route.useLoaderData()
 
   // ─────────────────────────────
   // Form
@@ -124,22 +85,10 @@ export function PageComponent() {
       <div>
         <input
           type="checkbox"
-          checked={check1}
-          onChange={(e) => setCheck1(e.target.checked)}
+          checked={check}
+          onChange={(e) => setCheck(e.target.checked)}
         />
         _check1:useQueryState使用
-      </div>
-      <div>
-        <input type="checkbox" checked={check2} onChange={changeChack2} />
-        _check2:navigate使用、to無し
-      </div>
-      <div>
-        <input type="checkbox" checked={check3} onChange={changeChack3} />
-        _check3:navigate使用、toあり
-      </div>
-      <div>
-        <input type="checkbox" checked={check} onChange={changeChack} />
-        check:navigate使用、toなし
       </div>
       <div>
         <button type="button" onClick={actions.onSubmit}>

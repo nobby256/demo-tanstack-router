@@ -1,4 +1,4 @@
-import { useLeaveGuard, useQueryState } from '@vendor/router-enhancer'
+import { useQueryState } from '@vendor/router-enhancer'
 import { z } from 'zod'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
@@ -12,7 +12,6 @@ export const queryStateSchema = z.object({
   _returnTo: z.string(),
   _check1: z.boolean().optional(),
 })
-type QueryState = z.infer<typeof queryStateSchema>
 
 // ─────────────────────────────
 // Constants
@@ -63,11 +62,6 @@ export function PageComponent() {
   // ─────────────────────────────
   // Effect
   // ─────────────────────────────
-  useLeaveGuard({
-    when: form.formState.isDirty,
-    confirmLeave: () =>
-      window.confirm('変更されています。入力内容を破棄してよろしいですか？'),
-  })
 
   // ─────────────────────────────
   // JSX

@@ -11,7 +11,6 @@ export const queryStateSchema = z.object({
   // Query Stateは _ で始まる名前で追加する
   _returnTo: z.string().optional(),
 })
-type QueryState = z.infer<typeof queryStateSchema>
 
 // ─────────────────────────────
 // Constants
@@ -50,7 +49,7 @@ export function PageComponent() {
   // Action
   // ─────────────────────────────
 
-  const actions = useActions({ form })
+  const _actions = useActions({ form })
 
   // ─────────────────────────────
   // DerivedData (watch/memo)

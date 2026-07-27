@@ -1,5 +1,5 @@
 import { useRouter } from '@tanstack/react-router'
-import { useActionBoundary, useRouteNavigation } from '@vendor/router-enhancer'
+import { useActionBoundary } from '@vendor/router-enhancer'
 
 import { operation, type PageForm, Route } from './-page-deps-internal'
 
@@ -11,7 +11,6 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   const router = useRouter()
   const search = Route.useSearch()
   const navigate = Route.useNavigate()
-  // const navigation = useRouteNavigation(Route)
   const { form } = ctx
 
   /*
@@ -53,9 +52,12 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
    */
   const onClickReturn1 = async () => {
     // loaderの呼び出し "なし" で遷移
-    const returnTo = search._returnTo
+    const _returnTo = search._returnTo
     await navigate({
       to: '/crud/summary',
+      state: {
+        shouldReload: false,
+      },
     })
   }
   const onClickReturn2 = async () => {

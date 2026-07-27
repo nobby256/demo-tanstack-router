@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useLeaveGuard } from '@vendor/router-enhancer'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -25,6 +26,12 @@ export const usePageForm = () => {
       ...loaderData.data,
     })
   }, [loaderData, form.reset])
+
+  useLeaveGuard({
+    when: form.formState.isDirty,
+    confirmLeave: () =>
+      window.confirm('変更されています。入力内容を破棄してよろしいですか？'),
+  })
 
   return form
 }
