@@ -105,49 +105,47 @@ export function PageComponent() {
   return (
     <div>
       <h2>Search</h2>
-      <form>
-        <div>
-          <input placeholder="keyword" {...form.register('keyword')} />
-          {form.formState.errors.keyword && (
-            <span className="error-message">
-              {form.formState.errors.keyword.message}
-            </span>
-          )}
-        </div>
-        <div>
-          <input placeholder="category" {...form.register('category')} />
-          {form.formState.errors.category && (
-            <span className="error-message">
-              {form.formState.errors.category.message}
-            </span>
-          )}
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            checked={check1}
-            onChange={(e) => setCheck1(e.target.checked)}
-          />
-          _check1:useQueryState使用
-        </div>
-        <div>
-          <input type="checkbox" checked={check2} onChange={changeChack2} />
-          _check2:navigate使用、to無し
-        </div>
-        <div>
-          <input type="checkbox" checked={check3} onChange={changeChack3} />
-          _check3:navigate使用、toあり
-        </div>
-        <div>
-          <input type="checkbox" checked={check} onChange={changeChack} />
-          check:navigate使用、toなし
-        </div>
-        <div>
-          <button type="submit" onClick={actions.onSubmit}>
-            Search
-          </button>
-        </div>
-      </form>
+      <div>
+        <input placeholder="keyword" {...form.register('keyword')} />
+        {form.formState.errors.keyword && (
+          <span className="error-message">
+            {form.formState.errors.keyword.message}
+          </span>
+        )}
+      </div>
+      <div>
+        <input placeholder="category" {...form.register('category')} />
+        {form.formState.errors.category && (
+          <span className="error-message">
+            {form.formState.errors.category.message}
+          </span>
+        )}
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          checked={check1}
+          onChange={(e) => setCheck1(e.target.checked)}
+        />
+        _check1:useQueryState使用
+      </div>
+      <div>
+        <input type="checkbox" checked={check2} onChange={changeChack2} />
+        _check2:navigate使用、to無し
+      </div>
+      <div>
+        <input type="checkbox" checked={check3} onChange={changeChack3} />
+        _check3:navigate使用、toあり
+      </div>
+      <div>
+        <input type="checkbox" checked={check} onChange={changeChack} />
+        check:navigate使用、toなし
+      </div>
+      <div>
+        <button type="button" onClick={actions.onSubmit}>
+          Search
+        </button>
+      </div>
     </div>
   )
 }

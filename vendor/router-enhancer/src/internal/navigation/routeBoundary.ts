@@ -3,7 +3,6 @@ import type { ParsedLocation } from '@tanstack/react-router'
 import { isNotFound, isRedirect, redirect } from '@tanstack/react-router'
 
 import { normalizeError } from '../error'
-import { beginRedirect, getLastResolvedUrl } from './navigationTracker'
 
 /**
  * routeBoundary
@@ -59,22 +58,21 @@ export async function routeBoundary<
       throw appError
     }
 
-    const prev = getLastResolvedUrl()
-    const firstAccess = prev === undefined
-
     /**
      * 初回アクセスなど戻る先が存在しない場合は継続可能であってもFatalに変更し、
      * ErrorComponentに委譲する（Goneではない）
      */
-    if (firstAccess) {
+    const tracker = ctx.location.state.__navigationTracker
+    const redirectLocation = tracker?.redirectLocation
+    if (!redirectLocation) {
       appError.category = 'Fatal'
       throw appError
     }
 
-    /**
-     * リダイレクト開始
-     */
-    beginRedirect(appError)
+    // リダイレクトの原因となったエラーを把持する
+    if (tracker) {
+      tracker.redirectCause = error
+    }
 
     /**
      * 疑似 navigation cancel
@@ -83,8 +81,11 @@ export async function routeBoundary<
      */
     // eslint-disable-next-line @typescript-eslint/only-throw-error
     throw redirect({
-      to: prev,
+      to: redirectLocation.href,
       replace: true,
+      state: {
+        __navigationTracker: tracker,
+      },
     })
   }
 }

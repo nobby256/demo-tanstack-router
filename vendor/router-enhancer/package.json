@@ -5,15 +5,13 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./dist/index.js",
-    "./package.json": "./package.json"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "clean": "rimraf .turbo dist",
     "lint": "eslint .",
     "check-types": "tsc -b --noEmit",
-    "format": "eslint --fix .",
-    "build": "tsdown"
+    "format": "eslint --fix ."
   },
   "peerDependencies": {
     "react": "catalog:",
@@ -21,7 +19,8 @@
     "mitt": "catalog:",
     "react-hook-form": "catalog:",
     "@tanstack/react-router": "catalog:",
-    "@tanstack/router-core": "catalog:"
+    "@tanstack/router-core": "catalog:",
+    "@tanstack/history": "catalog:"
   },
   "dependencies": {},
   "devDependencies": {

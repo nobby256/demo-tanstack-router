@@ -10,8 +10,8 @@ import { operation, type PageForm, Route } from './-page-deps-internal'
 export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   const router = useRouter()
   const search = Route.useSearch()
-  // const navigate = useNavigate();
-  const navigation = useRouteNavigation(Route)
+  const navigate = Route.useNavigate()
+  // const navigation = useRouteNavigation(Route)
   const { form } = ctx
 
   /*
@@ -53,21 +53,20 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
    */
   const onClickReturn1 = async () => {
     // loaderの呼び出し "なし" で遷移
-    await navigation.navigate({
-      href: search._returnTo,
-      skipLoader: true,
+    const returnTo = search._returnTo
+    await navigate({
+      to: '/crud/summary',
     })
   }
   const onClickReturn2 = async () => {
     // loaderの呼び出し "あり" で遷移
-    await navigation.navigate({
-      href: navigation.search._returnTo,
-      skipLoader: false,
+    await navigate({
+      to: '/crud/summary',
     })
   }
   const onClickReturn3 = async () => {
     // loaderの呼び出し "あり" で遷移
-    await navigation.back()
+    router.history.back()
   }
 
   return {

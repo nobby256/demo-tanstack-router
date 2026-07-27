@@ -14,6 +14,11 @@ export const Route = createFileRoute('/crud/summary')({
 
   loaderDeps: extractLoaderDeps,
 
+  beforeLoad: () => {
+    let a = 0
+    a = a
+  },
+
   loader: (ctx) =>
     routeBoundary(ctx, async () =>
       load(

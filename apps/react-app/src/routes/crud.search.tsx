@@ -8,11 +8,16 @@ import {
 import { load, PageComponent, searchSchema } from '#/pages/crud/search'
 
 export const Route = createFileRoute('/crud/search')({
-  // shouldReload: dynamicShouldReload,
+  shouldReload: dynamicShouldReload,
 
   validateSearch: searchSchema,
 
   loaderDeps: extractLoaderDeps,
+
+  beforeLoad: () => {
+    let a = 0
+    a = a
+  },
 
   loader: (ctx) =>
     routeBoundary(ctx, async () =>

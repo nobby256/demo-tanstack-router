@@ -15,6 +15,9 @@ catalogs:
     '@stoplight/spectral-cli':
       specifier: 6.16.0
       version: 6.16.0
+    '@tanstack/history':
+      specifier: 1.162.0
+      version: 1.162.0
     '@tanstack/react-router':
       specifier: 1.170.16
       version: 1.170.16
@@ -287,6 +290,9 @@ importers:
 
   vendor/router-enhancer:
     dependencies:
+      '@tanstack/history':
+        specifier: 'catalog:'
+        version: 1.162.0
       '@tanstack/react-router':
         specifier: 'catalog:'
         version: 1.170.16(react-dom@19.2.7(react@19.2.7))(react@19.2.7)

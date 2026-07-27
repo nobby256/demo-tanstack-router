@@ -7,14 +7,9 @@ import { type PageForm, Route } from './-page-deps-internal'
 // ─────────────────────────────────────
 
 export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
-  const navigation = useRouteNavigation(Route)
+  //const navigation = useRouteNavigation(Route)
+  const navigate = Route.useNavigate()
   const { form } = ctx
-
-  const onChangeCheckbox = async (checked: boolean) => {
-    await navigation.patchUiState({
-      _check: checked,
-    })
-  }
 
   const onSubmit = async () => {
     const valid = await form.trigger()
@@ -24,7 +19,7 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
 
     const formValues = form.getValues()
 
-    await navigation.navigate({
+    await navigate({
       to: '/crud/summary',
       search: {
         keyword: formValues.keyword,
@@ -34,7 +29,6 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   }
 
   return {
-    onChangeCheckbox,
     onSubmit,
   }
 })

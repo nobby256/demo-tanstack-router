@@ -31,6 +31,7 @@ catalog:
 
   # Tanstack Router
   '@tanstack/react-router': 1.170.16
+  '@tanstack/history': 1.162.0 #上記のバージョンのtanstack/routerが使用しているバージョンを指定
   '@tanstack/router-core': '1.171.13'
   '@tanstack/router-plugin': 1.168.18
 

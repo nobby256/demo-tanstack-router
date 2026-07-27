@@ -1,45 +1,37 @@
-import { isInNavigationRollback } from './navigationTracker'
-import { shouldReloadForNavigation } from './useNavigateWithoutDataLoad'
+import type { ParsedLocation } from '@tanstack/react-router'
+
+declare module '@tanstack/history' {
+  interface HistoryState {
+    shouldReload?: boolean
+  }
+}
 
 /**
- * dynamicLoaderPolicy
- * ----------------------------------------------------------------------------
- * ナビゲーションごとに loader の実行可否を動的に決定するポリシー。
+ * navigateの引数state.shouldReloadによって戻り値が指定可能なshouldReload関数
  *
- * 本アーキテクチャでは `staleTime = 0` / `staleReloadMode = "blocking"` を
- * 前提とし、画面遷移時は原則として loader を実行して最新データを取得する。
- *
- * ただし次のケースでは loader を実行しない。
- *
- * - Navigation Rollback による元画面復帰
- * - フレームワークのユーティリティによって loader skip が明示された遷移
- *
- * つまり
- *
- * ```
- * 通常遷移 → loader 実行
- * 特殊遷移 → loader skip
- * ```
- *
- * という動作になる。
+ * 未指定だった場合のデフォルトはtrue。
  */
 export function dynamicShouldReload({
   cause,
   location,
 }: {
   cause: 'enter' | 'stay' | 'preload'
-  location: { href?: string }
+  location: ParsedLocation
 }) {
   if (cause === 'preload') {
     return true
   }
-  // 画面遷移キャンセルが発生し元の画面に戻ってきた流れの場合はloaderは呼び出さない
-  if (cause === 'stay' && isInNavigationRollback()) {
+
+  // 画面遷移キャンセルが理由で元の画面に戻ってきた場合はloaderは呼び出さない
+  if (cause === 'stay' && location.state.__navigationTracker?.redirectCause) {
     return false
   }
-  // 次の navigation だけ loader をスキップさせる要求がある場合は、loader を呼び出さない
-  if (!shouldReloadForNavigation({ location })) {
-    return false
+
+  // navigateで与えられたshouldReloadを使用する
+  const shouldReload = location.state.shouldReload
+  if (shouldReload) {
+    return shouldReload
   }
+
   return true
 }
