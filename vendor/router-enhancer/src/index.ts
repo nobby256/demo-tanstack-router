@@ -23,7 +23,7 @@ export { useActionBoundary } from './internal/action'
 // navigation
 export {
   useLeaveGuard,
-  dynamicShouldReload,
+  locationStateShouldReload,
   useQueryState,
   routeBoundary,
 } from './internal/navigation'
