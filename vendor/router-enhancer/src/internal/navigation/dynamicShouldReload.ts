@@ -22,14 +22,8 @@ export function dynamicShouldReload({
     return true
   }
 
-  // 画面遷移キャンセルが理由で元の画面に戻ってきた場合はloaderは呼び出さない
-  if (cause === 'stay' && location.state.__navigationTracker?.redirectCause) {
-    return false
-  }
-
-  // navigateで与えられたshouldReloadを使用する
   const shouldReload = location.state.shouldReload
-  if (shouldReload) {
+  if (shouldReload !== undefined) {
     return shouldReload
   }
 

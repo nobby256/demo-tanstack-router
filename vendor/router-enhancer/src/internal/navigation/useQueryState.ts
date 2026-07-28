@@ -48,6 +48,9 @@ export function useQueryState<
       },
       replace: true,
       ignoreBlocker: true,
+      state: {
+        shouldReload: false,
+      },
     })
   }
 

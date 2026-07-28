@@ -84,6 +84,10 @@ export async function routeBoundary<
       to: redirectLocation.href,
       replace: true,
       state: {
+        // loaderの実行を抑制することでloadエラーによるリダイレクトの連続発生を抑制する
+        // 遷移中にRedirectで遷移前の画面に戻った時は、遷移前画面のActiveキャッシュがまだ有効なので
+        // loaderの実行不要でキャッシュからデータを取得できる
+        shouldReload: false,
         __navigationTracker: tracker,
       },
     })
