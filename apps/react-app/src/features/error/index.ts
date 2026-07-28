@@ -3,5 +3,10 @@ export {
   type AppErrorOptions,
   createAppError,
   isAppError,
-} from './AppError'
-export { normalizeError } from './normalizeError'
+} from './internal/AppError'
+
+export { normalizeError } from './internal/normalizeError'
+
+export { ErrorComponent } from './internal/ErrorComponent'
+
+export { canRollbackNavigation } from './internal/canRollbackNavigation'

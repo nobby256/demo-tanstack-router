@@ -4,11 +4,10 @@ import { configureFetch } from 'demo-api-client/fetch'
 import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
 
-import { normalizeError } from '#/features/error'
+import { canRollbackNavigation, ErrorComponent } from '#/features/error'
+import { NotificationProvider } from '#/features/notification'
 
 import { appConfig } from './app-config'
-import { ErrorComponent } from './features/fallback-page/ErrorComponent'
-import { NotificationProvider } from './features/notification'
 import { routeTree } from './routeTree.gen'
 
 // ─────────────────────────────────────
@@ -20,10 +19,7 @@ const router = createEnhancedRouter({
   scrollRestoration: true,
   defaultErrorComponent: ErrorComponent,
   context: {
-    canRollbackNavigationError(error) {
-      const appError = normalizeError(error)
-      return appError.category === 'Recoverble'
-    },
+    canRollbackNavigationError: canRollbackNavigation,
   },
 })
 
@@ -77,16 +73,11 @@ function bootstrap() {
 
   const root = ReactDOM.createRoot(rootElement)
 
-  /**
-   * NotificationProvider
-   *   └ 通知イベントをUIへ反映
-   *
-   * RouterProvider
-   *   └ TanStack Router本体
-   */
   root.render(
     <>
+      {'routerイベントと通知コンポーネントを連結'}
       <NotificationProvider />
+      {'TanStack Router本体'}
       <RouterProvider router={router} />
     </>,
   )
