@@ -1,27 +1,6 @@
-import { type AnyRouter, type ParsedLocation } from '@tanstack/react-router'
+import { type AnyRouter } from '@tanstack/react-router'
 
 import { runtimeEventBus } from '../event'
-
-declare module '@tanstack/history' {
-  interface HistoryState {
-    /**
-     * navigationTracker 用の内部状態
-     */
-    __navigationTracker?: {
-      /**
-       * 遷移エラーが発生した時のリダイレクト先
-       * ただし、ダイレクトアクセス（ブラウザ履歴含む）の場合はundefinedとなる。
-       * その場合はリダイレクトせず継続不能エラー画面に遷移する。
-       */
-      redirectLocation?: ParsedLocation
-
-      /**
-       * リダイレクトの発端となったエラー
-       */
-      redirectCause?: unknown
-    }
-  }
-}
 
 let initialized = false
 

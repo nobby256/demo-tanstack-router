@@ -1,3 +1,5 @@
+import './tanstack-history'
+
 // init
 export {
   createEnhancedRouter,
