@@ -34,7 +34,7 @@ export function initNavigationTracker(router: AnyRouter): void {
     if (cause) {
       // 遷移キャンセルを発生させたエラーを通知する
       runtimeEventBus.emit('event', {
-        type: 'navigation-error',
+        type: 'recoverable-navigation-error',
         error: cause,
       })
     }

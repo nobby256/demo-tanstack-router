@@ -1,4 +1,4 @@
-import { createAppError } from '@vendor/router-enhancer'
+import { createAppError } from '#/features/error'
 
 import { model, operation } from './-page-deps-internal'
 

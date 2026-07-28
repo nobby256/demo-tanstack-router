@@ -1,8 +1,10 @@
 import { RouterProvider } from '@tanstack/react-router'
-import { createEnhancedRouter, normalizeError } from '@vendor/router-enhancer'
+import { createEnhancedRouter } from '@vendor/router-enhancer'
 import { configureFetch } from 'demo-api-client/fetch'
 import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
+
+import { normalizeError } from '#/features/error'
 
 import { appConfig } from './app-config'
 import { ErrorComponent } from './features/fallback-page/ErrorComponent'

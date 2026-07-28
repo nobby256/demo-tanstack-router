@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { normalizeError } from '@vendor/router-enhancer'
+
+import { normalizeError } from '#/features/error'
 
 export function ErrorComponent(error: unknown) {
   const appError = normalizeError(error)

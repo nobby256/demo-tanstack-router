@@ -1,15 +1,13 @@
-import {
-  normalizeError,
-  type RuntimeEvent,
-  runtimeEventBus,
-} from '@vendor/router-enhancer'
+import { type RuntimeEvent, runtimeEventBus } from '@vendor/router-enhancer'
 import { useEffect } from 'react'
+
+import { normalizeError } from '#/features/error'
 
 export function NotificationProvider() {
   useEffect(() => {
     const handler = (event: RuntimeEvent) => {
       switch (event.type) {
-        case 'navigation-error':
+        case 'recoverable-navigation-error':
           notifyError(event.error)
           break
       }

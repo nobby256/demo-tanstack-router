@@ -7,15 +7,6 @@ export {
   type RouterEnhancerOptions,
 } from './internal/createEnhancedRouter'
 
-// error
-export {
-  AppError,
-  type AppErrorOptions,
-  createAppError,
-  isAppError,
-  normalizeError,
-} from './internal/error'
-
 // event
 export { type RuntimeEvent, runtimeEventBus } from './internal/event'
 

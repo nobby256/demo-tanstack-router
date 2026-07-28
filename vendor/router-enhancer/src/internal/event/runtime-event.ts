@@ -2,7 +2,7 @@ import mitt from 'mitt'
 
 export type RuntimeEvent =
   | {
-      type: 'navigation-error'
+      type: 'recoverable-navigation-error'
       error: unknown
     }
   | {
