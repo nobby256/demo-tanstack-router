@@ -4,9 +4,6 @@ import { runtimeEventBus } from '../event'
 
 let initialized = false
 
-/**
- * navigationTracker 初期化
- */
 export function initNavigationTracker(router: AnyRouter): void {
   if (initialized) {
     return
@@ -20,17 +17,17 @@ export function initNavigationTracker(router: AnyRouter): void {
     if (!toLocation.state.__navigationTracker) {
       // 遷移エラーが発生した時のリダイレクト先（fromLocation）をstateに格納する
       toLocation.state.__navigationTracker = {
-        redirectLocation: fromLocation,
+        rollbackLocation: fromLocation,
       }
     }
   })
 
   router.subscribe('onResolved', (event) => {
     const { toLocation } = event
-    const cause = toLocation.state.__navigationTracker?.redirectCause
+    const cause = toLocation.state.__navigationTracker?.rollbackCause
 
-    // 履歴に残らないように使用済みのtrackerはクリアする
-    // これをやっておかないとブラウザバックを行ったときに状態が残ってしまう
+    // 履歴に格納されているLocationに当時の情報が残らないように
+    // 遷移完了時にクリアする必要がある
     toLocation.state.__navigationTracker = undefined
     toLocation.state.shouldReload = undefined
 

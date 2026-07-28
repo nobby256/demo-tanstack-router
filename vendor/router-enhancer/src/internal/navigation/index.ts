@@ -1,6 +1,4 @@
 export { initNavigationTracker } from './navigationTracker'
-export { useLeaveGuard } from './useLeaveGuard'
-export { useRouteNavigation } from './useRouteNavigation'
 export { useQueryState } from './useQueryState'
 export { routeBoundary } from './routeBoundary'
 export { locationStateShouldReload } from './locationStateShouldReload'

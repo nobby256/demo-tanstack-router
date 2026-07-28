@@ -18,17 +18,17 @@ declare module '@tanstack/history' {
      */
     __navigationTracker?: {
       /**
-       * 遷移中にエラーが発生した場合のリダイレクト先です。
+       * 遷移中にエラーが発生した場合のロールバック先のLocationです。
        *
        * navigate() による遷移時のみ設定され、
        * ブラウザ履歴による移動やURLへの直接アクセス時は undefined になります。
        */
-      redirectLocation?: ParsedLocation
+      rollbackLocation?: ParsedLocation
 
       /**
-       * リダイレクトの原因となったエラーです。
+       * ロールバックの原因となったエラーです。
        */
-      redirectCause?: unknown
+      rollbackCause?: unknown
     }
   }
 }

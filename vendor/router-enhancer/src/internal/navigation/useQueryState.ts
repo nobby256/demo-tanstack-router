@@ -1,7 +1,7 @@
-import { useNavigateWithoutDataLoad } from './useNavigateWithoutDataLoad'
+import { useNavigate } from '@tanstack/react-router'
 
 /**
- * `_` prefix UI state
+ * `_` prefix QueryState
  */
 type QueryStateKeys<T> = {
   [K in keyof T]: K extends `_${string}` ? K : never
@@ -26,20 +26,15 @@ export function useQueryState<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     types: { fullSearchSchema: any }
     useSearch: () => RouteSearch<TRoute>
-    useNavigate: () => (options: {
-      search: RouteSearch<TRoute>
-      replace: boolean
-    }) => Promise<void>
   },
   TKey extends QueryStateKeys<RouteSearch<TRoute>>,
 >(route: TRoute, key: TKey, defaultValue?: RouteSearch<TRoute>[TKey]) {
   type Search = RouteSearch<TRoute>
 
   const search = route.useSearch()
-  const navigate = useNavigateWithoutDataLoad()
-
   const value = search[key] ?? defaultValue
 
+  const navigate = useNavigate()
   const setValue = async (nextValue: Search[TKey]): Promise<void> => {
     await navigate({
       search: {

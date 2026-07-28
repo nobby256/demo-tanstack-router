@@ -63,7 +63,7 @@ export async function routeBoundary<
      * ErrorComponentに委譲する（Goneではない）
      */
     const tracker = ctx.location.state.__navigationTracker
-    const redirectLocation = tracker?.redirectLocation
+    const redirectLocation = tracker?.rollbackLocation
     if (!redirectLocation) {
       appError.category = 'Fatal'
       throw appError
@@ -71,7 +71,7 @@ export async function routeBoundary<
 
     // リダイレクトの原因となったエラーを把持する
     if (tracker) {
-      tracker.redirectCause = error
+      tracker.rollbackCause = error
     }
 
     /**

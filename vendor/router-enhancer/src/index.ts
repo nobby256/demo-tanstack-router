@@ -24,7 +24,6 @@ export { useActionBoundary } from './internal/action'
 
 // navigation
 export {
-  useLeaveGuard,
   locationStateShouldReload,
   useQueryState,
   routeBoundary,
