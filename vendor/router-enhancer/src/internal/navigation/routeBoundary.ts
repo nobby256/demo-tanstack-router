@@ -2,7 +2,7 @@ import type { ParsedLocation } from '@tanstack/react-router'
 
 import { isNotFound, isRedirect, redirect } from '@tanstack/react-router'
 
-import { normalizeError } from '../error'
+import { type RouterContext } from './RouterContext'
 
 /**
  * routeBoundary
@@ -15,7 +15,7 @@ import { normalizeError } from '../error'
  * @typeParam T
  * loader / beforeLoad の戻り値型
  *
- * @param ctx
+ * @param match
  * Router navigation コンテキスト
  *
  * @param fn
@@ -25,23 +25,21 @@ export async function routeBoundary<
   TContext extends {
     location: ParsedLocation
     cause: 'enter' | 'stay' | 'preload'
+    context: RouterContext
   },
   TResult,
->(ctx: TContext, fn: () => Promise<TResult>): Promise<TResult> {
+>(match: TContext, fn: () => Promise<TResult>): Promise<TResult> {
   try {
     return await fn()
   } catch (error) {
     /**
-     * preload navigation は UI に影響させない
+     * preload navigation は対象外
      */
-    if (ctx.cause === 'preload') {
-      // preload 時のエラーは画面遷移ではないので再スローしていい
+    if (match.cause === 'preload') {
       throw error
     }
 
     /**
-     * Router control flow
-     *
      * redirect / notFound は navigation 制御のための例外なので
      * transaction では処理せずそのまま再スローする。
      */
@@ -49,34 +47,32 @@ export async function routeBoundary<
       throw error
     }
 
-    const appError = normalizeError(error)
-
     /**
-     * 継続可能エラー以外はErrorComponentに委譲
+     * ロールバック対象外のエラーはErrorComponentに委譲
      */
-    if (appError.category !== 'Recoverble') {
-      throw appError
+    if (!match.context.canRollbackNavigationError(error)) {
+      throw error
     }
 
     /**
-     * 初回アクセスなど戻る先が存在しない場合は継続可能であってもFatalに変更し、
-     * ErrorComponentに委譲する（Goneではない）
+     * 初回アクセスなど戻る先が存在しない場合はErrorComponentに委譲する
      */
-    const tracker = ctx.location.state.__navigationTracker
+    const tracker = match.location.state.__navigationTracker
     const redirectLocation = tracker?.rollbackLocation
     if (!redirectLocation) {
-      appError.category = 'Fatal'
-      throw appError
+      throw error
     }
 
-    // リダイレクトの原因となったエラーを把持する
+    /**
+     * ロールバックトの原因となったエラーを把持する
+     */
     if (tracker) {
       tracker.rollbackCause = error
     }
 
     /**
      * 疑似 navigation cancel
-     * 継続可能エラーの通知はリダイレクト後に発生させる。
+     * エラーの通知はリダイレクト後に発生させる。
      * navigationTracker を参照。
      */
     // eslint-disable-next-line @typescript-eslint/only-throw-error

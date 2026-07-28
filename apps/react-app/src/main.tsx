@@ -1,5 +1,5 @@
 import { RouterProvider } from '@tanstack/react-router'
-import { createEnhancedRouter } from '@vendor/router-enhancer'
+import { createEnhancedRouter, normalizeError } from '@vendor/router-enhancer'
 import { configureFetch } from 'demo-api-client/fetch'
 import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
@@ -17,6 +17,12 @@ const router = createEnhancedRouter({
   routeTree,
   scrollRestoration: true,
   defaultErrorComponent: ErrorComponent,
+  context: {
+    canRollbackNavigationError(error) {
+      const appError = normalizeError(error)
+      return appError.category === 'Recoverble'
+    },
+  },
 })
 
 /**
