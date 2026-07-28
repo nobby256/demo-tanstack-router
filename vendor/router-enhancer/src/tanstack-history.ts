@@ -11,7 +11,10 @@ declare module '@tanstack/history' {
     shouldReload?: boolean
 
     /**
-     * transit transaction 用の内部情報
+     * navigation に関する内部情報です。
+     *
+     * ライブラリ内部で使用されるため、
+     * アプリケーションコードから参照・設定しないでください。
      */
     __navigationTracker?: {
       /**
