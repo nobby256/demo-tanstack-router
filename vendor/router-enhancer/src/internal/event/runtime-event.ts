@@ -1,5 +1,3 @@
-import type { UseFormReturn } from 'react-hook-form'
-
 import mitt from 'mitt'
 
 export type RuntimeEvent =
@@ -10,8 +8,7 @@ export type RuntimeEvent =
   | {
       type: 'action-error'
       error: unknown
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      form?: UseFormReturn<any, any, any>
+      form?: unknown
     }
 
 export const runtimeEventBus = mitt<{

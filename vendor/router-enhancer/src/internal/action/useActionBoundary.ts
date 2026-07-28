@@ -1,5 +1,3 @@
-import type { UseFormReturn } from 'react-hook-form'
-
 import { useRef } from 'react'
 
 import { runtimeEventBus } from '../event'
@@ -11,11 +9,8 @@ type Actions = Record<string, ActionHandler>
 /**
  * Action Boundary が要求する最低限の Context
  */
-export type ActionContext<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TForm extends UseFormReturn<any, any, any> = UseFormReturn<any, any, any>,
-> = {
-  form?: TForm
+export type ActionContext = {
+  form?: unknown
 }
 
 type WrappedActions<TActions extends Actions> = {
