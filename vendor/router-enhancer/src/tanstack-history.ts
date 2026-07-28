@@ -17,6 +17,12 @@ declare module '@tanstack/history' {
      * アプリケーションコードから参照・設定しないでください。
      */
     __navigationTracker?: {
+      fromLocation?: ParsedLocation
+      toLocation: ParsedLocation
+      pathChanged: boolean
+      hrefChanged: boolean
+      hashChanged: boolean
+
       /**
        * 遷移中にエラーが発生した場合のロールバック先のLocationです。
        *

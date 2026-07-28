@@ -58,7 +58,7 @@ export function PageComponent() {
   const data = loaderData.data
 
   // ─────────────────────────────
-  // Effect
+  // Behavior Hooks (effect)
   // ─────────────────────────────
 
   // ─────────────────────────────

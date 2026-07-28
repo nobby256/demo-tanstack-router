@@ -24,7 +24,7 @@ export const usePageForm = () => {
     form.reset({
       ...loaderData.data,
     })
-  }, [loaderData, form.reset])
+  }, [loaderData])
 
   return form
 }

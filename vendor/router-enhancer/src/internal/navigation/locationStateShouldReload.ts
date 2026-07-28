@@ -44,11 +44,19 @@ import type { ParsedLocation } from '@tanstack/react-router'
  * })
  */
 export function locationStateShouldReload(defaultValue?: boolean) {
-  return ({ location }: { location: ParsedLocation }) => {
-    const shouldReload = location.state.shouldReload
+  return (match: unknown) => {
+    const { location, cause } = match as {
+      location: ParsedLocation
+      cause: 'stay' | 'entry' | 'preload'
+    }
 
+    const shouldReload = location.state.shouldReload
     if (shouldReload !== undefined) {
       return shouldReload
+    }
+
+    if (cause === 'stay') {
+      return false
     }
 
     return defaultValue

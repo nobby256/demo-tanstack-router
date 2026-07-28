@@ -17,7 +17,12 @@ export function initNavigationTracker(router: AnyRouter): void {
     if (!toLocation.state.__navigationTracker) {
       // 遷移エラーが発生した時のリダイレクト先（fromLocation）をstateに格納する
       toLocation.state.__navigationTracker = {
-        rollbackLocation: fromLocation,
+        fromLocation,
+        toLocation,
+        pathChanged: event.pathChanged,
+        hrefChanged: event.hashChanged,
+        hashChanged: event.hashChanged,
+        rollbackLocation: event.fromLocation,
       }
     }
   })
