@@ -8,7 +8,7 @@ import {
 import { load, PageComponent, searchSchema } from '#/pages/crud/search'
 
 export const Route = createFileRoute('/crud/search')({
-  shouldReload: locationStateShouldReload(),
+  shouldReload: locationStateShouldReload,
 
   validateSearch: searchSchema,
 
