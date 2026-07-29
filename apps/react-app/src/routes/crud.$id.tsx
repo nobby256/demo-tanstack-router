@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
-  locationStateShouldReload,
+  formPageReloadPolicy,
   omitQueryState,
   routeBoundary,
 } from '@vendor/router-enhancer'
@@ -8,7 +8,7 @@ import {
 import { load, PageComponent, searchSchema } from '#/pages/crud/detail'
 
 export const Route = createFileRoute('/crud/$id')({
-  shouldReload: locationStateShouldReload,
+  ...formPageReloadPolicy,
 
   validateSearch: searchSchema,
 

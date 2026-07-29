@@ -22,4 +22,4 @@ export {
 } from './internal/navigation'
 
 // router
-export { omitQueryState } from './internal/router'
+export { omitQueryState, formPageReloadPolicy } from './internal/router'
