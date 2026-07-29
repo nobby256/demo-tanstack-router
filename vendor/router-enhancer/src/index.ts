@@ -15,7 +15,6 @@ export { useActionBoundary } from './internal/action'
 
 // navigation
 export {
-  locationStateShouldReload,
   useQueryState,
   routeBoundary,
   type RouterContext,
