@@ -60,7 +60,7 @@ export function MessageNotifier() {
     <>
       <ul>
         {messageItems.map((item, index) => (
-          <li key={index}>{`${item.level}-${item.message}`}</li>
+          <li key={index}>{`${item.level} ${item.message}`}</li>
         ))}
       </ul>
     </>
@@ -79,18 +79,25 @@ function registerEventHandler({
   notifyNavigationError: (error: unknown) => void
 }) {
   useEffect(() => {
+    /**
+     * メッセージ対値ハンドラ
+     */
     const handler = (event: RuntimeEvent) => {
       switch (event.type) {
         case 'recoverable-navigation-error':
+          // 画面遷移時に発生したリカバリー可能エラーの表示
           notifyNavigationError(event.error)
           break
         case 'action-error':
+          // アクションで発生したエラーの表示
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const form = event.form as UseFormReturn<any, any, any>
           notifyActionError(event.error, form)
           break
       }
     }
+
+    // メッセージ通知ハンドラを登録
     runtimeEventBus.on('event', handler)
     return () => {
       runtimeEventBus.off('event', handler)
