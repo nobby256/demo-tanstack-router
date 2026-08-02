@@ -75,9 +75,9 @@ function bootstrap() {
 
   root.render(
     <>
-      {'routerイベントと通知コンポーネントを連結'}
+      {/*routerイベントと通知コンポーネントを連結*/}
       <NotificationProvider />
-      {'TanStack Router本体'}
+      {/*TanStack Router本体*/}
       <RouterProvider router={router} />
     </>,
   )
