@@ -1,5 +1,5 @@
-import { type RegisteredRouter, useRouter } from '@tanstack/react-router'
-import { findPreviousLocation } from '@vendor/router-enhancer'
+import { type RegisteredRouter } from '@tanstack/react-router'
+import { useBackTo } from '@vendor/router-enhancer'
 
 type RouterPath = keyof RegisteredRouter['routesByPath']
 
@@ -8,21 +8,9 @@ type Props = {
 }
 
 export function AppBackButton({ pathName }: Props) {
-  const router = useRouter()
-  const location = findPreviousLocation(router, pathName)
-
-  const onClick = async () => {
-    if (!location) {
-      return
-    }
-
-    const currentIndex = router.history.location.state.__TSR_index
-    const targetIndex = location.state.__TSR_index
-    router.history.go(targetIndex - currentIndex)
-  }
-
+  const back = useBackTo(pathName)
   return (
-    <button type="button" onClick={onClick} disabled={!location}>
+    <button type="button" onClick={back} disabled={!back}>
       戻る
     </button>
   )
