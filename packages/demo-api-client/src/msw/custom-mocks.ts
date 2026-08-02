@@ -19,10 +19,15 @@ export const customMocks = {
         if (status === 422) {
           return HttpResponse.json(
             {
-              errors: [
+              messages: [
                 {
-                  field: 'keyword',
-                  message: 'Validation error',
+                  level: 'ERROR',
+                  fields: ['status'],
+                  message: '相関チェックエラー',
+                },
+                {
+                  level: 'ERROR',
+                  message: '業務エラーが起きました',
                 },
               ],
             },
@@ -54,10 +59,15 @@ export const customMocks = {
         if (status === 422) {
           return HttpResponse.json(
             {
-              errors: [
+              messages: [
                 {
-                  field: 'keyword',
-                  message: 'Validation error',
+                  level: 'ERROR',
+                  fields: ['status'],
+                  message: '相関チェックエラー',
+                },
+                {
+                  level: 'ERROR',
+                  message: '業務エラーが起きました',
                 },
               ],
             },

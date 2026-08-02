@@ -14,7 +14,7 @@ namespace demo.error_handling_page {
   op load(@bodyRoot body: LoadInput): LoadOutput;
 
   model LoadInput {
-    status?: int32;
+    status?: string;
   }
 
   model LoadOutput {
@@ -27,7 +27,7 @@ namespace demo.error_handling_page {
   op done(@bodyRoot body: DoneInput): DoneOutput;
 
   model DoneInput {
-    status: int32;
+    status: string;
   }
 
   model DoneOutput {}
@@ -36,6 +36,6 @@ namespace demo.error_handling_page {
   // モデル
   // =========
   model ErrorHandlingItem {
-    status?: int32;
+    status?: string;
   }
 }

@@ -50,7 +50,7 @@ function notifyActionError(
       }
       // トースト表示のメッセージがあれば表示
       if (toasts.length > 0) {
-        alert(toasts)
+        setTimeout(() => alert(toasts), 0)
       }
     }
   } else {

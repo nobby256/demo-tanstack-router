@@ -11,7 +11,9 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   const router = useRouter()
   const { form } = ctx
 
-  const done = async () => {
+  const done = async (value: string) => {
+    form.setValue('status', value)
+
     const valid = await form.trigger()
     if (!valid) {
       return
