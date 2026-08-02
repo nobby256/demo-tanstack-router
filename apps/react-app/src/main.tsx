@@ -4,12 +4,16 @@ import { configureFetch } from 'demo-api-client/fetch'
 import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
 
-import { canRollbackNavigation, ErrorComponent } from '#/features/error'
-import { NotificationProvider } from '#/features/notification'
+import { ErrorComponent } from '#/features/components/ErrorComponent'
+import { canRollbackNavigation } from '#/features/error'
+import {
+  AlertMessageProvider,
+  FieldMessageProvider,
+  MessageProvider,
+} from '#/features/providers/message'
 
 import { appConfig } from './app-config'
 import { routeTree } from './routeTree.gen'
-
 // ─────────────────────────────────────
 // Router Settings
 // ─────────────────────────────────────
@@ -75,6 +79,10 @@ function bootstrap() {
 
   root.render(
     <>
+      <MessageProvider />
+      <AlertMessageProvider />
+      <FieldMessageProvider />
+
       {/*TanStack Router本体*/}
       <RouterProvider router={router} />
     </>,
