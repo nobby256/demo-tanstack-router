@@ -1,7 +1,4 @@
-export {
-  initNavigationHistory,
-  findPreviousLocation,
-} from './navigationHistory'
+export { initNavigationHistory, useBackTo } from './navigationHistory'
 export { initNavigationTracker } from './navigationTracker'
 export { useQueryState } from './useQueryState'
 export { routeBoundary } from './routeBoundary'

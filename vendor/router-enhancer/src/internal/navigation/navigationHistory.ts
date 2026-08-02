@@ -3,6 +3,7 @@ import {
   type ParsedLocation,
   type RegisteredRouter,
   type RouterHistory,
+  useRouter,
 } from '@tanstack/react-router'
 
 type RouterPath = keyof RegisteredRouter['routesByPath']
@@ -20,16 +21,23 @@ export function initNavigationHistory(router: AnyRouter): void {
 
   router.subscribe('onBeforeLoad', (event) => {
     const { toLocation } = event
+
     const index = toLocation.state.__TSR_index
+
+    if (typeof index !== 'number') {
+      return
+    }
+
     histories[index] = toLocation
   })
 }
 
-export function findPreviousLocation(
+function findPreviousLocation(
   router: AnyRouter,
   pathname: RouterPath,
 ): ParsedLocation | undefined {
   const history = router.history as RouterHistory
+
   const currentIndex = history.location.state.__TSR_index
 
   for (let i = currentIndex - 1; i >= 0; i--) {
@@ -45,4 +53,21 @@ export function findPreviousLocation(
   }
 
   return undefined
+}
+
+export function useBackTo(pathname: RouterPath): (() => void) | undefined {
+  const router = useRouter()
+
+  const location = findPreviousLocation(router, pathname)
+
+  if (!location) {
+    return undefined
+  }
+
+  return () => {
+    const history = router.history as RouterHistory
+    const currentIndex = history.location.state.__TSR_index
+    const targetIndex = location.state.__TSR_index
+    history.go(targetIndex - currentIndex)
+  }
 }

@@ -17,7 +17,7 @@ export { useActionBoundary } from './internal/action'
 export {
   useQueryState,
   routeBoundary,
-  findPreviousLocation,
+  useBackTo,
   type RouterContext,
 } from './internal/navigation'
 
