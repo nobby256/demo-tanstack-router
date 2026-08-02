@@ -1,11 +1,18 @@
 import { type RuntimeEvent, runtimeEventBus } from '@vendor/router-enhancer'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { type UseFormReturn } from 'react-hook-form'
 
 import { type AppError, normalizeError } from '#/features/error'
 import { type DomainError } from '#/features/types/DomainError'
 
+interface MessageItem {
+  level: string
+  message: string
+}
+
 export function MessageNotifier() {
+  const [messageItems, setMessageItems] = useState<MessageItem[]>([])
+
   const notifyActionError = (
     error: unknown,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,9 +20,10 @@ export function MessageNotifier() {
   ): void => {
     const appError = normalizeError(error)
     if (appError.statusCode === 422) {
+      const items: MessageItem[] = []
+
       const data = appError.data as DomainError | undefined
       if (data !== undefined) {
-        const toasts: string[] = []
         for (const message of data.messages) {
           if (message.fields !== undefined) {
             //fieldがあれば項目にエラーメッセージを表示する
@@ -26,15 +34,16 @@ export function MessageNotifier() {
               })
             }
           } else {
-            //fieldが無ければトースト表示
-            toasts[toasts.length] = message.message
+            //fieldが無ければ一覧表示
+            items[items.length] = {
+              level: message.level ?? 'ERROR',
+              message: message.message,
+            }
           }
         }
-        // トースト表示のメッセージがあれば表示
-        if (toasts.length > 0) {
-          setTimeout(() => alert(toasts), 0)
-        }
       }
+
+      setMessageItems(items)
     } else {
       notifyNavigationError(appError)
     }
@@ -47,7 +56,15 @@ export function MessageNotifier() {
 
   registerEventHandler({ notifyActionError, notifyNavigationError })
 
-  return <></>
+  return (
+    <>
+      <ul>
+        {messageItems.map((item, index) => (
+          <li key={index}>{`${item.level}-${item.message}`}</li>
+        ))}
+      </ul>
+    </>
+  )
 }
 
 function registerEventHandler({
