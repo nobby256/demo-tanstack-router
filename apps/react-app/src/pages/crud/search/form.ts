@@ -7,8 +7,8 @@ import { z } from 'zod'
 // ─────────────────────────────────────
 
 const formSchema = z.strictObject({
-  keyword: z.string(),
-  category: z.string(),
+  keyword: z.string().optional(),
+  category: z.string().optional(),
 })
 export type FormValues = z.infer<typeof formSchema>
 export type PageForm = ReturnType<typeof usePageForm>

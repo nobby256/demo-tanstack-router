@@ -1,5 +1,8 @@
 import { useQueryState } from '@vendor/router-enhancer'
+import { Controller } from 'react-hook-form'
 import { z } from 'zod'
+
+import { AppBackButton } from '#/features/components/AppBackButton'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 
@@ -65,22 +68,31 @@ export function PageComponent() {
   // ─────────────────────────────
   return (
     <div>
+      <AppBackButton pathName={'/crud/search'} />
       <h2>Search</h2>
       <div>
-        <input placeholder="keyword" {...form.register('keyword')} />
-        {form.formState.errors.keyword && (
-          <span className="error-message">
-            {form.formState.errors.keyword.message}
-          </span>
-        )}
+        <Controller
+          name="keyword"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <>
+              <input placeholder="keyword" {...field} />
+              <span className="error-message">{fieldState.error?.message}</span>
+            </>
+          )}
+        />
       </div>
       <div>
-        <input placeholder="category" {...form.register('category')} />
-        {form.formState.errors.category && (
-          <span className="error-message">
-            {form.formState.errors.category.message}
-          </span>
-        )}
+        <Controller
+          name="category"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <>
+              <input placeholder="category" {...field} />
+              <span className="error-message">{fieldState.error?.message}</span>
+            </>
+          )}
+        />
       </div>
       <div>
         <input

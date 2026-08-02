@@ -2,6 +2,7 @@ import { useQueryState } from '@vendor/router-enhancer'
 import { z } from 'zod'
 
 import { usePageBlocker } from '#/features/behavior-hook/use-page-brocker'
+import { AppBackButton } from '#/features/components/AppBackButton'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 
@@ -72,6 +73,7 @@ export function PageComponent() {
   // ─────────────────────────────
   return (
     <div>
+      <AppBackButton pathName={'/crud/search'} />
       <h2>Detail</h2>
 
       <fieldset>

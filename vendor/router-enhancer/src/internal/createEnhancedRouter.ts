@@ -8,7 +8,7 @@ import type {
 import { createRouter } from '@tanstack/react-router'
 
 import { registerAppExitGuard, registerBfCacheReload } from './browser'
-import { initNavigationTracker } from './navigation'
+import { initNavigationHistory, initNavigationTracker } from './navigation'
 
 /**
  * 継続可能エラー時の挙動設定
@@ -79,6 +79,8 @@ export function createEnhancedRouter<
   })
 
   initNavigationTracker(router)
+
+  initNavigationHistory(router)
 
   return router
 }

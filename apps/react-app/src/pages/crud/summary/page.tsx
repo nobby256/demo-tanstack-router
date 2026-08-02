@@ -1,6 +1,8 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { z } from 'zod'
 
+import { AppBackButton } from '#/features/components/AppBackButton'
+
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 
 // ─────────────────────────────
@@ -66,6 +68,7 @@ export function PageComponent() {
   // ─────────────────────────────
   return (
     <div>
+      <AppBackButton pathName={'/crud/search'} />
       <h2>Results</h2>
       <ul>
         {data.map((item) => (
