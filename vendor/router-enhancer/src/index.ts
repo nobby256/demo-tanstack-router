@@ -1,3 +1,4 @@
+// declareの読み込み
 import './tanstack-history'
 
 // init
@@ -14,12 +15,15 @@ export { type RuntimeEvent, runtimeEventBus } from './internal/event'
 export { useActionBoundary } from './internal/action'
 
 // navigation
-export {
-  useQueryState,
-  routeBoundary,
-  useBackTo,
-  type RouterContext,
-} from './internal/navigation'
+export { useQueryState } from './internal/navigation'
 
 // router
-export { omitQueryState, formPageReloadPolicy } from './internal/router'
+export {
+  routeBoundary,
+  type RouterContext,
+  omitQueryState,
+  formPageReloadPolicy,
+} from './internal/router'
+
+// history
+export { useBackTo } from './internal/history'
