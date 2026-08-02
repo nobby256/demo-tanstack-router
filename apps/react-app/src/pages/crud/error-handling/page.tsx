@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { useQueryState } from '@vendor/router-enhancer'
 import { Controller } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -13,7 +12,6 @@ import { Route, useActions, usePageForm } from './-page-deps-internal'
 
 export const queryStateSchema = z.object({
   // Query Stateは _ で始まる名前で追加する
-  _check: z.boolean().optional(),
 })
 
 // ─────────────────────────────
@@ -35,8 +33,6 @@ export function PageComponent() {
   // ─────────────────────────────
   // State
   // ─────────────────────────────
-
-  const [check, setCheck] = useQueryState(Route, '_check', false)
 
   // ─────────────────────────────
   // Route
@@ -73,17 +69,20 @@ export function PageComponent() {
         .nav-link a {
           display: block;
         }
+        .nav-link button {
+          display: block;
+        }
       `}</style>
       <div>
         <AppBackButton pathName={'/crud/search'} />
         <h2>Search</h2>
         <div>
           <Controller
-            name="keyword"
+            name="status"
             control={form.control}
             render={({ field, fieldState }) => (
               <>
-                <input placeholder="keyword" {...field} />
+                <input placeholder="status" {...field} />
                 <span className="error-message">
                   {fieldState.error?.message}
                 </span>
@@ -92,35 +91,99 @@ export function PageComponent() {
           />
         </div>
         <div>
-          <Controller
-            name="category"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <>
-                <input placeholder="category" {...field} />
-                <span className="error-message">
-                  {fieldState.error?.message}
-                </span>
-              </>
-            )}
-          />
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            checked={check}
-            onChange={(e) => setCheck(e.target.checked)}
-          />
-          _check1:useQueryState使用
-        </div>
-        <div>
-          <button type="button" onClick={actions.submit}>
+          <button type="button" onClick={actions.done}>
             Search
           </button>
         </div>
 
         <hr />
-        <Link to="/crud/error-handling">エラーハンドリング画面</Link>
+        <div className="nav-link">
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 400,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：400 - alert
+          </Link>
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 401,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：401 - 継続不能エラー画面へ遷移
+          </Link>
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 403,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：403 - 継続不能エラー画面へ遷移
+          </Link>
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 404,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：404 - alert
+          </Link>
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 410,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：410 - 期限切れエラー画面を表示
+          </Link>
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 422,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：422 - alert
+          </Link>
+          <Link
+            to="/crud/error-handling"
+            search={{
+              status: 500,
+            }}
+            state={{
+              shouldReload: true,
+            }}
+          >
+            ステータスコード：500 - alert
+          </Link>
+          <hr />
+          <button onClick={actions.done}>ステータスコード：400</button>
+          <button onClick={actions.done}>ステータスコード：401</button>
+          <button onClick={actions.done}>ステータスコード：403</button>
+          <button onClick={actions.done}>ステータスコード：404</button>
+          <button onClick={actions.done}>ステータスコード：410</button>
+          <button onClick={actions.done}>ステータスコード：422</button>
+          <button onClick={actions.done}>ステータスコード：500</button>
+        </div>
       </div>
     </>
   )

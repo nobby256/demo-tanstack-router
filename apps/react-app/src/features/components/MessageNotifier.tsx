@@ -5,7 +5,7 @@ import { type UseFormReturn } from 'react-hook-form'
 import { type AppError, normalizeError } from '#/features/error'
 import { type DomainError } from '#/features/types/DomainError'
 
-export function NotificationProvider() {
+export function MessageNotifier() {
   useEffect(() => {
     const handler = (event: RuntimeEvent) => {
       const appError = normalizeError(event.error)
@@ -25,7 +25,7 @@ export function NotificationProvider() {
       runtimeEventBus.off('event', handler)
     }
   }, [])
-  return undefined
+  return <></>
 }
 
 function notifyActionError(

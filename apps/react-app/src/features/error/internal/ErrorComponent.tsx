@@ -2,7 +2,13 @@ import { Link } from '@tanstack/react-router'
 
 import { normalizeError } from '#/features/error'
 
-export function ErrorComponent(error: unknown) {
+type ErrorComponentProps = {
+  error: Error
+  reset: () => void
+}
+
+export function ErrorComponent(props: ErrorComponentProps) {
+  const error = props.error
   const appError = normalizeError(error)
 
   // 継続不能の場合はSPA外のページにリダイレクトする

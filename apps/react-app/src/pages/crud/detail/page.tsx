@@ -100,7 +100,7 @@ export function PageComponent() {
         </div>
         <button
           type="button"
-          onClick={actions.onSubmitUpdate1}
+          onClick={actions.submitUpdate1}
           disabled={!form.formState.isDirty}
           style={{ display: 'block' }}
         >
@@ -108,7 +108,7 @@ export function PageComponent() {
         </button>
         <button
           type="button"
-          onClick={actions.onSubmitUpdate2}
+          onClick={actions.submitUpdate2}
           disabled={!form.formState.isDirty}
           style={{ display: 'block' }}
         >
@@ -131,17 +131,17 @@ export function PageComponent() {
       <fieldset>
         <legend>戻るのバリエーション</legend>
         <div>
-          <button type="button" onClick={actions.onClickReturn1}>
+          <button type="button" onClick={actions.return1}>
             loader 呼び出し無し
           </button>
         </div>
         <div>
-          <button type="button" onClick={actions.onClickReturn2}>
+          <button type="button" onClick={actions.return2}>
             loader 呼び出しあり
           </button>
         </div>
         <div>
-          <button type="button" onClick={actions.onClickReturn3}>
+          <button type="button" onClick={actions.return3}>
             loader 呼び出しあり（history.back）
           </button>
         </div>

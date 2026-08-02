@@ -16,7 +16,7 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   /*
    * 更新ボタンのハンドラ
    */
-  const onSubmitUpdate1 = async () => {
+  const submitUpdate1 = async () => {
     const valid = await form.trigger()
     if (!valid) {
       return
@@ -31,7 +31,7 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
     ctx.form.reset(formValues)
   }
 
-  const onSubmitUpdate2 = async () => {
+  const submitUpdate2 = async () => {
     const valid = await form.trigger()
     if (!valid) {
       return
@@ -50,7 +50,7 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
   /*
    * 戻るボタンのハンドラ
    */
-  const onClickReturn1 = async () => {
+  const return1 = async () => {
     // loaderの呼び出し "なし" で遷移
     const _returnTo = search._returnTo
     await navigate({
@@ -60,22 +60,22 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
       },
     })
   }
-  const onClickReturn2 = async () => {
+  const return2 = async () => {
     // loaderの呼び出し "あり" で遷移
     await navigate({
       to: '/crud/summary',
     })
   }
-  const onClickReturn3 = async () => {
+  const return3 = async () => {
     // loaderの呼び出し "あり" で遷移
     router.history.back()
   }
 
   return {
-    onSubmitUpdate1,
-    onSubmitUpdate2,
-    onClickReturn1,
-    onClickReturn2,
-    onClickReturn3,
+    submitUpdate1,
+    submitUpdate2,
+    return1,
+    return2,
+    return3,
   }
 })

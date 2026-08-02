@@ -1,33 +1,33 @@
+import { useRouter } from '@tanstack/react-router'
 import { useActionBoundary } from '@vendor/router-enhancer'
 
-import { type PageForm, Route } from './-page-deps-internal'
+import { operation, type PageForm, Route } from './-page-deps-internal'
 
 // ─────────────────────────────────────
 // Actions Hook
 // ─────────────────────────────────────
 
 export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
-  const navigate = Route.useNavigate()
+  const router = useRouter()
   const { form } = ctx
 
-  const submit = async () => {
+  const done = async () => {
     const valid = await form.trigger()
     if (!valid) {
       return
     }
 
     const formValues = form.getValues()
+    await operation.errorHandlingPageDone(formValues)
 
-    await navigate({
-      to: '/crud/summary',
-      search: {
-        keyword: formValues.keyword,
-        category: formValues.category,
-      },
-    })
+    // URLを変えずにloaderの再実行
+    // await navigation.invalidate()
+    await router.invalidate()
+
+    alert('Update successful')
   }
 
   return {
-    submit,
+    done,
   }
 })

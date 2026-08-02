@@ -69,7 +69,7 @@ export function normalizeError(error: unknown): AppError {
       const category =
         statusCode === 410
           ? 'Gone'
-          : statusCode === 403
+          : statusCode === 401 || statusCode === 403
             ? 'Fatal'
             : 'Recoverble'
 

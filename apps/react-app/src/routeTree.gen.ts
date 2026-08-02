@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CrudSummaryRouteImport } from './routes/crud.summary'
 import { Route as CrudSearchRouteImport } from './routes/crud.search'
+import { Route as CrudErrorHandlingRouteImport } from './routes/crud.error-handling'
 import { Route as CrudIdRouteImport } from './routes/crud.$id'
 
 const CrudSummaryRoute = CrudSummaryRouteImport.update({
@@ -23,6 +24,11 @@ const CrudSearchRoute = CrudSearchRouteImport.update({
   path: '/crud/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrudErrorHandlingRoute = CrudErrorHandlingRouteImport.update({
+  id: '/crud/error-handling',
+  path: '/crud/error-handling',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CrudIdRoute = CrudIdRouteImport.update({
   id: '/crud/$id',
   path: '/crud/$id',
@@ -31,30 +37,43 @@ const CrudIdRoute = CrudIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/crud/$id': typeof CrudIdRoute
+  '/crud/error-handling': typeof CrudErrorHandlingRoute
   '/crud/search': typeof CrudSearchRoute
   '/crud/summary': typeof CrudSummaryRoute
 }
 export interface FileRoutesByTo {
   '/crud/$id': typeof CrudIdRoute
+  '/crud/error-handling': typeof CrudErrorHandlingRoute
   '/crud/search': typeof CrudSearchRoute
   '/crud/summary': typeof CrudSummaryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/crud/$id': typeof CrudIdRoute
+  '/crud/error-handling': typeof CrudErrorHandlingRoute
   '/crud/search': typeof CrudSearchRoute
   '/crud/summary': typeof CrudSummaryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/crud/$id' | '/crud/search' | '/crud/summary'
+  fullPaths:
+    | '/crud/$id'
+    | '/crud/error-handling'
+    | '/crud/search'
+    | '/crud/summary'
   fileRoutesByTo: FileRoutesByTo
-  to: '/crud/$id' | '/crud/search' | '/crud/summary'
-  id: '__root__' | '/crud/$id' | '/crud/search' | '/crud/summary'
+  to: '/crud/$id' | '/crud/error-handling' | '/crud/search' | '/crud/summary'
+  id:
+    | '__root__'
+    | '/crud/$id'
+    | '/crud/error-handling'
+    | '/crud/search'
+    | '/crud/summary'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   CrudIdRoute: typeof CrudIdRoute
+  CrudErrorHandlingRoute: typeof CrudErrorHandlingRoute
   CrudSearchRoute: typeof CrudSearchRoute
   CrudSummaryRoute: typeof CrudSummaryRoute
 }
@@ -75,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrudSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crud/error-handling': {
+      id: '/crud/error-handling'
+      path: '/crud/error-handling'
+      fullPath: '/crud/error-handling'
+      preLoaderRoute: typeof CrudErrorHandlingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crud/$id': {
       id: '/crud/$id'
       path: '/crud/$id'
@@ -87,6 +113,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   CrudIdRoute: CrudIdRoute,
+  CrudErrorHandlingRoute: CrudErrorHandlingRoute,
   CrudSearchRoute: CrudSearchRoute,
   CrudSummaryRoute: CrudSummaryRoute,
 }
