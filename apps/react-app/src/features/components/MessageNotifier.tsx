@@ -6,17 +6,71 @@ import { type AppError, normalizeError } from '#/features/error'
 import { type DomainError } from '#/features/types/DomainError'
 
 export function MessageNotifier() {
+  const notifyActionError = (
+    error: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    form?: UseFormReturn<any, any, any>,
+  ): void => {
+    const appError = normalizeError(error)
+    if (appError.statusCode === 422) {
+      const data = appError.data as DomainError | undefined
+      if (data !== undefined) {
+        const toasts: string[] = []
+        for (const message of data.messages) {
+          if (message.fields !== undefined) {
+            //fieldがあれば項目にエラーメッセージを表示する
+            for (const field of message.fields) {
+              form?.setError(field, {
+                type: 'manual',
+                message: message.message,
+              })
+            }
+          } else {
+            //fieldが無ければトースト表示
+            toasts[toasts.length] = message.message
+          }
+        }
+        // トースト表示のメッセージがあれば表示
+        if (toasts.length > 0) {
+          setTimeout(() => alert(toasts), 0)
+        }
+      }
+    } else {
+      notifyNavigationError(appError)
+    }
+  }
+
+  const notifyNavigationError = (error: unknown): void => {
+    const appError = normalizeError(error)
+    alertError(appError)
+  }
+
+  registerEventHandler({ notifyActionError, notifyNavigationError })
+
+  return <></>
+}
+
+function registerEventHandler({
+  notifyActionError,
+  notifyNavigationError,
+}: {
+  notifyActionError: (
+    error: unknown,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    form: UseFormReturn<any, any, any>,
+  ) => void
+  notifyNavigationError: (error: unknown) => void
+}) {
   useEffect(() => {
     const handler = (event: RuntimeEvent) => {
-      const appError = normalizeError(event.error)
       switch (event.type) {
         case 'recoverable-navigation-error':
-          alertError(appError)
+          notifyNavigationError(event.error)
           break
         case 'action-error':
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const form = event.form as UseFormReturn<any, any, any>
-          notifyActionError(appError, form)
+          notifyActionError(event.error, form)
           break
       }
     }
@@ -25,37 +79,6 @@ export function MessageNotifier() {
       runtimeEventBus.off('event', handler)
     }
   }, [])
-  return <></>
-}
-
-function notifyActionError(
-  error: AppError,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form?: UseFormReturn<any, any, any>,
-) {
-  if (error.statusCode === 422) {
-    const data = error.data as DomainError | undefined
-    if (data !== undefined) {
-      const toasts: string[] = []
-      for (const message of data.messages) {
-        if (message.fields !== undefined) {
-          //fieldがあれば項目にエラーメッセージを表示する
-          for (const field of message.fields) {
-            form?.setError(field, { type: 'manual', message: message.message })
-          }
-        } else {
-          //fieldが無ければトースト表示
-          toasts[toasts.length] = message.message
-        }
-      }
-      // トースト表示のメッセージがあれば表示
-      if (toasts.length > 0) {
-        setTimeout(() => alert(toasts), 0)
-      }
-    }
-  } else {
-    alertError(error)
-  }
 }
 
 function alertError(error: AppError) {
@@ -80,11 +103,5 @@ function alertError(error: AppError) {
       message = `エラー：${error.statusCode}`
       break
   }
-  alert(message)
-}
-
-export function notifyError(error: unknown) {
-  const appError = normalizeError(error)
-  const message = appError.message
   alert(message)
 }
