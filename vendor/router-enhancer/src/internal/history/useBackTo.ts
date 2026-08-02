@@ -1,19 +1,18 @@
 import {
   type AnyRouter,
-  type ParsedLocation,
   type RegisteredRouter,
   type RouterHistory,
   useRouter,
 } from '@tanstack/react-router'
 
-import { histories } from './historyTracker'
+import { histories, type HistoryEntry } from './historyTracker'
 
 type RouterPath = keyof RegisteredRouter['routesByPath']
 
 function findPreviousLocation(
   router: AnyRouter,
   pathname: RouterPath,
-): ParsedLocation | undefined {
+): HistoryEntry | undefined {
   const history = router.history as RouterHistory
 
   const currentIndex = history.location.state.__TSR_index
@@ -44,8 +43,9 @@ export function useBackTo(pathname: RouterPath): (() => void) | undefined {
 
   return () => {
     const history = router.history as RouterHistory
+
     const currentIndex = history.location.state.__TSR_index
-    const targetIndex = location.state.__TSR_index
-    history.go(targetIndex - currentIndex)
+
+    history.go(location.index - currentIndex)
   }
 }

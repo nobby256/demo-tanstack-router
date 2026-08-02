@@ -1,4 +1,12 @@
-import { type AnyRouter, type ParsedLocation } from '@tanstack/react-router'
+import { type AnyRouter } from '@tanstack/react-router'
+
+const STORAGE_KEY = 'router-enhancer.histories'
+
+export type HistoryEntry = {
+  href: string
+  pathname: string
+  index: number
+}
 
 /**
  * アプリ内で観測したナビゲーション履歴。
@@ -7,14 +15,38 @@ import { type AnyRouter, type ParsedLocation } from '@tanstack/react-router'
  * 過去の履歴一覧やその URL を取得することはできない。
  *
  * そのため、TanStack Router の onBeforeLoad を購読し、
- * 遷移時の ParsedLocation を独自に保持する。
+ * 遷移時の Location 情報を独自に保持する。
  *
  * 添字には history.state.__TSR_index を使用し、
  * ブラウザ履歴と同じインデックス体系で管理する。
+ *
+ * また、F5によるリロードでも履歴を維持できるよう、
+ * sessionStorage に永続化する。
  */
-export const histories: Array<ParsedLocation | undefined> = []
+export const histories: Array<HistoryEntry | undefined> = []
 
 let initialized = false
+
+function loadHistories(): void {
+  const json = sessionStorage.getItem(STORAGE_KEY)
+
+  if (!json) {
+    return
+  }
+
+  try {
+    const restored = JSON.parse(json) as Array<HistoryEntry | undefined>
+
+    histories.length = 0
+    histories.push(...restored)
+  } catch {
+    sessionStorage.removeItem(STORAGE_KEY)
+  }
+}
+
+function saveHistories(): void {
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(histories))
+}
 
 /**
  * ナビゲーション履歴の追跡を開始する。
@@ -27,6 +59,8 @@ export function initHistoryTracker(router: AnyRouter): void {
   }
 
   initialized = true
+
+  loadHistories()
 
   router.subscribe('onBeforeLoad', (event) => {
     const { toLocation } = event
@@ -69,6 +103,12 @@ export function initHistoryTracker(router: AnyRouter): void {
       histories.length = index
     }
 
-    histories[index] = toLocation
+    histories[index] = {
+      href: toLocation.href,
+      pathname: toLocation.pathname,
+      index,
+    }
+
+    saveHistories()
   })
 }
