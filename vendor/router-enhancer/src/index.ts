@@ -34,5 +34,10 @@ export {
   type RouterContext,
   ofetchErrorAdapter,
   type ErrorTransformer,
+  type Notification,
   defaultErrorTransformer,
+  type AlertMessageResolver,
+  defaultAlertMessageResolver,
+  RouteProvider,
+  useRoute,
 } from './internal/context'

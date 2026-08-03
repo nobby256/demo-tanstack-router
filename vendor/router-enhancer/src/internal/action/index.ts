@@ -1,1 +1,1 @@
-export { useActionBoundary } from './useActionBoundary'
+export { useActionBoundary, type ActionContext } from './useActionBoundary'

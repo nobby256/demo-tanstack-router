@@ -1,6 +1,8 @@
+import { useRouteContext } from '@tanstack/react-router'
 import { useRef } from 'react'
 
-import { runtimeEventBus } from '../event'
+import { type RouterContext } from '../context'
+import { handleError } from '../error-notification'
 
 type ActionHandler = (...args: never[]) => void | Promise<void>
 
@@ -10,7 +12,31 @@ type Actions = Record<string, ActionHandler>
  * Action Boundary が要求する最低限の Context
  */
 export type ActionContext = {
-  form?: unknown
+  form?: {
+    setError(
+      name: string,
+      error: {
+        type?: string
+        message?: string
+      },
+      options?: {
+        shouldFocus: boolean
+      },
+    ): void
+  }
+}
+
+export function useActionBoundary<
+  TContext extends ActionContext,
+  TActions extends Actions,
+>(
+  factory: (context: TContext) => TActions,
+): (context: TContext) => WrappedActions<TActions> {
+  return (context: TContext) => {
+    const actions = factory(context)
+
+    return useWrappedActions(actions, context)
+  }
 }
 
 type WrappedActions<TActions extends Actions> = {
@@ -29,6 +55,8 @@ function useWrappedActions<
   const contextRef = useRef(context)
   contextRef.current = context
 
+  const routerContext: RouterContext = useRouteContext({ strict: false })
+
   const wrappedRef = useRef<WrappedActions<TActions> | null>(null)
 
   if (wrappedRef.current == null) {
@@ -43,13 +71,13 @@ function useWrappedActions<
 
           if (result instanceof Promise) {
             return result.catch((error) => {
-              onError(contextRef.current, error)
+              handleError(contextRef.current, routerContext, error)
             }) as ReturnType<TActions[typeof key]>
           }
 
           return result
         } catch (error) {
-          onError(contextRef.current, error)
+          handleError(contextRef.current, routerContext, error)
 
           return undefined as ReturnType<TActions[typeof key]>
         }
@@ -60,28 +88,4 @@ function useWrappedActions<
   }
 
   return wrappedRef.current
-}
-
-export function useActionBoundary<
-  TContext extends ActionContext,
-  TActions extends Actions,
->(
-  factory: (context: TContext) => TActions,
-): (context: TContext) => WrappedActions<TActions> {
-  return (context: TContext) => {
-    const actions = factory(context)
-
-    return useWrappedActions(actions, context)
-  }
-}
-
-function onError<TContext extends ActionContext>(
-  context: TContext,
-  error: unknown,
-) {
-  runtimeEventBus.emit('event', {
-    type: 'action-error',
-    error,
-    form: context.form,
-  })
 }
