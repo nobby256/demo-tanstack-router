@@ -1,3 +1,10 @@
 export { type RouterContext } from './RouterContext'
-export { type AppError } from './AppError'
-export { type ErrorAdapter, ofetchErrorAdapter } from './ErrorAdapter'
+
+// adapter
+export { type AppError } from './adapter/AppError'
+export { type ErrorAdapter } from './adapter/ErrorAdapter'
+export { ofetchErrorAdapter } from './adapter/ofetchErrorAdapter'
+
+// transformer
+export { type ErrorTransformer } from './transformer/ErrorTransformer'
+export { defaultErrorTransformer } from './transformer/defaultErrorTransformer'

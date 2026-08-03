@@ -1,8 +1,5 @@
 import type { AppError } from './AppError'
-
-export interface ErrorAdapter {
-  normalize(error: unknown): AppError
-}
+import type { ErrorAdapter } from './ErrorAdapter'
 
 export const ofetchErrorAdapter: ErrorAdapter = {
   normalize(error: unknown): AppError {

@@ -33,4 +33,6 @@ export {
   type ErrorAdapter,
   type RouterContext,
   ofetchErrorAdapter,
+  type ErrorTransformer,
+  defaultErrorTransformer,
 } from './internal/context'
