@@ -4,6 +4,7 @@ import {
   type ErrorHandlingPageDoneInput,
   type ErrorHandlingPageLoadInput,
 } from '../../.generated/orval/model/error-handling-page'
+import { getErrorHandlingPageLoadResponseMock } from '../../.generated/orval/msw/error-handling-page/error-handling-page.msw'
 import {
   getErrorHandlingPageDoneUrl,
   getErrorHandlingPageLoadUrl,
@@ -44,12 +45,9 @@ export const customMocks = {
         }
       }
       // 400以上でなければ空のデータを返す
-      return HttpResponse.json(
-        {},
-        {
-          status: 200,
-        },
-      )
+      return HttpResponse.json(getErrorHandlingPageLoadResponseMock(), {
+        status: 200,
+      })
     }),
     http.post(getErrorHandlingPageDoneUrl(), async ({ request }) => {
       const body = (await request.json()) as ErrorHandlingPageDoneInput
@@ -84,12 +82,9 @@ export const customMocks = {
         }
       }
       // 400以上でなければExampleのデータを返す
-      return HttpResponse.json(
-        {},
-        {
-          status: 200,
-        },
-      )
+      return HttpResponse.json(getErrorHandlingPageLoadResponseMock(), {
+        status: 200,
+      })
     }),
   ],
 }

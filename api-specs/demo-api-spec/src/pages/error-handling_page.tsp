@@ -10,7 +10,7 @@ using Http;
 namespace demo.error_handling_page {
   @post
   @route("/load")
-  @opExample(#{ returnType: #{ data: #{} } })
+  @opExample(#{ returnType: #{ data: #{ status: "" } } })
   op load(@bodyRoot body: LoadInput): LoadOutput;
 
   model LoadInput {
