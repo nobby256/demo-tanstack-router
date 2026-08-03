@@ -1,5 +1,4 @@
 import type { AppError } from '../adapter/AppError'
-import type { DomainError } from './DomainError'
 import type {
   ErrorTransformer,
   FieldMessageItem,
@@ -7,98 +6,44 @@ import type {
   Notification,
 } from './ErrorTransformer'
 
+import { isDomainError } from './DomainError'
+
 export const defaultErrorTransformer: ErrorTransformer = {
   transform(error: AppError): Notification[] {
-    //
-    // timeout
-    //
-    if (error.timeout) {
-      return [
-        {
-          type: 'alert',
-          code: 'timeout',
-        },
-      ]
-    }
-
-    //
-    // JavaScript Runtime Error
-    //
-    if (!error.httpError) {
-      return [
-        {
-          type: 'alert',
-          code: 'unexpected',
-        },
-      ]
-    }
-
-    //
-    // 401
-    //
-    if (error.statusCode === 401) {
-      return [
-        {
-          type: 'alert',
-          code: 'unauthorized',
-        },
-      ]
-    }
-
-    //
-    // 403
-    //
-    if (error.statusCode === 403) {
-      return [
-        {
-          type: 'alert',
-          code: 'forbidden',
-        },
-      ]
-    }
-
-    //
-    // 410
-    //
-    if (error.statusCode === 410) {
-      return [
-        {
-          type: 'alert',
-          code: 'expired',
-        },
-      ]
-    }
-
-    //
-    // 422
-    //
+    /**
+     * デフォルト仕様
+     *
+     * 422 は業務エラーとして扱う。
+     * DomainError を解析して
+     * field通知またはnotification通知へ変換する。
+     *
+     * それ以外のエラーは
+     * alert通知へ変換する。
+     */
     if (error.statusCode === 422) {
       return transformDomainError(error)
     }
 
-    //
-    // その他HTTPエラー
-    //
     return [
       {
         type: 'alert',
-        code: 'unexpected',
+        error,
       },
     ]
   },
 }
 
 function transformDomainError(error: AppError): Notification[] {
-  const data = error.data as DomainError | undefined
-
-  if (!data) {
+  if (!isDomainError(error.data)) {
     return [
       {
         type: 'alert',
-        code: 'unexpected',
+        error: error,
       },
     ]
   }
+
+  const data = error.data
 
   const fieldItems: FieldMessageItem[] = []
   const notificationItems: MessageItem[] = []

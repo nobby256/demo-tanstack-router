@@ -10,17 +10,10 @@ export interface FieldMessageItem {
   message: string
 }
 
-export type AlertCode =
-  | 'timeout'
-  | 'unauthorized'
-  | 'forbidden'
-  | 'expired'
-  | 'unexpected'
-
 export type Notification =
   | {
       type: 'alert'
-      code: AlertCode
+      error: AppError
     }
   | {
       type: 'field'
