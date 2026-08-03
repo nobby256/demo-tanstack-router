@@ -39,9 +39,13 @@ export function initNavigationTracker(router: AnyRouter): void {
 
     if (cause) {
       // 遷移キャンセルを発生させたエラーを通知する
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const routerContext: RouterContext = router.options.context
-      handleError(cause, routerContext)
+      // subrcribeにとっての対象のrouteはmatchecの末尾のroute
+      const match = router.state.matches.at(-1)
+      if (match) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const routerContext: RouterContext = match.context
+        handleError(cause, routerContext)
+      }
     }
   })
 }
