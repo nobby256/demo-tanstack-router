@@ -2,7 +2,7 @@ import type { ParsedLocation } from '@tanstack/react-router'
 
 import { isNotFound, isRedirect, redirect } from '@tanstack/react-router'
 
-import { type RouterContext } from './RouterContext'
+import { type RouterContext } from '../context'
 
 /**
  * routeBoundary
@@ -50,7 +50,8 @@ export async function routeBoundary<
     /**
      * ロールバック対象外のエラーはErrorComponentに委譲
      */
-    if (!match.context.canRollbackNavigationError(error)) {
+    const statusCode = match.context.errorAdapter.normalize(error).statusCode
+    if (statusCode === 401 || statusCode === 403) {
       throw error
     }
 

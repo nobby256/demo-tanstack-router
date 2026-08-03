@@ -20,10 +20,17 @@ export { useQueryState } from './internal/navigation'
 // router
 export {
   routeBoundary,
-  type RouterContext,
   omitQueryState,
   formPageReloadPolicy,
 } from './internal/router'
 
 // history
 export { useBackTo } from './internal/history'
+
+// context
+export {
+  type AppError,
+  type ErrorAdapter,
+  type RouterContext,
+  ofetchErrorAdapter,
+} from './internal/context'
