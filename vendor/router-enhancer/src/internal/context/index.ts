@@ -1,5 +1,4 @@
 export { type RouterContext } from './RouterContext'
-export { RouteProvider, useRoute } from './RouteProvider'
 
 // adapter
 export { type AppError } from './adapter/AppError'

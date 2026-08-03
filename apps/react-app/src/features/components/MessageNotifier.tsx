@@ -1,28 +1,10 @@
-import { useEffect, useState } from 'react'
-
-import {
-  messageEventBus,
-  type PageMessageItem,
-} from '#/features/providers/message'
+import { useNotifications } from '@vendor/router-enhancer'
 
 export function MessageNotifier() {
-  const [items, setItems] = useState<PageMessageItem[]>([])
-
-  useEffect(() => {
-    const handler = ({ items }: { items: PageMessageItem[] }) => {
-      setItems(items)
-    }
-
-    messageEventBus.on('pageMessage', handler)
-
-    return () => {
-      messageEventBus.off('pageMessage', handler)
-    }
-  }, [])
-
+  const [notifications] = useNotifications()
   return (
     <ul>
-      {items.map((item, index) => (
+      {notifications.map((item, index) => (
         <li key={index}>
           {item.level} {item.message}
         </li>

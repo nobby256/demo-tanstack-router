@@ -18,13 +18,13 @@ export type ErrorContext = {
 }
 
 export function handleError(
-  context: ErrorContext,
-  routerContext: RouterContext,
   error: unknown,
+  routerContext: RouterContext,
+  context?: ErrorContext,
 ): void {
   const appError = routerContext.errorAdapter.normalize(error)
 
   const notifications = routerContext.errorTransformer.transform(appError)
 
-  applyNotifications(context, routerContext, notifications)
+  applyNotifications(notifications, routerContext, context)
 }

@@ -299,9 +299,6 @@ importers:
       '@tanstack/router-core':
         specifier: 'catalog:'
         version: 1.171.13
-      mitt:
-        specifier: 'catalog:'
-        version: 3.0.1
       react:
         specifier: 'catalog:'
         version: 19.2.7

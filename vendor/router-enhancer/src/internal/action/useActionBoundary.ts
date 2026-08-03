@@ -77,7 +77,7 @@ function useWrappedActions<
 
           return result
         } catch (error) {
-          handleError(contextRef.current, routerContext, error)
+          handleError(error, routerContext, contextRef.current)
 
           return undefined as ReturnType<TActions[typeof key]>
         }

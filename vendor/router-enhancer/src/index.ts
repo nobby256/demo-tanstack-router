@@ -8,9 +8,6 @@ export {
   type RouterEnhancerOptions,
 } from './internal/createEnhancedRouter'
 
-// event
-export { type RuntimeEvent, runtimeEventBus } from './internal/event'
-
 // action
 export { useActionBoundary } from './internal/action'
 
@@ -38,8 +35,6 @@ export {
   defaultErrorTransformer,
   type AlertMessageResolver,
   defaultAlertMessageResolver,
-  RouteProvider,
-  useRoute,
 } from './internal/context'
 
 // error-notification

@@ -28,7 +28,7 @@ export function useNotifications(): readonly [
   MessageItem[],
   typeof clearNotifications,
 ] {
-  const value = useSyncExternalStore(
+  const notifications = useSyncExternalStore(
     (listener) => {
       listeners.add(listener)
 
@@ -39,5 +39,5 @@ export function useNotifications(): readonly [
     () => items,
   )
 
-  return [value, clearNotifications]
+  return [notifications, clearNotifications]
 }

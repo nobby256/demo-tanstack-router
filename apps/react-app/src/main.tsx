@@ -10,11 +10,6 @@ import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
 
 import { ErrorComponent } from '#/features/components/ErrorComponent'
-import {
-  AlertMessageProvider,
-  FieldMessageProvider,
-  MessageProvider,
-} from '#/features/providers/message'
 
 import { appConfig } from './app-config'
 import { routeTree } from './routeTree.gen'
@@ -85,10 +80,6 @@ function bootstrap() {
 
   root.render(
     <>
-      <MessageProvider />
-      <AlertMessageProvider />
-      <FieldMessageProvider />
-
       {/*TanStack Router本体*/}
       <RouterProvider router={router} />
     </>,

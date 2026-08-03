@@ -16,7 +16,6 @@
   "peerDependencies": {
     "react": "catalog:",
     "react-dom": "catalog:",
-    "mitt": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/router-core": "catalog:",
     "@tanstack/history": "catalog:"

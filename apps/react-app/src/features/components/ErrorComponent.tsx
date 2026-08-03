@@ -1,6 +1,4 @@
-import { Link } from '@tanstack/react-router'
-
-import { normalizeError } from '#/features/error'
+import { Link, useRouteContext } from '@tanstack/react-router'
 
 type ErrorComponentProps = {
   error: Error
@@ -9,11 +7,12 @@ type ErrorComponentProps = {
 
 export function ErrorComponent(props: ErrorComponentProps) {
   const error = props.error
-  const appError = normalizeError(error)
+  const context = useRouteContext({ strict: false })
+  const appError = context.errorAdapter?.normalize(error)
 
   // 継続不能の場合はSPA外のページにリダイレクトする
-  if (appError.category === 'Fatal') {
-    const statusCode = appError.statusCode
+  if (appError?.statusCode !== 410) {
+    const statusCode = appError?.statusCode
     const url = import.meta.env.DEV ? '/fatal-error.html' : '/fatal-error'
     // eslint-disable-next-line no-restricted-properties
     window.location.href = `${url}?status=${statusCode}`

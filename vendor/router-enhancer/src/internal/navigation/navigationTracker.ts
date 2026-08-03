@@ -1,6 +1,7 @@
 import { type AnyRouter } from '@tanstack/react-router'
 
-import { runtimeEventBus } from '../event'
+import { type RouterContext } from '../context'
+import { handleError } from '../error-notification'
 
 let initialized = false
 
@@ -38,10 +39,9 @@ export function initNavigationTracker(router: AnyRouter): void {
 
     if (cause) {
       // 遷移キャンセルを発生させたエラーを通知する
-      runtimeEventBus.emit('event', {
-        type: 'recoverable-navigation-error',
-        error: cause,
-      })
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const routerContext: RouterContext = router.options.context
+      handleError(cause, routerContext)
     }
   })
 }

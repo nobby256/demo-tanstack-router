@@ -18,23 +18,25 @@ export type NotificationContext = {
 }
 
 export function applyNotifications(
-  context: NotificationContext,
-  routerContext: RouterContext,
   notifications: Notification[],
+  routerContext: RouterContext,
+  context?: NotificationContext,
 ): void {
   for (const notification of notifications) {
-    applyNotification(context, routerContext, notification)
+    applyNotification(notification, routerContext, context)
   }
 }
 
 function applyNotification(
-  context: NotificationContext,
-  routerContext: RouterContext,
   notification: Notification,
+  routerContext: RouterContext,
+  context?: NotificationContext,
 ): void {
   switch (notification.type) {
     case 'field':
-      applyFieldNotification(context, notification)
+      if (context) {
+        applyFieldNotification(context, notification)
+      }
       return
 
     case 'alert':
