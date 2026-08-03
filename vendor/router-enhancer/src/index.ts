@@ -41,3 +41,6 @@ export {
   RouteProvider,
   useRoute,
 } from './internal/context'
+
+// error-notification
+export { useNotifications } from './internal/error-notification'

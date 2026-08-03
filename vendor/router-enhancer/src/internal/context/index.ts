@@ -10,6 +10,7 @@ export { ofetchErrorAdapter } from './adapter/ofetchErrorAdapter'
 export {
   type ErrorTransformer,
   type Notification,
+  type MessageItem,
 } from './transformer/ErrorTransformer'
 export { defaultErrorTransformer } from './transformer/defaultErrorTransformer'
 

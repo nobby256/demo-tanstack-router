@@ -1,5 +1,7 @@
 import type { Notification, RouterContext } from '../context'
 
+import { addNotifications } from './notifications'
+
 export type NotificationContext = {
   form?: {
     setError(
@@ -90,11 +92,5 @@ function applyMessageNotification(
     }
   >,
 ): void {
-  /**
-   * TODO:
-   *
-   * notificationStore.push(
-   *   ...notification.items
-   * )
-   */
+  addNotifications(...notification.items)
 }
