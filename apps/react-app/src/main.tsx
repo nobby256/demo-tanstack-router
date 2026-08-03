@@ -1,6 +1,7 @@
 import { RouterProvider } from '@tanstack/react-router'
 import {
   createEnhancedRouter,
+  defaultAlertMessageResolver,
   defaultErrorTransformer,
   ofetchErrorAdapter,
 } from '@vendor/router-enhancer'
@@ -28,6 +29,7 @@ const router = createEnhancedRouter({
   context: {
     errorAdapter: ofetchErrorAdapter,
     errorTransformer: defaultErrorTransformer,
+    alertMessageResolver: defaultAlertMessageResolver,
   },
 })
 
