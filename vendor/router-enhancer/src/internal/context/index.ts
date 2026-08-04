@@ -11,3 +11,4 @@ export type {
 export { ofetchErrorAdapter } from './adapter/ofetchErrorAdapter'
 export { defaultErrorTransformer } from './transformer/defaultErrorTransformer'
 export { defaultAlertMessageResolver } from './resolver/defaultAlertMessageResolver'
+export { useCurrentRoute, useCurrentRouteContext } from './supports'

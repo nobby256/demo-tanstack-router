@@ -8,9 +8,6 @@ export {
   type RouterEnhancerOptions,
 } from './internal/createEnhancedRouter'
 
-// support
-export { useCurrentRoute, useCurrentRouteContext } from './internal/supports'
-
 // action
 export { useActionBoundary } from './internal/action'
 
@@ -34,6 +31,8 @@ export {
   defaultErrorTransformer,
   type AlertMessageResolver,
   defaultAlertMessageResolver,
+  useCurrentRoute,
+  useCurrentRouteContext,
 } from './internal/context'
 
 // error-notification
