@@ -1,10 +1,10 @@
-import type { AppError } from '../adapter/AppError'
 import type {
+  AppError,
   ErrorTransformer,
   FieldMessageItem,
   MessageItem,
   Notification,
-} from './ErrorTransformer'
+} from '../RouterContext'
 
 import { isDomainError } from './DomainError'
 

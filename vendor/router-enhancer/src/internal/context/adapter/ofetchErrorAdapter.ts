@@ -1,5 +1,4 @@
-import type { AppError } from './AppError'
-import type { ErrorAdapter } from './ErrorAdapter'
+import type { AppError, ErrorAdapter } from '../RouterContext'
 
 export const ofetchErrorAdapter: ErrorAdapter = {
   normalize(error: unknown): AppError {

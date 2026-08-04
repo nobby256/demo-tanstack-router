@@ -1,5 +1,4 @@
-import type { AppError } from '../adapter/AppError'
-import type { AlertMessageResolver } from './AlertMessageResolver'
+import type { AlertMessageResolver, AppError } from '../RouterContext'
 
 export const defaultAlertMessageResolver: AlertMessageResolver = {
   resolve(error: AppError): string {
