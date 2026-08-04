@@ -1,7 +1,7 @@
 import { type AnyRouter } from '@tanstack/react-router'
 
 import { leafRouteContext, type RouterContext } from '../context'
-import { handleError } from '../error-notification'
+import { applyNotifications } from '../error-notification'
 
 let initialized = false
 
@@ -40,8 +40,12 @@ export function initNavigationTracker(router: AnyRouter): void {
     if (cause) {
       // 遷移キャンセルを発生させたエラーを通知する
       // subrcribeにとっての対象のrouteはmatchesの末尾のroute
-      const context = leafRouteContext(router)
-      handleError(cause, context)
+      const { errorAdapter, alertMessageResolver } = leafRouteContext(router)
+      const appError = errorAdapter.normalize(cause)
+      applyNotifications(
+        [{ type: 'alert', error: appError }],
+        alertMessageResolver,
+      )
     }
   })
 }

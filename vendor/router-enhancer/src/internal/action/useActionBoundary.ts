@@ -1,8 +1,7 @@
 import { useRef } from 'react'
 
-import { useCurrentRouteContext } from '../context'
-import { type FormHandler } from '../error-notification'
-import { handleError } from '../error-notification'
+import { type RouterContext, useCurrentRouteContext } from '../context'
+import { applyNotifications, type FormHandler } from '../error-notification'
 
 type ActionHandler = (...args: never[]) => void | Promise<void>
 
@@ -77,4 +76,29 @@ function useWrappedActions<
   }
 
   return wrappedRef.current
+}
+
+function handleError(
+  error: unknown,
+  routerContext: RouterContext,
+  form?: FormHandler,
+): void {
+  const { errorAdapter: adapter, errorTransformer: transformer } = routerContext
+
+  const appError = adapter.normalize(error)
+
+  // 業務エラーに変換
+  let notifications = transformer.transform(appError)
+
+  // 業務エラーでなければalert扱い
+  if (!notifications) {
+    notifications = [
+      {
+        type: 'alert',
+        error: appError,
+      },
+    ]
+  }
+
+  applyNotifications(notifications, routerContext.alertMessageResolver, form)
 }

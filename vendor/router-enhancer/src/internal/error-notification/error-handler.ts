@@ -1,6 +1,6 @@
 import type { RouterContext } from '../context'
 
-import { applyNotifications } from './notification-handler'
+import { applyNotifications } from './applyNotifications'
 
 export type FormHandler = {
   setError(
