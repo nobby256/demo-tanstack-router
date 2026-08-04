@@ -15,14 +15,10 @@ export { useCurrentRoute, useCurrentRouteContext } from './internal/supports'
 export { useActionBoundary } from './internal/action'
 
 // navigation
-export { useQueryState } from './internal/navigation'
+export { useQueryState, routeBoundary } from './internal/navigation'
 
 // router
-export {
-  routeBoundary,
-  omitQueryState,
-  formPageReloadPolicy,
-} from './internal/router'
+export { omitQueryState, formPageReloadPolicy } from './internal/router'
 
 // history
 export { useBackTo } from './internal/history'
