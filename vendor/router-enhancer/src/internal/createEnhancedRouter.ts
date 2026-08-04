@@ -33,7 +33,7 @@ export type EnhancedRouterOptions<
     TRouterHistory,
     TDehydrated
   >,
-  'context'
+  'context' | 'defaultStaleTime' | 'defaultStaleReloadMode'
 > & {
   context?: RouterContextOptions
 }
@@ -81,6 +81,8 @@ export function createEnhancedRouter<
       TDehydrated
     >),
     context: routerContext,
+    defaultStaleTime: 0,
+    defaultStaleReloadMode: 'blocking',
   }
 
   const router = createRouter(routerOptions)
