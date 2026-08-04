@@ -1,7 +1,19 @@
 import type { AlertMessageResolver, Notification } from '../context'
 
-import { type FormHandler } from './error-handler'
 import { addNotifications } from './notifications'
+
+export type FormHandler = {
+  setError(
+    name: string,
+    error: {
+      type?: string
+      message?: string
+    },
+    options?: {
+      shouldFocus: boolean
+    },
+  ): void
+}
 
 export function applyNotifications(
   notifications: Notification[],

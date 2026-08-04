@@ -83,7 +83,11 @@ function handleError(
   routerContext: RouterContext,
   form?: FormHandler,
 ): void {
-  const { errorAdapter: adapter, errorTransformer: transformer } = routerContext
+  const {
+    errorAdapter: adapter,
+    errorTransformer: transformer,
+    alertMessageResolver: resolver,
+  } = routerContext
 
   const appError = adapter.normalize(error)
 
@@ -100,5 +104,5 @@ function handleError(
     ]
   }
 
-  applyNotifications(notifications, routerContext.alertMessageResolver, form)
+  applyNotifications(notifications, resolver, form)
 }
