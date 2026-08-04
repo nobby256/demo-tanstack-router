@@ -35,8 +35,13 @@ export const Route = createFileRoute('/crud/error-handling')({
   loaderDeps: omitQueryState,
 
   loader: (match) =>
-    routeBoundary(match, async () =>
-      load({ ...match.params, ...match.deps }, match.abortController.signal),
+    routeBoundary(
+      match,
+      async () =>
+        await load(
+          { ...match.params, ...match.deps },
+          match.abortController.signal,
+        ),
     ),
 
   component: PageComponent,
