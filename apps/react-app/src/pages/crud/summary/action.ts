@@ -3,10 +3,18 @@ import { useActionBoundary } from '@vendor/router-enhancer'
 import { type PageForm } from './-page-deps-internal'
 
 // ─────────────────────────────────────
-// Actions Hook
+// Action Context
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary((_ctx: { form: PageForm }) => {
+type ActionContext = {
+  form: PageForm
+}
+
+// ─────────────────────────────────────
+// Action Hook
+// ─────────────────────────────────────
+
+export const useActions = useActionBoundary((_ctx: ActionContext) => {
   return {
     // none
   }

@@ -1,46 +1,35 @@
-import { useNavigate } from '@tanstack/react-router'
-
-/**
- * `_` prefix QueryState
- */
-type QueryStateKeys<T> = {
-  [K in keyof T]: K extends `_${string}` ? K : never
-}[keyof T]
-
-type RouteSearch<TRoute> = TRoute extends {
-  types: { fullSearchSchema: infer S }
-}
-  ? S
-  : never
+import { useRouter } from '@tanstack/react-router'
+import { z } from 'zod'
 
 /**
  * useQueryState
  * ---------------------------------------------------------------------------
- * Search Params 上の `_` prefix QueryState を useState 風に扱う。
+ * Search Params 上の QueryState を useState 風に扱う。
+ *
  * 例:
- *   const [tab, setTab] = useQueryState(Route, "_tab")
- *   await setTab("common")
+ *   const [check, setCheck] =
+ *     useQueryState(queryStateSchema, ' _check', false)
  */
 export function useQueryState<
-  TRoute extends {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    types: { fullSearchSchema: any }
-    useSearch: () => RouteSearch<TRoute>
-  },
-  TKey extends QueryStateKeys<RouteSearch<TRoute>>,
->(route: TRoute, key: TKey, defaultValue?: RouteSearch<TRoute>[TKey]) {
-  type Search = RouteSearch<TRoute>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TSchema extends z.ZodObject<any>,
+  TSearch = z.infer<TSchema>,
+  TKey extends keyof TSearch = keyof TSearch,
+>(_schema: TSchema, key: TKey) {
+  const router = useRouter()
 
-  const search = route.useSearch()
-  const value = search[key] ?? defaultValue
+  const search = router.state.location.search as Partial<TSearch>
+  const value = search[key]
 
-  const navigate = useNavigate()
-  const setValue = async (nextValue: Search[TKey]): Promise<void> => {
-    await navigate({
-      search: {
-        ...search,
-        [key]: nextValue,
-      },
+  const setValue = async (nextValue: TSearch[TKey]): Promise<void> => {
+    await router.navigate({
+      search: (prev: Record<string, unknown>) =>
+        // 現在の Location を基準に QueryState を部分更新する。
+        // Route 固有の Search 型は取得できないため、Search の型チェックのみ回避する。
+        ({
+          ...prev,
+          [key as string]: nextValue,
+        }) as never,
       replace: true,
       ignoreBlocker: true,
       state: {

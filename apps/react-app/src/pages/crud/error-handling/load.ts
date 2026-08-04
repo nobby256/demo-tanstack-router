@@ -1,11 +1,19 @@
-import { model, operation } from './-page-deps-internal'
+import { z } from 'zod'
+
+import { operation, schema } from './-page-deps-internal'
+
+// ─────────────────────────────────────
+// Load Schema
+// ─────────────────────────────────────
+
+export const loadSchema = schema.ErrorHandlingPageLoadBody
 
 // ─────────────────────────────────────
 // Load
 // ─────────────────────────────────────
 
 export async function load(
-  body: model.ErrorHandlingPageLoadInput,
+  body: z.infer<typeof loadSchema>,
   signal: AbortSignal,
 ) {
   return await operation.errorHandlingPageLoad(body, {

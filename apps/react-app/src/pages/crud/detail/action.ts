@@ -1,22 +1,24 @@
 import { useRouter } from '@tanstack/react-router'
 import { useActionBoundary } from '@vendor/router-enhancer'
 
-import { operation, type PageForm, Route } from './-page-deps-internal'
+import { operation, type PageForm } from './-page-deps-internal'
 
 // ─────────────────────────────────────
-// Actions Hook
+// Action Context
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
+type ActionContext = {
+  form: PageForm
+}
+
+// ─────────────────────────────────────
+// Action Hook
+// ─────────────────────────────────────
+
+export const useActions = useActionBoundary(({ form }: ActionContext) => {
   const router = useRouter()
-  const search = Route.useSearch()
-  const navigate = Route.useNavigate()
-  const { form } = ctx
 
-  /*
-   * 更新ボタンのハンドラ
-   */
-  const submitUpdate1 = async () => {
+  const submitUpdate = async () => {
     const valid = await form.trigger()
     if (!valid) {
       return
@@ -25,57 +27,11 @@ export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
     const formValues = form.getValues()
     await operation.detailPageUpdate(formValues)
 
-    alert('Update successful')
-
-    // 初期値を現在の値に更新することで、dirtyフラグをリセット
-    ctx.form.reset(formValues)
-  }
-
-  const submitUpdate2 = async () => {
-    const valid = await form.trigger()
-    if (!valid) {
-      return
-    }
-
-    const formValues = form.getValues()
-    await operation.detailPageUpdate(formValues)
-
-    // URLを変えずにloaderの再実行
-    // await navigation.invalidate()
+    //loaderの強制再実行
     await router.invalidate()
-
-    alert('Update successful')
-  }
-
-  /*
-   * 戻るボタンのハンドラ
-   */
-  const return1 = async () => {
-    // loaderの呼び出し "なし" で遷移
-    const _returnTo = search._returnTo
-    await navigate({
-      to: '/crud/summary',
-      state: {
-        shouldReload: false,
-      },
-    })
-  }
-  const return2 = async () => {
-    // loaderの呼び出し "あり" で遷移
-    await navigate({
-      to: '/crud/summary',
-    })
-  }
-  const return3 = async () => {
-    // loaderの呼び出し "あり" で遷移
-    router.history.back()
   }
 
   return {
-    submitUpdate1,
-    submitUpdate2,
-    return1,
-    return2,
-    return3,
+    submitUpdate,
   }
 })

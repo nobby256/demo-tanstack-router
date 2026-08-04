@@ -3,8 +3,6 @@ import { useQueryState } from '@vendor/router-enhancer'
 import { Controller } from 'react-hook-form'
 import { z } from 'zod'
 
-import { AppBackButton } from '#/features/components/AppBackButton'
-
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 
 // ─────────────────────────────
@@ -36,7 +34,7 @@ export function PageComponent() {
   // State
   // ─────────────────────────────
 
-  const [check, setCheck] = useQueryState(Route, '_check', false)
+  const [check, setCheck] = useQueryState(queryStateSchema, '_check')
 
   // ─────────────────────────────
   // Route
@@ -75,7 +73,6 @@ export function PageComponent() {
         }
       `}</style>
       <div>
-        <AppBackButton pathName={'/crud/search'} />
         <h2>Search</h2>
         <div>
           <Controller
@@ -108,7 +105,7 @@ export function PageComponent() {
         <div>
           <input
             type="checkbox"
-            checked={check}
+            checked={check ?? false}
             onChange={(e) => setCheck(e.target.checked)}
           />
           _check1:useQueryState使用

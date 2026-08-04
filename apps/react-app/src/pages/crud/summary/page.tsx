@@ -1,7 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
+import { useBackTo } from '@vendor/router-enhancer'
 import { z } from 'zod'
-
-import { AppBackButton } from '#/features/components/AppBackButton'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 
@@ -63,21 +62,21 @@ export function PageComponent() {
   // Behavior Hooks (effect)
   // ─────────────────────────────
 
+  const back = useBackTo('/crud/search')
+
   // ─────────────────────────────
   // JSX
   // ─────────────────────────────
   return (
     <div>
-      <AppBackButton pathName={'/crud/search'} />
+      <button type="button" onClick={back} disabled={!back}>
+        戻る
+      </button>
       <h2>Results</h2>
       <ul>
         {data.map((item) => (
           <li key={item.id}>
-            <Link
-              to="/crud/$id"
-              params={{ id: item.id }}
-              search={{ _returnTo: location.href }}
-            >
+            <Link to="/crud/$id" params={{ id: item.id }}>
               {item.name}
             </Link>
           </li>

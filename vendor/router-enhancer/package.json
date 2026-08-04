@@ -18,7 +18,8 @@
     "react-dom": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/router-core": "catalog:",
-    "@tanstack/history": "catalog:"
+    "@tanstack/history": "catalog:",
+    "zod": "catalog:"
   },
   "dependencies": {},
   "devDependencies": {

@@ -4,12 +4,19 @@ import { useActionBoundary } from '@vendor/router-enhancer'
 import { operation, type PageForm } from './-page-deps-internal'
 
 // ─────────────────────────────────────
-// Actions Hook
+// Action Context
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary((ctx: { form: PageForm }) => {
+type ActionContext = {
+  form: PageForm
+}
+
+// ─────────────────────────────────────
+// Action Hook
+// ─────────────────────────────────────
+
+export const useActions = useActionBoundary(({ form }: ActionContext) => {
   const router = useRouter()
-  const { form } = ctx
 
   const done = async (value: string) => {
     form.setValue('status', value)

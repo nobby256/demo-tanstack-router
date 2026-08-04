@@ -1,8 +1,7 @@
 import { Link } from '@tanstack/react-router'
+import { useBackTo } from '@vendor/router-enhancer'
 import { Controller } from 'react-hook-form'
 import { z } from 'zod'
-
-import { AppBackButton } from '#/features/components/AppBackButton'
 
 import { Route, useActions, usePageForm } from './-page-deps-internal'
 
@@ -60,6 +59,8 @@ export function PageComponent() {
   // Behavior Hooks (effect)
   // ─────────────────────────────
 
+  const back = useBackTo('/crud/search')
+
   // ─────────────────────────────
   // JSX
   // ─────────────────────────────
@@ -73,7 +74,9 @@ export function PageComponent() {
           display: block;
         }
       `}</style>
-      <AppBackButton pathName={'/crud/search'} />
+      <button type="button" onClick={back} disabled={!back}>
+        戻る
+      </button>
       <h2>Search</h2>
       <div className="nav-link">
         <Link

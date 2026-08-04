@@ -5,7 +5,27 @@ import {
   routeBoundary,
 } from '@vendor/router-enhancer'
 
-import { load, PageComponent, searchSchema } from '#/pages/crud/error-handling'
+import {
+  load,
+  loadSchema,
+  PageComponent,
+  queryStateSchema,
+} from '#/pages/crud/error-handling'
+
+// ─────────────────────────────────────
+// Search Schema
+// ─────────────────────────────────────
+
+const searchSchema = loadSchema
+  .omit({
+    // Route Params がある場合はsearchSchemaから除外する
+  })
+  .extend(queryStateSchema.shape)
+  .strict()
+
+// ─────────────────────────────────────
+// Route
+// ─────────────────────────────────────
 
 export const Route = createFileRoute('/crud/error-handling')({
   ...formPageReloadPolicy,
