@@ -6,7 +6,9 @@ import { model, operation } from './-page-deps-internal'
 
 export async function load(
   body: model.ErrorHandlingPageLoadInput,
-  options?: RequestInit,
+  signal: AbortSignal,
 ) {
-  return await operation.errorHandlingPageLoad(body, options)
+  return await operation.errorHandlingPageLoad(body, {
+    signal,
+  })
 }

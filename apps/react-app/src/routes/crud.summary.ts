@@ -14,12 +14,9 @@ export const Route = createFileRoute('/crud/summary')({
 
   loaderDeps: omitQueryState,
 
-  loader: (ctx) =>
-    routeBoundary(ctx, async () =>
-      load(
-        { ...ctx.params, ...ctx.deps },
-        { signal: ctx.abortController.signal },
-      ),
+  loader: (match) =>
+    routeBoundary(match, async () =>
+      load({ ...match.params, ...match.deps }, match.abortController.signal),
     ),
 
   component: PageComponent,

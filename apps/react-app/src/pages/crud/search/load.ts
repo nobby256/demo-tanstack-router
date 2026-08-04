@@ -6,7 +6,9 @@ import { model, operation } from './-page-deps-internal'
 
 export async function load(
   body: model.SearchPageLoadInput,
-  options?: RequestInit,
+  signal: AbortSignal,
 ) {
-  return await operation.searchPageLoad(body, options)
+  return await operation.searchPageLoad(body, {
+    signal,
+  })
 }
