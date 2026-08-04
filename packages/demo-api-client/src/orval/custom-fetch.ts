@@ -2,7 +2,7 @@ import type { $Fetch } from 'ofetch'
 
 let apiFetch: $Fetch | undefined
 
-export function configureFetch(fetch: $Fetch) {
+export function configureClient(fetch: $Fetch) {
   apiFetch = fetch
 }
 

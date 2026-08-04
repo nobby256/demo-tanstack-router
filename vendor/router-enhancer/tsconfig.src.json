@@ -1,7 +1,6 @@
 {
   "extends": "@vendor/tsconfig/browser.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
     "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
   },
   "include": ["src"]

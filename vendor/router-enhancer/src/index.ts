@@ -2,11 +2,7 @@
 import './tanstack-history'
 
 // init
-export {
-  createEnhancedRouter,
-  type RecoverableErrorStrategy,
-  type RouterEnhancerOptions,
-} from './internal/createEnhancedRouter'
+export { createEnhancedRouter } from './internal/createEnhancedRouter'
 
 // action
 export { useActionBoundary } from './internal/action'
