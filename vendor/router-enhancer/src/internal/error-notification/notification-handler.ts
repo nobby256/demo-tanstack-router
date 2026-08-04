@@ -1,32 +1,32 @@
-import type { Notification, RouterContext } from '../context'
+import type { AlertMessageResolver, Notification } from '../context'
 
 import { type FormHandler } from './error-handler'
 import { addNotifications } from './notifications'
 
 export function applyNotifications(
   notifications: Notification[],
-  routerContext: RouterContext,
+  resolver: AlertMessageResolver,
   form?: FormHandler,
 ): void {
   for (const notification of notifications) {
-    applyNotification(notification, routerContext, form)
+    applyNotification(notification, resolver, form)
   }
 }
 
 function applyNotification(
   notification: Notification,
-  routerContext: RouterContext,
+  resolver: AlertMessageResolver,
   form?: FormHandler,
 ): void {
   switch (notification.type) {
     case 'field':
       if (form) {
-        applyFieldNotification(form, notification)
+        applyFieldNotification(notification, form)
       }
       return
 
     case 'alert':
-      applyAlertNotification(routerContext, notification)
+      applyAlertNotification(notification, resolver)
       return
 
     case 'notification':
@@ -36,13 +36,13 @@ function applyNotification(
 }
 
 function applyFieldNotification(
-  form: FormHandler,
   notification: Extract<
     Notification,
     {
       type: 'field'
     }
   >,
+  form: FormHandler,
 ): void {
   for (const item of notification.items) {
     form.setError(item.field, {
@@ -53,15 +53,15 @@ function applyFieldNotification(
 }
 
 function applyAlertNotification(
-  routerContext: RouterContext,
   notification: Extract<
     Notification,
     {
       type: 'alert'
     }
   >,
+  resolver: AlertMessageResolver,
 ): void {
-  const message = routerContext.alertMessageResolver.resolve(notification.error)
+  const message = resolver.resolve(notification.error)
 
   alert(message)
 }

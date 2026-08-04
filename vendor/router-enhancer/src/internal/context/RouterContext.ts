@@ -105,7 +105,7 @@ export type Notification =
     }
 
 export interface ErrorTransformer {
-  transform(error: AppError): Notification[]
+  transform(error: AppError): Notification[] | undefined
 }
 
 // ─────────────────────────────

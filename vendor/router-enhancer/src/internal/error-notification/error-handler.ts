@@ -20,9 +20,22 @@ export function handleError(
   routerContext: RouterContext,
   form?: FormHandler,
 ): void {
-  const appError = routerContext.errorAdapter.normalize(error)
+  const { errorAdapter: adapter, errorTransformer: transformer } = routerContext
 
-  const notifications = routerContext.errorTransformer.transform(appError)
+  const appError = adapter.normalize(error)
 
-  applyNotifications(notifications, routerContext, form)
+  // 業務エラーに変換
+  let notifications = transformer.transform(appError)
+
+  // 業務エラーでなければalert扱い
+  if (!notifications) {
+    notifications = [
+      {
+        type: 'alert',
+        error: appError,
+      },
+    ]
+  }
+
+  applyNotifications(notifications, routerContext.alertMessageResolver, form)
 }

@@ -1,3 +1,5 @@
+import { type AppError } from '../RouterContext'
+
 export interface DomainError {
   messages: DomainMessage[]
 }
@@ -8,7 +10,14 @@ export interface DomainMessage {
   fields?: string[]
 }
 
-export function isDomainError(value: unknown): value is DomainError {
+export function isDomainError(
+  statusCode?: number,
+  value?: unknown,
+): value is DomainError {
+  if (statusCode !== 422) {
+    return false
+  }
+
   if (!value || typeof value !== 'object' || !('messages' in value)) {
     return false
   }

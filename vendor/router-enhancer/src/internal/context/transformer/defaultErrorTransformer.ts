@@ -6,45 +6,29 @@ import type {
   Notification,
 } from '../RouterContext'
 
-import { isDomainError } from './DomainError'
+import { type DomainError, isDomainError } from './DomainError'
 
+/**
+ * デフォルト仕様
+ *
+ * 422 は業務エラーとして扱う。
+ * DomainError を解析して
+ * field通知またはnotification通知へ変換する。
+ *
+ * それ以外のエラーは
+ * alert通知へ変換する。
+ */
 export const defaultErrorTransformer: ErrorTransformer = {
-  transform(error: AppError): Notification[] {
-    /**
-     * デフォルト仕様
-     *
-     * 422 は業務エラーとして扱う。
-     * DomainError を解析して
-     * field通知またはnotification通知へ変換する。
-     *
-     * それ以外のエラーは
-     * alert通知へ変換する。
-     */
-    if (error.statusCode === 422) {
-      return transformDomainError(error)
+  transform(error: AppError): Notification[] | undefined {
+    const { statusCode, data } = error
+    if (isDomainError(statusCode, data)) {
+      return transformDomainError(data)
     }
-
-    return [
-      {
-        type: 'alert',
-        error,
-      },
-    ]
+    return undefined
   },
 }
 
-function transformDomainError(error: AppError): Notification[] {
-  if (!isDomainError(error.data)) {
-    return [
-      {
-        type: 'alert',
-        error: error,
-      },
-    ]
-  }
-
-  const data = error.data
-
+function transformDomainError(data: DomainError): Notification[] {
   const fieldItems: FieldMessageItem[] = []
   const notificationItems: MessageItem[] = []
 
