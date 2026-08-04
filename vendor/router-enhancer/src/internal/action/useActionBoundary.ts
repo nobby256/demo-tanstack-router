@@ -1,8 +1,8 @@
-import { useRouteContext } from '@tanstack/react-router'
 import { useRef } from 'react'
 
-import { type RouterContext } from '../context'
+import { type FormHandler } from '../error-notification'
 import { handleError } from '../error-notification'
+import { useCurrentRouteContext } from '../supports'
 
 type ActionHandler = (...args: never[]) => void | Promise<void>
 
@@ -12,18 +12,7 @@ type Actions = Record<string, ActionHandler>
  * Action Boundary が要求する最低限の Context
  */
 export type ActionContext = {
-  form?: {
-    setError(
-      name: string,
-      error: {
-        type?: string
-        message?: string
-      },
-      options?: {
-        shouldFocus: boolean
-      },
-    ): void
-  }
+  form?: FormHandler // RHF互換のインタフェース
 }
 
 export function useActionBoundary<
@@ -55,7 +44,7 @@ function useWrappedActions<
   const contextRef = useRef(context)
   contextRef.current = context
 
-  const routerContext: RouterContext = useRouteContext({ strict: false })
+  const routerContext = useCurrentRouteContext()
 
   const wrappedRef = useRef<WrappedActions<TActions> | null>(null)
 
@@ -71,13 +60,13 @@ function useWrappedActions<
 
           if (result instanceof Promise) {
             return result.catch((error) => {
-              handleError(contextRef.current, routerContext, error)
+              handleError(error, routerContext, contextRef.current.form)
             }) as ReturnType<TActions[typeof key]>
           }
 
           return result
         } catch (error) {
-          handleError(error, routerContext, contextRef.current)
+          handleError(error, routerContext, contextRef.current.form)
 
           return undefined as ReturnType<TActions[typeof key]>
         }

@@ -1,2 +1,2 @@
-export { handleError } from './error-handler'
+export { handleError, type FormHandler } from './error-handler'
 export { useNotifications } from './notifications'

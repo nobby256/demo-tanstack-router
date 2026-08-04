@@ -1,41 +1,27 @@
 import type { Notification, RouterContext } from '../context'
 
+import { type FormHandler } from './error-handler'
 import { addNotifications } from './notifications'
-
-export type NotificationContext = {
-  form?: {
-    setError(
-      name: string,
-      error: {
-        type?: string
-        message?: string
-      },
-      options?: {
-        shouldFocus: boolean
-      },
-    ): void
-  }
-}
 
 export function applyNotifications(
   notifications: Notification[],
   routerContext: RouterContext,
-  context?: NotificationContext,
+  form?: FormHandler,
 ): void {
   for (const notification of notifications) {
-    applyNotification(notification, routerContext, context)
+    applyNotification(notification, routerContext, form)
   }
 }
 
 function applyNotification(
   notification: Notification,
   routerContext: RouterContext,
-  context?: NotificationContext,
+  form?: FormHandler,
 ): void {
   switch (notification.type) {
     case 'field':
-      if (context) {
-        applyFieldNotification(context, notification)
+      if (form) {
+        applyFieldNotification(form, notification)
       }
       return
 
@@ -50,7 +36,7 @@ function applyNotification(
 }
 
 function applyFieldNotification(
-  context: NotificationContext,
+  form: FormHandler,
   notification: Extract<
     Notification,
     {
@@ -58,12 +44,6 @@ function applyFieldNotification(
     }
   >,
 ): void {
-  const form = context.form
-
-  if (!form) {
-    return
-  }
-
   for (const item of notification.items) {
     form.setError(item.field, {
       type: 'manual',

@@ -1,6 +1,8 @@
 import { useMatch, useRouteContext } from '@tanstack/react-router'
 
-export function useCurrentRouteContext() {
+import { type RouterContext } from './context'
+
+export function useCurrentRouteContext(): RouterContext {
   return useRouteContext({ strict: false })
 }
 
