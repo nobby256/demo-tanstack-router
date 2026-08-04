@@ -1,4 +1,5 @@
-import { Link, useRouteContext } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
+import { useCurrentRouteContext } from '@vendor/router-enhancer'
 
 type ErrorComponentProps = {
   error: Error
@@ -7,7 +8,7 @@ type ErrorComponentProps = {
 
 export function ErrorComponent(props: ErrorComponentProps) {
   const error = props.error
-  const context = useRouteContext({ strict: false })
+  const context = useCurrentRouteContext()
   const appError = context.errorAdapter?.normalize(error)
 
   // 継続不能の場合はSPA外のページにリダイレクトする

@@ -22,8 +22,11 @@ const router = createEnhancedRouter({
   scrollRestoration: true,
   defaultErrorComponent: ErrorComponent,
   context: {
+    // 例外をAppErrorに変換
     errorAdapter: ofetchErrorAdapter,
+    // 業務エラーのレスポンスボディをパース
     errorTransformer: defaultErrorTransformer,
+    // ステーターコードからエラーメッセージを決定
     alertMessageResolver: defaultAlertMessageResolver,
   },
 })
@@ -45,8 +48,7 @@ declare module '@tanstack/react-router' {
 // ─────────────────────────────────────
 
 /**
- * DEMOモード時はMSWを起動し、
- * API通信をモックに差し替える。
+ * DEMOモード時はMSWを起動しAPI通信をモックに差し替える。
  */
 if (appConfig.demoMode) {
   const { startMockWorker } = await import('demo-api-client/msw')
