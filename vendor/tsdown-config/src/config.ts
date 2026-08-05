@@ -40,6 +40,6 @@ export const browserConfig = {
   platform: 'browser',
   target: 'esnext',
   css: {
-    module: false,
+    modules: false,
   },
 } satisfies UserConfig
