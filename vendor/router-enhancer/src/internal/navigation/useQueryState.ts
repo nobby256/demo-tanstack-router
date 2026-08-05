@@ -18,7 +18,7 @@ export function useQueryState<
 >(_schema: TSchema, key: TKey) {
   const router = useRouter()
 
-  const search = router.state.location.search as Partial<TSearch>
+  const search = router.state.location.search as TSearch
   const value = search[key]
 
   const setValue = async (nextValue: TSearch[TKey]): Promise<void> => {

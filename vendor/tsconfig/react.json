@@ -1,5 +1,5 @@
 {
-  "extends": "./base.json",
+  "extends": "./browser.json",
   "compilerOptions": {
     "types": ["vite/client"],
     "jsx": "react-jsx",
