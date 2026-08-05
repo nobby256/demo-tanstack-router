@@ -11,7 +11,7 @@ type RouterPath = keyof RegisteredRouter['routesByPath']
 
 function findPreviousLocation(
   router: AnyRouter,
-  pathname: RouterPath,
+  routeId: RouterPath,
 ): HistoryEntry | undefined {
   const history = router.history as RouterHistory
 
@@ -24,7 +24,7 @@ function findPreviousLocation(
       continue
     }
 
-    if (location.pathname === pathname) {
+    if (location.routeId === routeId) {
       return location
     }
   }
@@ -32,10 +32,10 @@ function findPreviousLocation(
   return undefined
 }
 
-export function useBackTo(pathname: RouterPath): (() => void) | undefined {
+export function useBackTo(routeId: RouterPath): (() => void) | undefined {
   const router = useRouter()
 
-  const location = findPreviousLocation(router, pathname)
+  const location = findPreviousLocation(router, routeId)
 
   if (!location) {
     return undefined

@@ -4,7 +4,7 @@ const STORAGE_KEY = 'router-enhancer.histories'
 
 export type HistoryEntry = {
   href: string
-  pathname: string
+  routeId?: string
   index: number
 }
 
@@ -103,9 +103,16 @@ export function initHistoryTracker(router: AnyRouter): void {
       histories.length = index
     }
 
+    const toRoutes = router.matchRoutes(toLocation.pathname)
+    const toRoute = toRoutes.at(-1) // ルートが滅から無くても絶対[1]は返ってくる
+    const toRouteId = toRoute
+      ? toRoute.globalNotFound
+        ? undefined
+        : toRoute.routeId
+      : undefined
     histories[index] = {
       href: toLocation.href,
-      pathname: toLocation.pathname,
+      routeId: toRouteId,
       index,
     }
 
