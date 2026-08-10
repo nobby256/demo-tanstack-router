@@ -1,14 +1,21 @@
-import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import {
-  createFormResolver,
-  type FormInputValues,
-  type FormOutputValues,
-} from '#/features/utils/useFormSchema'
+  type FormInput,
+  type FormOutput,
+  usePlainForm,
+} from '#/features/utils/useForm'
+
+// ─────────────────────────────
+// Types
+// ─────────────────────────────
+
+export type UsePageFormReturn = ReturnType<typeof usePageForm>
+export type PageFormInputValues = FormInput<UsePageFormReturn>
+export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 
 // ─────────────────────────────────────
-// Schema Definition
+// Form Hook
 // ─────────────────────────────────────
 
 const inputSchema = z.strictObject({
@@ -16,21 +23,9 @@ const inputSchema = z.strictObject({
   category: z.string().optional(),
 })
 
-const schemaDefinition = createFormResolver(inputSchema)
-
-export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormValues = FormInputValues<typeof schemaDefinition.schema>
-export type PageFormOutputValues = FormOutputValues<
-  typeof schemaDefinition.schema
->
-
-// ─────────────────────────────────────
-// Form Hook
-// ─────────────────────────────────────
-
 export const usePageForm = () => {
-  const form = useForm<PageFormValues>({
-    resolver: schemaDefinition.resolver,
+  const form = usePlainForm({
+    schema: inputSchema,
   })
   return form
 }

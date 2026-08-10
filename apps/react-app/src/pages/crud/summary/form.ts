@@ -1,27 +1,20 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 
 import {
-  createFormResolver,
-  type FormInputValues,
-  type FormOutputValues,
-} from '#/features/utils/useFormSchema'
+  type FormInput,
+  type FormOutput,
+  usePlainForm,
+} from '#/features/utils/useForm'
 
 import { Route, schema } from './-page-deps-internal'
 
-// ─────────────────────────────────────
-// Schema Definition
-// ─────────────────────────────────────
-
-const schemaDefinition = createFormResolver(
-  schema.SummaryPageLoadResponse.shape.data,
-)
+// ─────────────────────────────
+// Types
+// ─────────────────────────────
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormValues = FormInputValues<typeof schemaDefinition.schema>
-export type PageFormOutputValues = FormOutputValues<
-  typeof schemaDefinition.schema
->
+export type PageFormInputValues = FormInput<UsePageFormReturn>
+export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -30,8 +23,8 @@ export type PageFormOutputValues = FormOutputValues<
 export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
-  const form = useForm<PageFormValues>({
-    resolver: schemaDefinition.resolver,
+  const form = usePlainForm({
+    schema: schema.SummaryPageLoadResponse.shape.data,
     defaultValues: loaderData.data,
   })
   useEffect(() => {

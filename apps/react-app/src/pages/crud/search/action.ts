@@ -1,6 +1,10 @@
 import { useActionBoundary } from '@vendor/router-enhancer'
 
-import { Route, type UsePageFormReturn } from './-page-deps-internal'
+import {
+  type PageFormOutputValues,
+  Route,
+  type UsePageFormReturn,
+} from './-page-deps-internal'
 
 // ─────────────────────────────────────
 // Action Context
@@ -14,11 +18,11 @@ type ActionContext = {
 // Action Hook
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary(({ form }: ActionContext) => {
-  const navigate = Route.useNavigate()
+export const useActions = useActionBoundary(
+  ({ form: _form }: ActionContext) => {
+    const navigate = Route.useNavigate()
 
-  const submit = async () => {
-    await form.handleSubmit(async (data) => {
+    const submit = async (data: PageFormOutputValues) => {
       await navigate({
         to: '/crud/summary',
         search: {
@@ -26,10 +30,10 @@ export const useActions = useActionBoundary(({ form }: ActionContext) => {
           category: data.category,
         },
       })
-    })()
-  }
+    }
 
-  return {
-    submit,
-  }
-})
+    return {
+      submit,
+    }
+  },
+)

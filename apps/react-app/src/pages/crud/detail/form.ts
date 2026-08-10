@@ -1,28 +1,20 @@
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 
 import {
-  createMappedFormResolver,
-  type FormInputValues,
-  type FormOutputValues,
-} from '#/features/utils/useFormSchema'
+  type FormInput,
+  type FormOutput,
+  useRequestForm,
+} from '#/features/utils/useForm'
 
 import { Route, schema } from './-page-deps-internal'
 
-// ─────────────────────────────────────
-// Schema Definition
-// ─────────────────────────────────────
-
-const schemaDefinition = createMappedFormResolver(
-  schema.DetailPageLoadResponse.shape.data,
-  schema.DetailPageUpdateBody,
-)
+// ─────────────────────────────
+// Types
+// ─────────────────────────────
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormValues = FormInputValues<typeof schemaDefinition.schema>
-export type PageFormOutputValues = FormOutputValues<
-  typeof schemaDefinition.schema
->
+export type PageFormInputValues = FormInput<UsePageFormReturn>
+export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -31,8 +23,9 @@ export type PageFormOutputValues = FormOutputValues<
 export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
-  const form = useForm<PageFormValues, unknown, PageFormOutputValues>({
-    resolver: schemaDefinition.resolver,
+  const form = useRequestForm({
+    inputSchema: schema.DetailPageLoadResponse.shape.data,
+    outputSchema: schema.DetailPageUpdateBody,
     defaultValues: loaderData.data,
   })
   useEffect(() => {

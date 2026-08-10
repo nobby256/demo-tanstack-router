@@ -1,7 +1,11 @@
 import { useRouter } from '@tanstack/react-router'
 import { useActionBoundary } from '@vendor/router-enhancer'
 
-import { operation, type UsePageFormReturn } from './-page-deps-internal'
+import {
+  operation,
+  type PageFormOutputValues,
+  type UsePageFormReturn,
+} from './-page-deps-internal'
 
 // ─────────────────────────────────────
 // Action Context
@@ -15,19 +19,19 @@ type ActionContext = {
 // Action Hook
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary(({ form }: ActionContext) => {
-  const router = useRouter()
+export const useActions = useActionBoundary(
+  ({ form: _form }: ActionContext) => {
+    const router = useRouter()
 
-  const submitUpdate = async () => {
-    await form.handleSubmit(async (data) => {
+    const submitUpdate = async (data: PageFormOutputValues) => {
       await operation.detailPageUpdate(data)
 
       //loaderの強制再実行
       await router.invalidate()
-    })()
-  }
+    }
 
-  return {
-    submitUpdate,
-  }
-})
+    return {
+      submitUpdate,
+    }
+  },
+)

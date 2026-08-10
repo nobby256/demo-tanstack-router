@@ -102,7 +102,7 @@ export function PageComponent() {
         </div>
         <button
           type="button"
-          onClick={actions.submitUpdate}
+          onClick={form.handleSubmit(actions.submitUpdate)}
           disabled={!form.formState.isDirty}
           style={{ display: 'block' }}
         >

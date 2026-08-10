@@ -111,7 +111,7 @@ export function PageComponent() {
           _check1:useQueryState使用
         </div>
         <div>
-          <button type="button" onClick={actions.submit}>
+          <button type="button" onClick={form.handleSubmit(actions.submit)}>
             Search
           </button>
         </div>

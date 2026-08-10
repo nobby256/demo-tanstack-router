@@ -22,7 +22,7 @@ export * as schema from 'demo-api-client/zod/detail-page'
 export { Route } from '#/routes/crud.$id'
 export {
   usePageForm,
-  type PageFormValues,
+  type PageFormInputValues,
   type PageFormOutputValues,
   type UsePageFormReturn,
 } from './form'

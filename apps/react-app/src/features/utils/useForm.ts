@@ -1,6 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type DefaultValues, type FieldValues, useForm } from 'react-hook-form'
+import {
+  type DefaultValues,
+  type FieldValues,
+  useForm,
+  type UseFormReturn,
+} from 'react-hook-form'
 import { z } from 'zod'
+
+export type FormInput<TForm> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TForm extends UseFormReturn<infer TInput, any, any> ? TInput : never
+
+export type FormOutput<TForm> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TForm extends UseFormReturn<any, any, infer TOutput> ? TOutput : never
 
 /**
  * 入力型 = 出力型
@@ -11,7 +24,7 @@ export function usePlainForm<
 >(config: {
   // Zod v4
   schema: z.ZodType<TOutput, TInput>
-  defaultValues: DefaultValues<TInput>
+  defaultValues?: DefaultValues<TInput>
 }) {
   const formSchema = config.schema.transform((input) =>
     normalizeEmptyStrings(input),

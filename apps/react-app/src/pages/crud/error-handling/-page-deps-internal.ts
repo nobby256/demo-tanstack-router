@@ -22,7 +22,7 @@ export * as schema from 'demo-api-client/zod/error-handling-page'
 export { Route } from '#/routes/crud.error-handling'
 export {
   usePageForm,
-  type PageFormValues,
+  type PageFormInputValues,
   type PageFormOutputValues,
   type UsePageFormReturn,
 } from './form'

@@ -172,25 +172,26 @@ export function PageComponent() {
               )}
             />
           </div>
-          <button onClick={() => actions.done('400')}>
+          <button onClick={form.handleSubmit(actions.done)}>submit</button>
+          <button onClick={() => form.setValue('status', '400')}>
             ステータスコード：400
           </button>
-          <button onClick={() => actions.done('401')}>
+          <button onClick={() => form.setValue('status', '401')}>
             ステータスコード：401
           </button>
-          <button onClick={() => actions.done('403')}>
+          <button onClick={() => form.setValue('status', '403')}>
             ステータスコード：403
           </button>
-          <button onClick={() => actions.done('404')}>
+          <button onClick={() => form.setValue('status', '404')}>
             ステータスコード：404
           </button>
-          <button onClick={() => actions.done('410')}>
+          <button onClick={() => form.setValue('status', '410')}>
             ステータスコード：410
           </button>
-          <button onClick={() => actions.done('422')}>
+          <button onClick={() => form.setValue('status', '422')}>
             ステータスコード：422
           </button>
-          <button onClick={() => actions.done('500')}>
+          <button onClick={() => form.setValue('status', '500')}>
             ステータスコード：500
           </button>
         </div>
