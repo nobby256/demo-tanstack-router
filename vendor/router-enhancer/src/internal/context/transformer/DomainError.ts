@@ -1,5 +1,3 @@
-import { type AppError } from '../RouterContext'
-
 export interface DomainError {
   messages: DomainMessage[]
 }

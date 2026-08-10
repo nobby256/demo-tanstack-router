@@ -51,7 +51,7 @@ export default defineConfig({
             query: false,
             header: false,
             body: true,
-            response: false,
+            response: true,
           },
         },
         mutator: {

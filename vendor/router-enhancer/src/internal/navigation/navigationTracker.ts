@@ -1,6 +1,6 @@
 import { type AnyRouter } from '@tanstack/react-router'
 
-import { leafRouteContext, type RouterContext } from '../context'
+import { leafRouteContext } from '../context'
 import { applyNotifications } from '../error-notification'
 
 let initialized = false

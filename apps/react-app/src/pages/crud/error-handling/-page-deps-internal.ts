@@ -20,5 +20,10 @@ export * as operation from 'demo-api-client/op/error-handling-page'
 export * as model from 'demo-api-client/model/error-handling-page'
 export * as schema from 'demo-api-client/zod/error-handling-page'
 export { Route } from '#/routes/crud.error-handling'
-export { usePageForm, type FormValues, type PageForm } from './form'
+export {
+  usePageForm,
+  type PageFormValues,
+  type PageFormTransformValues,
+  type UsePageFormReturn,
+} from './form'
 export { useActions } from './action'

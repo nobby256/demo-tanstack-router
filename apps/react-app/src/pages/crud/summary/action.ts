@@ -1,13 +1,13 @@
 import { useActionBoundary } from '@vendor/router-enhancer'
 
-import { type PageForm } from './-page-deps-internal'
+import { type UsePageFormReturn } from './-page-deps-internal'
 
 // ─────────────────────────────────────
 // Action Context
 // ─────────────────────────────────────
 
 type ActionContext = {
-  form: PageForm
+  form: UsePageFormReturn
 }
 
 // ─────────────────────────────────────

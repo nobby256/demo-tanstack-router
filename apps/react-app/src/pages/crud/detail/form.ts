@@ -9,22 +9,25 @@ import { Route, schema } from './-page-deps-internal'
 // Form Hook
 // ─────────────────────────────────────
 
-export const formSchema = schema.DetailPageUpdateBody
-export type FormValues = z.infer<typeof formSchema>
-export type PageForm = ReturnType<typeof usePageForm>
+export const pageFormSchema =
+  schema.DetailPageLoadResponse.shape.data.transform((input) =>
+    schema.DetailPageUpdateBody.parse(input),
+  )
+
+export type PageFormValues = z.input<typeof pageFormSchema>
+export type PageFormTransformValues = z.output<typeof pageFormSchema>
+export type UsePageFormReturn = ReturnType<typeof usePageForm>
 
 export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<PageFormValues, unknown, PageFormTransformValues>({
+    resolver: zodResolver(pageFormSchema),
     defaultValues: loaderData.data,
   })
   useEffect(() => {
-    form.reset({
-      ...loaderData.data,
-    })
-  }, [loaderData])
+    form.reset(loaderData.data)
+  }, [loaderData.data])
 
   return form
 }

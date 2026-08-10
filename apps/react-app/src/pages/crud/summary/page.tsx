@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { useBackTo } from '@vendor/router-enhancer'
 import { z } from 'zod'
 
@@ -38,7 +38,6 @@ export function PageComponent() {
   // ─────────────────────────────
 
   const loaderData = Route.useLoaderData()
-  const location = useLocation()
 
   // ─────────────────────────────
   // Form

@@ -6,16 +6,18 @@ import { z } from 'zod'
 // Form Hook
 // ─────────────────────────────────────
 
-const formSchema = z.strictObject({
+const pageFormSchema = z.strictObject({
   keyword: z.string(),
   category: z.string(),
 })
-export type FormValues = z.infer<typeof formSchema>
-export type PageForm = ReturnType<typeof usePageForm>
+
+export type PageFormValues = z.input<typeof pageFormSchema>
+export type PageFormTransformValues = z.output<typeof pageFormSchema>
+export type UsePageFormReturn = ReturnType<typeof usePageForm>
 
 export const usePageForm = () => {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<PageFormValues>({
+    resolver: zodResolver(pageFormSchema),
   })
   return form
 }

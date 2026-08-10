@@ -104,7 +104,8 @@ export function initHistoryTracker(router: AnyRouter): void {
     }
 
     const toRoutes = router.matchRoutes(toLocation.pathname)
-    const toRoute = toRoutes.at(-1) // ルートが滅から無くても絶対[1]は返ってくる
+    const toRoute = toRoutes.at(-1) // ルートが見つからなくても絶対に配列[1]は返ってくる
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const toRouteId = toRoute
       ? toRoute.globalNotFound
         ? undefined
@@ -112,6 +113,7 @@ export function initHistoryTracker(router: AnyRouter): void {
       : undefined
     histories[index] = {
       href: toLocation.href,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       routeId: toRouteId,
       index,
     }
