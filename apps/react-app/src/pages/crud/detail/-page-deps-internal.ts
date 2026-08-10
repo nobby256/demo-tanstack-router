@@ -23,7 +23,7 @@ export { Route } from '#/routes/crud.$id'
 export {
   usePageForm,
   type PageFormValues,
-  type PageFormTransformValues,
+  type PageFormOutputValues,
   type UsePageFormReturn,
 } from './form'
 export { useActions } from './action'

@@ -1,12 +1,8 @@
 import { z } from 'zod'
 
-export type PageFormInput<T extends { schema: z.ZodTypeAny }> = z.input<
-  T['schema']
->
+export type FormInputValues<T extends z.ZodTypeAny> = z.input<T>
 
-export type PageFormOutput<T extends { schema: z.ZodTypeAny }> = z.output<
-  T['schema']
->
+export type FormOutputValues<T extends z.ZodTypeAny> = z.output<T>
 
 type DefinePageFormSchemaConfig<
   TInputSchema extends z.ZodTypeAny,
@@ -78,9 +74,7 @@ export function definePageFormSchema<
     return normalized
   })
 
-  return {
-    schema,
-  } as const
+  return schema
 }
 
 /**

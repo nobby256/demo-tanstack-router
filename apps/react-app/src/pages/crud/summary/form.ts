@@ -1,23 +1,41 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+
+import {
+  definePageFormSchema,
+  type FormInputValues,
+  type FormOutputValues,
+} from '#/features/utils/definePageFormSchema'
+
+import { Route, schema } from './-page-deps-internal'
+
+// ─────────────────────────────────────
+// Schema Definition
+// ─────────────────────────────────────
+
+const pageFormSchema = definePageFormSchema({
+  inputSchema: schema.SummaryPageLoadResponse.shape.data,
+})
+
+export type UsePageFormReturn = ReturnType<typeof usePageForm>
+export type PageFormValues = FormInputValues<typeof pageFormSchema>
+export type PageFormOutputValues = FormOutputValues<typeof pageFormSchema>
 
 // ─────────────────────────────────────
 // Form Hook
 // ─────────────────────────────────────
 
-const pageFormSchema = z.strictObject({
-  keyword: z.string(),
-  category: z.string(),
-})
-
-export type PageFormValues = z.input<typeof pageFormSchema>
-export type PageFormTransformValues = z.output<typeof pageFormSchema>
-export type UsePageFormReturn = ReturnType<typeof usePageForm>
-
 export const usePageForm = () => {
+  const loaderData = Route.useLoaderData()
+
   const form = useForm<PageFormValues>({
     resolver: zodResolver(pageFormSchema),
+    defaultValues: loaderData.data,
   })
+  useEffect(() => {
+    form.reset(loaderData.data)
+  }, [loaderData.data])
+
   return form
 }
