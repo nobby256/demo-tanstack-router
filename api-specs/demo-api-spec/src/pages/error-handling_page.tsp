@@ -27,7 +27,7 @@ namespace demo.error_handling_page {
   op done(@bodyRoot body: DoneInput): DoneOutput;
 
   model DoneInput {
-    status: string;
+    status: int32;
   }
 
   model DoneOutput {}

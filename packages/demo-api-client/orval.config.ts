@@ -53,6 +53,10 @@ export default defineConfig({
             body: true,
             response: true,
           },
+          coerce: {
+            body: ['number', 'boolean', 'bigint', 'date'],
+            // response: ['number', 'boolean', 'bigint', 'date'],
+          },
         },
         mutator: {
           path: 'src/orval/custom-validate.ts',

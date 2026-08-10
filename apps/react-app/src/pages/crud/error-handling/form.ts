@@ -3,15 +3,22 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { normalizeEmptyStrings } from '#/features/utils/normalizeEmptyStrings'
+
 import { Route, schema } from './-page-deps-internal'
 
 // ─────────────────────────────────────
 // Form Hook
 // ─────────────────────────────────────
 
+const pageFormTransformSchema = z.preprocess(
+  normalizeEmptyStrings,
+  schema.ErrorHandlingPageDoneBody,
+)
+
 const pageFormSchema =
   schema.ErrorHandlingPageLoadResponse.shape.data.transform((input) =>
-    schema.ErrorHandlingPageDoneBody.parse(input),
+    pageFormTransformSchema.parse(input),
   )
 
 export type PageFormValues = z.input<typeof pageFormSchema>

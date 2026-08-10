@@ -106,9 +106,6 @@ catalogs:
       specifier: 4.4.3
       version: 4.4.3
 
-overrides:
-  '@orval/zod': link:./vendor/fork/orval-8.20.0/packages/zod
-
 importers:
 
   .:
@@ -242,7 +239,7 @@ importers:
         version: 4.4.3
     devDependencies:
       '@orval/zod':
-        specifier: link:../../vendor/fork/orval-8.20.0/packages/zod
+        specifier: workspace:*
         version: link:../../vendor/fork/orval-8.20.0/packages/zod
       '@types/node':
         specifier: 'catalog:'
@@ -946,6 +943,9 @@ packages:
 
   '@orval/swr@8.20.0':
     resolution: {integrity: sha512-92TFUIgllvdEY+34tcsB8BzGM6CaxYW8/P47xDDODvsksjHV0OcpkR9Hh1setzjJu7WpAyAGLsL0Sy71REfLug==}
+
+  '@orval/zod@8.20.0':
+    resolution: {integrity: sha512-6/bC1i4MGcMwksEPURs8sR7QDU3ymFV0fKvTEttvdhacwLahz58DZZtXLYauVVEZV1cMSGLUX5jE4axmO3S+6w==}
 
   '@oxc-project/types@0.127.0':
     resolution: {integrity: sha512-aIYXQBo4lCbO4z0R3FHeucQHpF46l2LbMdxRvqvuRuW2OxdnSkcng5B8+K12spgLDj93rtN3+J2Vac/TIO+ciQ==}
@@ -4282,7 +4282,7 @@ snapshots:
   '@orval/hono@8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)':
     dependencies:
       '@orval/core': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
-      '@orval/zod': link:vendor/fork/orval-8.20.0/packages/zod
+      '@orval/zod': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
       fs-extra: 11.3.5
     optionalDependencies:
       typescript: 6.0.3
@@ -4294,7 +4294,7 @@ snapshots:
     dependencies:
       '@orval/core': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
       '@orval/fetch': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
-      '@orval/zod': link:vendor/fork/orval-8.20.0/packages/zod
+      '@orval/zod': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
     transitivePeerDependencies:
       - '@faker-js/faker'
       - supports-color
@@ -4331,6 +4331,15 @@ snapshots:
     dependencies:
       '@orval/core': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
       '@orval/fetch': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
+    transitivePeerDependencies:
+      - '@faker-js/faker'
+      - supports-color
+      - typescript
+
+  '@orval/zod@8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)':
+    dependencies:
+      '@orval/core': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
+      remeda: 2.39.0
     transitivePeerDependencies:
       - '@faker-js/faker'
       - supports-color
@@ -6374,7 +6383,7 @@ snapshots:
       '@orval/query': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
       '@orval/solid-start': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
       '@orval/swr': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
-      '@orval/zod': link:vendor/fork/orval-8.20.0/packages/zod
+      '@orval/zod': 8.20.0(@faker-js/faker@10.5.0)(typescript@6.0.3)
       '@scalar/json-magic': 0.12.17
       '@scalar/openapi-parser': 0.28.8
       '@scalar/openapi-types': 0.8.0

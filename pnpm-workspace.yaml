@@ -15,8 +15,8 @@ packages:
   - 'vendor/fork/**'
   - '!vendor/fork/orval-8.15.0/**'
 
-overrides:
-  '@orval/zod': 'link:./vendor/fork/orval-8.20.0/packages/zod'
+# overrides:
+#   '@orval/zod': 'link:./vendor/fork/orval-8.20.0/packages/zod'
 
 catalog:
   # Turbo
