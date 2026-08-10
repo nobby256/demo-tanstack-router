@@ -5,7 +5,7 @@ import { z } from 'zod'
 /**
  * 入力型 = 出力型
  */
-export function useFormSchema<
+export function usePlainForm<
   TInput extends FieldValues,
   TOutput extends FieldValues,
 >(config: {
@@ -26,7 +26,7 @@ export function useFormSchema<
 /**
  * 入力型 → 出力スキーマ
  */
-export function useMappedForm<
+export function useRequestForm<
   TInput extends FieldValues,
   TParsedInput extends FieldValues,
   TOutput extends FieldValues,
