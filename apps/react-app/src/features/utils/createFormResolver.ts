@@ -8,7 +8,7 @@ export type FormOutputValues<T extends z.ZodTypeAny> = z.output<T>
 /**
  * 入力型 = 出力型
  */
-export function defineFormSchema<TSchema extends z.ZodTypeAny>(
+export function createFormResolver<TSchema extends z.ZodTypeAny>(
   schema: TSchema,
 ) {
   const formSchema = schema.transform((input) => normalizeEmptyStrings(input))
@@ -24,7 +24,7 @@ export function defineFormSchema<TSchema extends z.ZodTypeAny>(
 /**
  * 入力型 → 出力スキーマ
  */
-export function defineMappedFormSchema<
+export function createMappedFormResolver<
   TInputSchema extends z.ZodTypeAny,
   TOutputSchema extends z.ZodTypeAny,
 >(inputSchema: TInputSchema, outputSchema: TOutputSchema) {
@@ -43,7 +43,7 @@ export function defineMappedFormSchema<
 /**
  * 入力型 → 任意変換
  */
-export function defineTransformFormSchema<
+export function createTransformFormResolver<
   TInputSchema extends z.ZodTypeAny,
   TOutput,
 >(

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
-  defineMappedFormSchema,
+  createMappedFormResolver,
   type FormInputValues,
   type FormOutputValues,
 } from '#/features/utils/useFormSchema'
@@ -12,7 +12,7 @@ import { Route, schema } from './-page-deps-internal'
 // Schema Definition
 // ─────────────────────────────────────
 
-const schemaDefinition = defineMappedFormSchema(
+const schemaDefinition = createMappedFormResolver(
   schema.ErrorHandlingPageLoadResponse.shape.data,
   schema.ErrorHandlingPageDoneBody,
 )

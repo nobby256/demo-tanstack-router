@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import {
-  defineFormSchema,
+  createFormResolver,
   type FormInputValues,
   type FormOutputValues,
 } from '#/features/utils/useFormSchema'
@@ -13,7 +13,7 @@ import { Route, schema } from './-page-deps-internal'
 // Schema Definition
 // ─────────────────────────────────────
 
-const schemaDefinition = defineFormSchema(
+const schemaDefinition = createFormResolver(
   schema.SummaryPageLoadResponse.shape.data,
 )
 
