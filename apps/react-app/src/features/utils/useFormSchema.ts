@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 export type FormInputValues<T extends z.ZodTypeAny> = z.input<T>
@@ -10,7 +11,14 @@ export type FormOutputValues<T extends z.ZodTypeAny> = z.output<T>
 export function defineFormSchema<TSchema extends z.ZodTypeAny>(
   schema: TSchema,
 ) {
-  return schema.transform((input) => normalizeEmptyStrings(input))
+  const formSchema = schema.transform((input) => normalizeEmptyStrings(input))
+
+  return {
+    schema: formSchema,
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(formSchema as any),
+  }
 }
 
 /**
@@ -20,9 +28,16 @@ export function defineMappedFormSchema<
   TInputSchema extends z.ZodTypeAny,
   TOutputSchema extends z.ZodTypeAny,
 >(inputSchema: TInputSchema, outputSchema: TOutputSchema) {
-  return inputSchema.transform((input) =>
+  const formSchema = inputSchema.transform((input) =>
     outputSchema.parse(normalizeEmptyStrings(input)),
   )
+
+  return {
+    schema: formSchema,
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(formSchema as any),
+  }
 }
 
 /**
@@ -35,9 +50,16 @@ export function defineTransformFormSchema<
   inputSchema: TInputSchema,
   transform: (input: z.output<TInputSchema>) => TOutput,
 ) {
-  return inputSchema.transform((input) =>
+  const formSchema = inputSchema.transform((input) =>
     transform(normalizeEmptyStrings(input)),
   )
+
+  return {
+    schema: formSchema,
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(formSchema as any),
+  }
 }
 
 /**

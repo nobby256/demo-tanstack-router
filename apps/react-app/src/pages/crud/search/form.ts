@@ -1,12 +1,11 @@
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import {
-  definePageFormSchema,
+  defineFormSchema,
   type FormInputValues,
   type FormOutputValues,
-} from '#/features/utils/definePageFormSchema'
+} from '#/features/utils/useFormSchema'
 
 // ─────────────────────────────────────
 // Schema Definition
@@ -17,13 +16,13 @@ const inputSchema = z.strictObject({
   category: z.string().optional(),
 })
 
-const pageFormSchema = definePageFormSchema({
-  inputSchema,
-})
+const schemaDefinition = defineFormSchema(inputSchema)
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormValues = FormInputValues<typeof pageFormSchema>
-export type PageFormOutputValues = FormOutputValues<typeof pageFormSchema>
+export type PageFormValues = FormInputValues<typeof schemaDefinition.schema>
+export type PageFormOutputValues = FormOutputValues<
+  typeof schemaDefinition.schema
+>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -31,7 +30,7 @@ export type PageFormOutputValues = FormOutputValues<typeof pageFormSchema>
 
 export const usePageForm = () => {
   const form = useForm<PageFormValues>({
-    resolver: zodResolver(pageFormSchema),
+    resolver: schemaDefinition.resolver,
   })
   return form
 }

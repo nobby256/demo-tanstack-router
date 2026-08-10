@@ -1,9 +1,15 @@
 import { z } from 'zod'
 
-export type FormInputValues<T extends z.ZodTypeAny> = z.input<T>
+type FormSchema<TInput, TOutput, TSchema extends z.ZodTypeAny> = TSchema & {
+  readonly __formInput?: TInput
+  readonly __formOutput?: TOutput
+}
 
-export type FormOutputValues<T extends z.ZodTypeAny> = z.output<T>
+export type FormInputValues<T> = T extends { __formInput?: infer I } ? I : never
 
+export type FormOutputValues<T> = T extends { __formOutput?: infer O }
+  ? O
+  : never
 type DefinePageFormSchemaConfig<
   TInputSchema extends z.ZodTypeAny,
   TOutputSchema extends z.ZodTypeAny,
@@ -74,7 +80,11 @@ export function definePageFormSchema<
     return normalized
   })
 
-  return schema
+  return schema as FormSchema<
+    z.input<TInputSchema>,
+    z.output<TOutputSchema>,
+    typeof schema
+  >
 }
 
 /**
