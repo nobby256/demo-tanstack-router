@@ -45,7 +45,6 @@ model ActionResponse<T> {
  *
  * HTTP 422 と application/problem+json を固定する。
  * React 側は messages を表示する。
- * type は問題の分類を表すが、現時点では type による表示分岐は行わない。
  */
 model ProblemResponse {
   @statusCode
