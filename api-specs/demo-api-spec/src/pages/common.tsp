@@ -116,7 +116,7 @@ model PageViewModel<T> {
    * キーは画面内で定義したセレクタ名を表す。
    * 例: "roleCode", "prefectureCode"
    */
-  selectors: Record<SelectOption[]>;
+  selectors?: Record<SelectOption[]>;
 }
 
 /**
