@@ -14,25 +14,15 @@ namespace demo.summary_page;
 // Screen Models
 // =========================================
 
-model ViewModelData {
-  /** id */
-  id: string;
+model ViewModel extends viewmodel.ViewModelBase {
+  data: {
+    /** id */
+    id: string;
 
-  /** name */
-  name: string;
+    /** name */
+    name: string;
+  }[];
 }
-
-model ViewModel is viewmodel.ViewModel<ViewModelData[]>;
-
-model ActionModelData {
-  /** id */
-  id: string;
-
-  /** name */
-  name: string;
-}
-
-model ActionModel is viewmodel.ActionModel<ActionModelData[], never>;
 
 @post
 @route("/load")

@@ -14,40 +14,43 @@ namespace demo.detail_page;
 // Screen Models
 // =========================================
 
-model ViewModel is viewmodel.ViewModel<ViewModelData>;
-model ViewModelData {
-  /** id */
-  id: string;
+model ViewModel extends viewmodel.ViewModelBase {
+  data: {
+    /** id */
+    id: string;
 
-  /** name */
-  name: string;
+    /** name */
+    name: string;
 
-  /** num */
-  num: string;
+    /** num */
+    num: string;
 
-  /** description */
-  description: string;
+    /** description */
+    description: string;
 
-  /** version */
-  version: string;
+    /** version */
+    version: string;
+  };
 }
 
-model ActionModel is viewmodel.ActionModel<ActionModelData, never>;
-model ActionModelData {
-  /** id */
-  id: string;
+model ActionModel<TArgs extends {} = never>
+  extends viewmodel.ActionModelBase<TArgs> {
+  data: {
+    /** id */
+    id: string;
 
-  /** name */
-  name: string;
+    /** name */
+    name: string;
 
-  /** num */
-  num: string;
+    /** num */
+    num: string;
 
-  /** description */
-  description?: string;
+    /** description */
+    description?: string;
 
-  /** version */
-  version: int64;
+    /** version */
+    version: int64;
+  };
 }
 
 // =========================================
@@ -76,5 +79,5 @@ model LoadInput {
 @post
 @route("/update")
 op update(@bodyRoot body: ActionModel):
-  | viewmodel.ActionResult<never>
+  | viewmodel.ActionResult
   | problem.ProblemResponse;

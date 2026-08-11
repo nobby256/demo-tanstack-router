@@ -12,19 +12,20 @@ namespace demo.error_handling_page;
 // Screen Models
 // =========================================
 
-model ViewModelData {
-  /** id */
-  status: string;
+model ViewModel extends viewmodel.ViewModelBase {
+  data: {
+    /** id */
+    status: string;
+  };
 }
 
-model ViewModel is viewmodel.ViewModel<ViewModelData>;
-
-model ActionModelData {
-  /** id */
-  status: int32;
+model ActionModel<TArgs extends {} = never>
+  extends viewmodel.ActionModelBase<TArgs> {
+  data: {
+    /** id */
+    status: int32;
+  };
 }
-
-model ActionModel is viewmodel.ActionModel<ActionModelData, never>;
 
 // =========================================
 // Operations
@@ -43,5 +44,5 @@ model LoadInput {
 @route("/done")
 @opExample(#{ returnType: #{} })
 op done(@bodyRoot body: ActionModel):
-  | viewmodel.ActionResult<never>
+  | viewmodel.ActionResult
   | problem.ProblemResponse;

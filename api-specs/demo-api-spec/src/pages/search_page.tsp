@@ -13,9 +13,12 @@ namespace demo.search_page;
 // Screen Models
 // =========================================
 
-model ViewModelData {}
-
-model ViewModel is viewmodel.ViewModel<ViewModelData>;
+model ViewModel extends viewmodel.ViewModelBase {
+  data: {
+    keyword: string;
+    category: string;
+  };
+}
 
 // =========================================
 // Operations
@@ -23,6 +26,7 @@ model ViewModel is viewmodel.ViewModel<ViewModelData>;
 
 @post
 @route("/load")
+@opExample(#{ returnType: #{ data: #{ keyword: "", category: "" } } })
 op load(@bodyRoot body: LoadInput): ViewModel;
 
 /**

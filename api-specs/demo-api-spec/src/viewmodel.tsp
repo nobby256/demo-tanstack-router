@@ -12,11 +12,13 @@ namespace viewmodel;
  *
  * React 側では、通常 data を React Hook Form の defaultValues に使用する。
  */
-model ViewModel<TData> {
+model ViewModelBase {
   /**
-   * 画面が表示・編集する主データ。
+   * 画面の主データ。
+   *
+   * 各画面の ViewModel で具体的な model または配列に override する。
    */
-  data: TData;
+  data: unknown;
 
   /**
    * 画面内の select、radio、combobox などで使用する選択肢。
@@ -68,23 +70,16 @@ model SelectOption {
  * actionArgs は HTTP request に含まれる以上、クライアントで生成した値であっても
  * サーバー側で必ず検証する。
  */
-model ActionModel<TData, TArgs extends {} = never> {
+model ActionModelBase<TArgs extends {} = never> {
   /**
-   * フォームの正規入力値。
+   * Action で送信する主データ。
    *
-   * React Hook Form は通常この data を検証対象とする。
+   * 各画面の ActionModel で具体的な model または配列に override する。
    */
-  data: TData;
+  data: unknown;
 
   /**
    * Action 固有の補助引数。
-   *
-   * ユーザーが直接編集する通常のフォーム項目は data に置く。
-   * actionArgs には、Action 実行時にのみ必要なプログラム由来の値を置く。
-   *
-   * Action が actionArgs を必要とする場合でも、このプロパティは transport 上は
-   * optional とする。必要性、型、値域、権限、業務状態との整合性はサーバーで検証し、
-   * 不正な場合は ProblemResponse を返す。
    */
   actionArgs?: TArgs;
 }
