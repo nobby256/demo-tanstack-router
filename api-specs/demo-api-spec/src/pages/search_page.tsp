@@ -8,22 +8,28 @@ using Http;
  */
 @tag("search-page")
 @route("/api/search-page")
-namespace demo.search_page {
-  @post
-  @route("/load")
-  op load(@bodyRoot body: LoadInput): LoadOutput;
+namespace demo.search_page;
+// =========================================
+// Screen Models
+// =========================================
 
-  /**
-   * loadの引数
-   */
-  model LoadInput {}
+model ViewModelData {}
 
-  /**
-   * loadの戻り値
-   */
-  model LoadOutput {}
+model ViewModel is viewmodel.ViewModel<ViewModelData>;
 
-  // ============================================
-  // モデル
-  // =========
-}
+// =========================================
+// Operations
+// =========================================
+
+@post
+@route("/load")
+op load(@bodyRoot body: LoadInput): ViewModel;
+
+/**
+ * loadの引数
+ */
+model LoadInput {}
+
+// ============================================
+// モデル
+// =========

@@ -18,14 +18,12 @@ export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 // Form Hook
 // ─────────────────────────────────────
 
-const inputSchema = z.strictObject({
-  keyword: z.string().optional(),
-  category: z.string().optional(),
-})
-
 export const usePageForm = () => {
   const form = usePlainForm({
-    schema: inputSchema,
+    schema: z.strictObject({
+      keyword: z.string().optional(),
+      category: z.string().optional(),
+    }),
   })
   return form
 }

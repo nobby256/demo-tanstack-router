@@ -1,6 +1,5 @@
 import "@typespec/http";
 import "@vendor/typespec-validation";
-import "./common.tsp";
 
 using TypeSpec.Http;
 
@@ -12,15 +11,10 @@ using TypeSpec.Http;
 namespace demo.detail_page;
 
 // =========================================
-// load
+// Screen Models
 // =========================================
 
-model LoadInput {
-  /** id */
-  id: string;
-}
-
-model ViewModel {
+model ViewModelData {
   /** id */
   id: string;
 
@@ -34,34 +28,12 @@ model ViewModel {
   description: string;
 
   /** version */
-  version: int64;
+  version: string;
 }
 
-model LoadOutput is LoadResponse<ViewModel>;
+model ViewModel is viewmodel.ViewModel<ViewModelData>;
 
-@post
-@route("/load")
-@opExample(#{
-  returnType: #{
-    statusCode: 200,
-    body: #{
-      data: #{
-        id: "1",
-        name: "Item 1",
-        num: "123.45",
-        description: "This is item 1",
-        version: 1,
-      },
-    },
-  },
-})
-op load(@bodyRoot body: LoadInput): LoadOutput;
-
-// =========================================
-// update
-// =========================================
-
-model UpdateInput {
+model ActionModelData {
   /** id */
   id: string;
 
@@ -78,8 +50,33 @@ model UpdateInput {
   version: int64;
 }
 
-model UpdateOutput is ActionResponse<never>;
+model ActionModel is viewmodel.ActionModel<ActionModelData, never>;
+
+// =========================================
+// Operations
+// =========================================
+
+@post
+@route("/load")
+@opExample(#{
+  returnType: #{
+    data: #{
+      id: "1",
+      name: "Item 1",
+      num: "123.45",
+      description: "This is item 1",
+      version: "1",
+    },
+  },
+})
+op load(@bodyRoot body: LoadInput): ViewModel;
+
+model LoadInput {
+  id?: string;
+}
 
 @post
 @route("/update")
-op update(@bodyRoot body: UpdateInput): UpdateOutput | ProblemResponse;
+op update(@bodyRoot body: ActionModel):
+  | viewmodel.ActionResult<never>
+  | problem.ProblemResponse;

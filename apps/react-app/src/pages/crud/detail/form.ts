@@ -7,7 +7,6 @@ import {
 } from '#/features/utils/useForm'
 
 import { Route, schema } from './-page-deps-internal'
-
 // ─────────────────────────────
 // Types
 // ─────────────────────────────
@@ -24,12 +23,12 @@ export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
   const form = useRequestForm({
-    inputSchema: schema.DetailPageLoadResponse.shape.data,
+    inputSchema: schema.DetailPageLoadResponse,
     outputSchema: schema.DetailPageUpdateBody,
-    defaultValues: loaderData.data,
+    defaultValues: loaderData,
   })
   useEffect(() => {
-    form.reset(loaderData.data)
+    form.reset(loaderData)
   }, [loaderData.data])
 
   return form

@@ -23,8 +23,8 @@ export const useActions = useActionBoundary(
   ({ form: _form }: ActionContext) => {
     const router = useRouter()
 
-    const submitUpdate = async (data: PageFormOutputValues) => {
-      await operation.detailPageUpdate(data)
+    const submitUpdate = async (values: PageFormOutputValues) => {
+      await operation.detailPageUpdate(values)
 
       //loaderの強制再実行
       await router.invalidate()

@@ -160,7 +160,7 @@ export function PageComponent() {
         <div>
           <div>
             <Controller
-              name="status"
+              name="data.status"
               control={form.control}
               render={({ field, fieldState }) => (
                 <>
@@ -173,25 +173,25 @@ export function PageComponent() {
             />
           </div>
           <button onClick={form.handleSubmit(actions.done)}>submit</button>
-          <button onClick={() => form.setValue('status', '400')}>
+          <button onClick={() => form.setValue('data.status', '400')}>
             ステータスコード：400
           </button>
-          <button onClick={() => form.setValue('status', '401')}>
+          <button onClick={() => form.setValue('data.status', '401')}>
             ステータスコード：401
           </button>
-          <button onClick={() => form.setValue('status', '403')}>
+          <button onClick={() => form.setValue('data.status', '403')}>
             ステータスコード：403
           </button>
-          <button onClick={() => form.setValue('status', '404')}>
+          <button onClick={() => form.setValue('data.status', '404')}>
             ステータスコード：404
           </button>
-          <button onClick={() => form.setValue('status', '410')}>
+          <button onClick={() => form.setValue('data.status', '410')}>
             ステータスコード：410
           </button>
-          <button onClick={() => form.setValue('status', '422')}>
+          <button onClick={() => form.setValue('data.status', '422')}>
             ステータスコード：422
           </button>
-          <button onClick={() => form.setValue('status', '500')}>
+          <button onClick={() => form.setValue('data.status', '500')}>
             ステータスコード：500
           </button>
         </div>

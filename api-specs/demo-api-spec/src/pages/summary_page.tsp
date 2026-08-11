@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@vendor/typespec-validation";
 
-using OpenAPI;
 using Http;
 
 /**
@@ -9,46 +8,42 @@ using Http;
  */
 @tag("summary-page")
 @route("/api/summary-page")
-namespace demo.summary_page {
-  /**
-   * ロード
-   */
-  @post
-  @route("/load")
-  @opExample(#{
-    returnType: #{
-      data: #[#{ id: "1", name: "Item 1" }, #{ id: "2", name: "Item 2" }],
-    },
-  })
-  op load(@bodyRoot body: LoadInput): LoadOutput;
+namespace demo.summary_page;
 
-  /**
-   * loadの引数
-   */
-  model LoadInput {
-    keyword?: string;
-    category?: string;
-  }
+// =========================================
+// Screen Models
+// =========================================
 
-  /**
-   * loadの戻り値
-   */
-  model LoadOutput {
-    data: SummaryItem[];
-  }
+model ViewModelData {
+  /** id */
+  id: string;
 
-  // ============================================
-  // モデル
-  // =========
+  /** name */
+  name: string;
+}
 
-  /**
-   * 一覧
-   */
-  model SummaryItem {
-    /** id */
-    id: string;
+model ViewModel is viewmodel.ViewModel<ViewModelData[]>;
 
-    /** name */
-    name: string;
-  }
+model ActionModelData {
+  /** id */
+  id: string;
+
+  /** name */
+  name: string;
+}
+
+model ActionModel is viewmodel.ActionModel<ActionModelData[], never>;
+
+@post
+@route("/load")
+@opExample(#{
+  returnType: #{
+    data: #[#{ id: "1", name: "Item 1" }, #{ id: "2", name: "Item 2" }],
+  },
+})
+op load(@bodyRoot body: LoadInput): ViewModel;
+
+model LoadInput {
+  keyword?: string;
+  category?: string;
 }

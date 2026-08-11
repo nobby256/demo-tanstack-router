@@ -1,4 +1,5 @@
 import { useBackTo, useQueryState } from '@vendor/router-enhancer'
+import { Controller } from 'react-hook-form'
 import { z } from 'zod'
 
 import { usePageBlocker } from '#/features/behavior-hook/use-page-brocker'
@@ -84,21 +85,33 @@ export function PageComponent() {
         <div>version: {data.version}</div>
         <div>
           Name:
-          <input {...form.register('name')} />
-          {form.formState.errors.name && (
-            <span className="error-message">
-              {form.formState.errors.name.message}
-            </span>
-          )}
+          <Controller
+            control={form.control}
+            name="data.name"
+            render={({ field, fieldState }) => (
+              <>
+                <input {...field} />
+                <span className="error-message">
+                  {fieldState.error?.message}
+                </span>
+              </>
+            )}
+          />
         </div>
         <div>
           Description:
-          <input {...form.register('description')} />
-          {form.formState.errors.description && (
-            <span className="error-message">
-              {form.formState.errors.description.message}
-            </span>
-          )}
+          <Controller
+            control={form.control}
+            name="data.description"
+            render={({ field, fieldState }) => (
+              <>
+                <input {...field} />
+                <span className="error-message">
+                  {fieldState.error?.message}
+                </span>
+              </>
+            )}
+          />
         </div>
         <button
           type="button"

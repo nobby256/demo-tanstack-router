@@ -34,6 +34,7 @@
     "lint": "eslint .",
     "format": "eslint --fix .",
     "generate": "orval --config ./orval.config.ts",
+    "generate2": "orval --config ./orval.config.ts && tsx scripts/fix-orval-zod-imports.ts",
     "build": "tsdown"
   },
   "peerDependencies": {
@@ -53,6 +54,7 @@
     "demo-api-spec": "workspace:*",
     "@orval/zod": "workspace:*",
     "@vendor/tsconfig": "workspace:*",
-    "@vendor/tsdown-config": "workspace:*"
+    "@vendor/tsdown-config": "workspace:*",
+    "tsx": "4.23.12"
   }
 }

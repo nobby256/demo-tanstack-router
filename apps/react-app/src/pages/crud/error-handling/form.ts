@@ -24,12 +24,12 @@ export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
   const form = useRequestForm({
-    inputSchema: schema.ErrorHandlingPageLoadResponse.shape.data,
+    inputSchema: schema.ErrorHandlingPageLoadResponse,
     outputSchema: schema.ErrorHandlingPageDoneBody,
-    defaultValues: loaderData.data,
+    defaultValues: loaderData,
   })
   useEffect(() => {
-    form.reset(loaderData.data)
+    form.reset(loaderData)
   }, [loaderData.data])
 
   return form

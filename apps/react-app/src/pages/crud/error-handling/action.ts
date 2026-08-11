@@ -23,8 +23,8 @@ export const useActions = useActionBoundary(
   ({ form: _form }: ActionContext) => {
     const router = useRouter()
 
-    const done = async (data: PageFormOutputValues) => {
-      await operation.errorHandlingPageDone(data)
+    const done = async (values: PageFormOutputValues) => {
+      await operation.errorHandlingPageDone(values)
 
       // URLを変えずにloaderの再実行
       // await navigation.invalidate()

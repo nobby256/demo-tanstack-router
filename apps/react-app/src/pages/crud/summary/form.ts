@@ -24,11 +24,11 @@ export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
   const form = usePlainForm({
-    schema: schema.SummaryPageLoadResponse.shape.data,
-    defaultValues: loaderData.data,
+    schema: schema.SummaryPageLoadResponse,
+    defaultValues: loaderData,
   })
   useEffect(() => {
-    form.reset(loaderData.data)
+    form.reset(loaderData)
   }, [loaderData.data])
 
   return form
