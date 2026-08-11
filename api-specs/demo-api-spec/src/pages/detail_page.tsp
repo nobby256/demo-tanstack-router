@@ -14,6 +14,7 @@ namespace demo.detail_page;
 // Screen Models
 // =========================================
 
+model ViewModel is viewmodel.ViewModel<ViewModelData>;
 model ViewModelData {
   /** id */
   id: string;
@@ -31,8 +32,7 @@ model ViewModelData {
   version: string;
 }
 
-model ViewModel is viewmodel.ViewModel<ViewModelData>;
-
+model ActionModel is viewmodel.ActionModel<ActionModelData, never>;
 model ActionModelData {
   /** id */
   id: string;
@@ -49,8 +49,6 @@ model ActionModelData {
   /** version */
   version: int64;
 }
-
-model ActionModel is viewmodel.ActionModel<ActionModelData, never>;
 
 // =========================================
 // Operations
