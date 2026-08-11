@@ -3,6 +3,53 @@ import "@typespec/http";
 using TypeSpec.Http;
 
 // =========================================
+// Form Action Input
+// =========================================
+
+/**
+ * 固有引数を持たない Form Action の共通 Input。
+ *
+ * Form Action は、画面固有の ActionModel を入力として受け取る
+ * サーバー Action である。
+ *
+ * ActionModel のプロパティは HTTP body のトップレベルへ展開される。
+ * そのため、ProblemMessage.fields の値を React Hook Form の field 名へ
+ * そのまま対応付けられる。
+ *
+ * @example
+ * model UpdateInput is FormActionInput<ActionModel>;
+ */
+model FormActionInput<TActionModel extends {}> {
+  ...TActionModel;
+}
+
+/**
+ * 固有引数を持つ Form Action の共通 Input。
+ *
+ * Form Action は、画面の現在の ActionModel と、
+ * operation 固有の actionArgs を入力として受け取る。
+ *
+ * actionArgs は Form Action 固有引数のための予約プロパティである。
+ * ActionModel および ViewModel では actionArgs を定義してはならない。
+ *
+ * TActionModel のプロパティは HTTP body のトップレベルへ展開される。
+ * 固有引数だけを actionArgs 配下へ隔離することで、
+ * ActionModel のプロパティ名との衝突を防ぐ。
+ *
+ * @example
+ * model CalculateInput is FormActionInputWithArgs<
+ *   ActionModel,
+ *   CalculateActionArgs
+ * >;
+ */
+model FormActionInputWithArgs<TActionModel extends {}, TActionArgs extends {}> {
+  ...TActionModel;
+
+  /** operation 固有引数 */
+  actionArgs: TActionArgs;
+}
+
+// =========================================
 // HTTP Response
 // =========================================
 
@@ -13,7 +60,7 @@ using TypeSpec.Http;
  * operation 固有の Output は、この model を is で具体化する。
  *
  * @example
- * model LoadOutput is LoadResponse<LoadViewModel>;
+ * model LoadOutput is LoadResponse<ViewModel>;
  */
 model LoadResponse<T> {
   @statusCode
@@ -24,13 +71,16 @@ model LoadResponse<T> {
 }
 
 /**
- * 画面上の Action operation の正常応答。
+ * Action operation の正常応答。
  *
+ * Form Action と、固有 Input を受け取る Action の双方で使用する。
  * HTTP 200 で、Action の実行結果と画面表示用メッセージを返す。
+ *
  * operation 固有の Output は、この model を is で具体化する。
  *
  * @example
- * model SaveOutput is ActionResponse<SaveResult>;
+ * model UpdateOutput is ActionResponse<never>;
+ * model CalculateOutput is ActionResponse<CalculateResult>;
  */
 model ActionResponse<T> {
   @statusCode
@@ -44,7 +94,7 @@ model ActionResponse<T> {
  * クライアントが修正可能な問題を返す応答。
  *
  * HTTP 422 と application/problem+json を固定する。
- * React 側は messages を表示する。
+ * React 側は messages を画面上部または該当フォーム項目に表示する。
  */
 model ProblemResponse {
   @statusCode
@@ -104,7 +154,7 @@ model BusinessRuleProblem {
  * T には画面固有の ViewModel を指定する。
  *
  * @example
- * model LoadOutput is LoadResponse<UserEditViewModel>;
+ * model LoadOutput is LoadResponse<UserEdit.ViewModel>;
  */
 model PageViewModel<T> {
   /** 画面にバインドするデータ */
@@ -165,10 +215,13 @@ model Message {
   message: string;
 
   /**
-   * メッセージに関連するフォーム項目名。
+   * メッセージに関連する request body の field path。
    *
    * ProblemMessage でのみ使用する。
-   * 項目名は React 側のフォーム field 名と一致させる。
+   * 通常は React Hook Form の field 名と一致させる。
+   *
+   * Form Action 固有引数を指す場合は、
+   * "actionArgs.targetRowIndex" のように actionArgs を起点とする。
    */
   fields?: string[];
 }
