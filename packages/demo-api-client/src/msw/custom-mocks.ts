@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 import {
-  type ErrorHandlingPageDoneInput,
+  type ErrorHandlingPageDoneBody,
   type ErrorHandlingPageLoadInput,
 } from '../../.generated/orval/model/error-handling-page'
 import { getErrorHandlingPageLoadResponseMock } from '../../.generated/orval/msw/error-handling-page/error-handling-page.msw'
@@ -50,9 +50,9 @@ export const customMocks = {
       })
     }),
     http.post(getErrorHandlingPageDoneUrl(), async ({ request }) => {
-      const body = (await request.json()) as ErrorHandlingPageDoneInput
+      const body = (await request.json()) as ErrorHandlingPageDoneBody
       // statusがエラーステータスコードと想定
-      const status = Number(body.status)
+      const status = Number(body.data.status)
       if (!Number.isNaN(status) && status >= 400) {
         if (status === 422) {
           return HttpResponse.json(

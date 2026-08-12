@@ -20,16 +20,16 @@ model ViewModel extends viewmodel.ViewModelBase {
     id: string;
 
     /** name */
-    name: string;
+    name?: string = "";
 
     /** num */
-    num: string;
+    num?: string = "";
 
     /** description */
-    description: string;
+    description?: string = "";
 
     /** version */
-    version: string;
+    version: int64;
   };
 }
 
@@ -43,7 +43,7 @@ model ActionModel<TArgs extends {} = never>
     name: string;
 
     /** num */
-    num: string;
+    num: int32;
 
     /** description */
     description?: string;
@@ -78,7 +78,7 @@ model LoadInput {
       name: "Item 1",
       num: "123.45",
       description: "This is item 1",
-      version: "1",
+      version: 1,
     },
   },
 })
@@ -93,9 +93,7 @@ op load(@bodyRoot body: LoadInput): ViewModel;
  */
 @post
 @route("/update")
-op update(@bodyRoot body: ActionModel):
-  | viewmodel.ActionResult
-  | problem.ProblemResponse;
+op update(@bodyRoot body: ActionModel): viewmodel.ActionResult;
 
 // =========================================
 // Other Operations

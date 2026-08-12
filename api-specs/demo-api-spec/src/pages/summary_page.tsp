@@ -20,7 +20,7 @@ model ViewModel extends viewmodel.ViewModelBase {
     id: string;
 
     /** name */
-    name: string;
+    name?: string = "";
   }[];
 }
 

@@ -46,7 +46,7 @@ export default defineConfig({
       formatter: 'prettier',
       override: {
         zod: {
-          generateReusableSchemas: true,
+          // generateReusableSchemas: true,
           generate: {
             param: false,
             query: false,

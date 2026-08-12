@@ -15,7 +15,7 @@ namespace demo.error_handling_page;
 model ViewModel extends viewmodel.ViewModelBase {
   data: {
     /** id */
-    status: string;
+    status?: string = "";
   };
 }
 
@@ -53,9 +53,7 @@ op load(@bodyRoot body: LoadInput): ViewModel;
 @post
 @route("/done")
 @opExample(#{ returnType: #{} })
-op done(@bodyRoot body: ActionModel):
-  | viewmodel.ActionResult
-  | problem.ProblemResponse;
+op done(@bodyRoot body: ActionModel): viewmodel.ActionResult;
 
 // =========================================
 // Other Operations

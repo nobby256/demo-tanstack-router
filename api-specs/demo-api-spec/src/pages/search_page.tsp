@@ -16,8 +16,8 @@ namespace demo.search_page;
 
 model ViewModel extends viewmodel.ViewModelBase {
   data: {
-    keyword: string;
-    category: string;
+    keyword?: string = "";
+    category?: string = "";
   };
 }
 
