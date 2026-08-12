@@ -52,7 +52,6 @@ op load(@bodyRoot body: LoadInput): ViewModel;
 
 @post
 @route("/done")
-@opExample(#{ returnType: #{} })
 op done(@bodyRoot body: ActionModel): viewmodel.ActionResult;
 
 // =========================================

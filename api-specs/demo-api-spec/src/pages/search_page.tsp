@@ -21,14 +21,14 @@ model ViewModel extends viewmodel.ViewModelBase {
   };
 }
 
+// =========================================
+// ViewModel Operations
+// =========================================
+
 /**
  * load operation の入力。
  */
 model LoadInput {}
-
-// =========================================
-// ViewModel Operations
-// =========================================
 
 /**
  * load operation。

@@ -7,27 +7,24 @@ namespace viewmodel;
 /**
  * 画面の初期表示および表示状態を表す共通の基底モデル。
  *
- * load Action の応答で使用する。
- * 各画面は ViewModelBase を継承し、data を画面固有の model または配列へ
- * override する。
+ * load Action の応答モデルは、通常このモデルを継承して定義する。
+ *
+ * 各画面は必要に応じて data プロパティを追加し、
+ * 画面固有の表示データや編集データを表現する。
+ *
+ * 例:
+ *
+ * model CustomerViewModel extends ViewModelBase {
+ *   data: {
+ *     customerId: string;
+ *     customerName: string;
+ *   };
+ * }
  *
  * selectors および画面固有のマスタデータ、権限、表示補助情報などは、
  * 必要に応じて各画面の ViewModel に追加する。
  */
 model ViewModelBase {
-  /**
-   * 画面の主データ。
-   *
-   * 表示値、編集値、画面状態など、その画面の中心となるデータを表す。
-   * 具体的な型は各画面の ViewModel で定義する。
-   *
-   * data は model、配列、またはそれらを組み合わせた構造を取り得る。
-   *
-   * フォーム画面では、通常 data または data 内のフォーム対象 subtree を
-   * React Hook Form の defaultValues に使用する。
-   */
-  data: unknown;
-
   /**
    * 画面内の select、radio、combobox などで使用する選択肢。
    *
@@ -67,33 +64,54 @@ model SelectOption {
 /**
  * Form Action の request body を表す共通の基底モデル。
  *
- * 各画面は ActionModelBase を継承し、data をその画面の
- * ActionModelData へ override する。
+ * 各画面は通常このモデルを継承し、
+ * その画面で更新対象となる data プロパティを追加して定義する。
+ *
+ * ViewModel と ActionModel は通常 1 対 1 で対応する。
+ *
+ * 例:
+ *
+ * model CustomerActionModel extends ActionModelBase {
+ *   data: {
+ *     customerId: int32;
+ *     customerName: string;
+ *   };
+ * }
  *
  * data には、更新・登録・削除などの Action を実行するために
  * サーバーへ送信してよいデータだけを含める。
- * ViewModel に存在する表示専用データ、selectors、画面固有のマスタデータは
- * 通常 data に含めない。
  *
- * actionArgs は、Action ごとに異なる補助引数を表す。
- * たとえば、押下した行の index、実行モード、現在の UI 状態などを
- * API 呼出時にプログラムで付与する。
+ * ViewModel に存在する表示専用データ、selectors、
+ * 画面固有のマスタデータなどは通常 data に含めない。
  *
- * TArgs に never を指定した場合、その Action は actionArgs を持たない。
+ * actionArgs は Action 実行時の補助引数を表す。
  *
- * HTTP request に含まれる data および actionArgs は、クライアントが生成した値でも
- * 信頼できる値ではない。サーバーは型、必須性、値域、権限、業務状態との整合性を
+ * Action ごとに必要な引数は ActionModel の型引数で指定する。
+ *
+ * 例:
+ *
+ * @post
+ * @route("/update")
+ * op update(
+ *   @bodyRoot body: CustomerActionModel<{
+ *     force: boolean;
+ *   }>,
+ * ): viewmodel.ActionResult;
+ *
+ * actionArgs は、押下した行の index、実行モード、
+ * 選択状態など、data とは独立した実行コンテキストを
+ * 表現するために利用できる。
+ *
+ * TArgs に never を指定した場合、その Action は
+ * actionArgs を使用しない。
+ *
+ * HTTP request に含まれる data および actionArgs は、
+ * クライアントが生成した値であり信頼できない。
+ *
+ * サーバーは型、必須性、値域、権限、業務状態との整合性を
  * 必ず検証する。
  */
 model ActionModelBase<TArgs extends {} = never> {
-  /**
-   * Action 実行時に送信する主データ。
-   *
-   * 具体的な型は各画面の ActionModel で定義する。
-   * data は model、配列、またはそれらを組み合わせた構造を取り得る。
-   */
-  data: unknown;
-
   /**
    * Action 固有の補助引数。
    *
