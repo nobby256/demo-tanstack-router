@@ -28,17 +28,27 @@ model ActionModel<TArgs extends {} = never>
 }
 
 // =========================================
-// Operations
+// ViewModel Operations
 // =========================================
 
+/**
+ * load operation の入力。
+ */
+model LoadInput {
+  status?: string;
+}
+
+/**
+ * load operation。
+ */
 @post
 @route("/load")
 @opExample(#{ returnType: #{ data: #{ status: "" } } })
 op load(@bodyRoot body: LoadInput): ViewModel;
 
-model LoadInput {
-  status?: string;
-}
+// =========================================
+// ActionModel Operations
+// =========================================
 
 @post
 @route("/done")
@@ -46,3 +56,7 @@ model LoadInput {
 op done(@bodyRoot body: ActionModel):
   | viewmodel.ActionResult
   | problem.ProblemResponse;
+
+// =========================================
+// Other Operations
+// =========================================

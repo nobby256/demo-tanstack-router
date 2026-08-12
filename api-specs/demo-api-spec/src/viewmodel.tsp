@@ -14,6 +14,7 @@ namespace viewmodel;
  * selectors および画面固有のマスタデータ、権限、表示補助情報などは、
  * 必要に応じて各画面の ViewModel に追加する。
  */
+@mediaTypeHint("application/x.view-model+json")
 model ViewModelBase {
   /**
    * 画面の主データ。

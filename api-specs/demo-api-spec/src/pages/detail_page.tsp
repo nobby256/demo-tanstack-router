@@ -54,9 +54,21 @@ model ActionModel<TArgs extends {} = never>
 }
 
 // =========================================
-// Operations
+// ViewModel Operations
 // =========================================
 
+/**
+ * load operation の入力。
+ *
+ * id 未指定時は新規作成用の初期 ViewModel を返す。
+ */
+model LoadInput {
+  id?: string;
+}
+
+/**
+ * load operation。
+ */
 @post
 @route("/load")
 @opExample(#{
@@ -72,12 +84,19 @@ model ActionModel<TArgs extends {} = never>
 })
 op load(@bodyRoot body: LoadInput): ViewModel;
 
-model LoadInput {
-  id?: string;
-}
+// =========================================
+// ActionModel Operations
+// =========================================
 
+/**
+ * update operation。
+ */
 @post
 @route("/update")
 op update(@bodyRoot body: ActionModel):
   | viewmodel.ActionResult
   | problem.ProblemResponse;
+
+// =========================================
+// Other Operations
+// =========================================

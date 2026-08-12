@@ -19,6 +19,7 @@
     "./op/gentest3-page": "./dist/op/gentest3-page.js",
     "./op/search-page": "./dist/op/search-page.js",
     "./op/summary-page": "./dist/op/summary-page.js",
+    "./zod/demo.schemas": "./dist/zod/demo.schemas.js",
     "./zod/detail-page": "./dist/zod/detail-page.js",
     "./zod/error-handling-page": "./dist/zod/error-handling-page.js",
     "./zod/gentest-page": "./dist/zod/gentest-page.js",
@@ -33,8 +34,7 @@
     "type-check": "tsc -b --noEmit",
     "lint": "eslint .",
     "format": "eslint --fix .",
-    "generate": "orval --config ./orval.config.ts",
-    "generate2": "orval --config ./orval.config.ts && tsx scripts/fix-orval-zod-imports.ts",
+    "generate": "orval --config ./orval.config.ts && tsx scripts/fix-orval-zod-generateReusableSchemas.ts",
     "build": "tsdown"
   },
   "peerDependencies": {

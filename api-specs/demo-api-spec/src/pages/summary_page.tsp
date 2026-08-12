@@ -24,6 +24,21 @@ model ViewModel extends viewmodel.ViewModelBase {
   }[];
 }
 
+// =========================================
+// ViewModel Operations
+// =========================================
+
+/**
+ * load operation の入力。
+ */
+model LoadInput {
+  keyword?: string;
+  category?: string;
+}
+
+/**
+ * load operation。
+ */
 @post
 @route("/load")
 @opExample(#{
@@ -33,7 +48,10 @@ model ViewModel extends viewmodel.ViewModelBase {
 })
 op load(@bodyRoot body: LoadInput): ViewModel;
 
-model LoadInput {
-  keyword?: string;
-  category?: string;
-}
+// =========================================
+// ActionModel Operations
+// =========================================
+
+// =========================================
+// Other Operations
+// =========================================

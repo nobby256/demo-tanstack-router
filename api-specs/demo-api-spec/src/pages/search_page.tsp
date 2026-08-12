@@ -9,6 +9,7 @@ using Http;
 @tag("search-page")
 @route("/api/search-page")
 namespace demo.search_page;
+
 // =========================================
 // Screen Models
 // =========================================
@@ -20,20 +21,27 @@ model ViewModel extends viewmodel.ViewModelBase {
   };
 }
 
+/**
+ * load operation の入力。
+ */
+model LoadInput {}
+
 // =========================================
-// Operations
+// ViewModel Operations
 // =========================================
 
+/**
+ * load operation。
+ */
 @post
 @route("/load")
 @opExample(#{ returnType: #{ data: #{ keyword: "", category: "" } } })
 op load(@bodyRoot body: LoadInput): ViewModel;
 
-/**
- * loadの引数
- */
-model LoadInput {}
+// =========================================
+// ActionModel Operations
+// =========================================
 
-// ============================================
-// モデル
-// =========
+// =========================================
+// Other Operations
+// =========================================
