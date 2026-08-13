@@ -8,7 +8,7 @@ using TypeSpec.Http;
  */
 @tag("detail-page")
 @route("/api/detail-page")
-namespace demo.detail_page;
+namespace service.detail_page;
 
 // =========================================
 // Screen Models

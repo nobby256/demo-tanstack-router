@@ -17,7 +17,7 @@
  */
 
 export * as operation from 'demo-api-client/op/detail-page'
-export * as model from 'demo-api-client/model/detail-page'
+export * as model from 'demo-api-client/op/service.schemas'
 export * as schema from 'demo-api-client/zod/detail-page'
 export { Route } from '#/routes/crud.$id'
 export {

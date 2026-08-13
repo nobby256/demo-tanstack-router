@@ -8,7 +8,7 @@ using Http;
  */
 @tag("summary-page")
 @route("/api/summary-page")
-namespace demo.summary_page;
+namespace service.summary_page;
 
 // =========================================
 // Screen Models

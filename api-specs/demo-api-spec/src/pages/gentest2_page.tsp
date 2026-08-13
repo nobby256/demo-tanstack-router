@@ -10,7 +10,7 @@ using OpenAPI;
  */
 @tag("gentest2-page")
 @route("/api/gentest2-page")
-namespace demo.gentest2_page {
+namespace service.gentest2_page {
   /**
    * GET API
    */

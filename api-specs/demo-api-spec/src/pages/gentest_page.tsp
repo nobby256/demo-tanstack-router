@@ -10,7 +10,7 @@ using Http;
  */
 @tag("gentest-page")
 @route("/api/gentest-page")
-namespace demo.gentest_page {
+namespace service.gentest_page {
   /**
    * 列挙体
    */

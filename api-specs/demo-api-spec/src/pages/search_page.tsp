@@ -8,7 +8,7 @@ using Http;
  */
 @tag("search-page")
 @route("/api/search-page")
-namespace demo.search_page;
+namespace service.search_page;
 
 // =========================================
 // Screen Models

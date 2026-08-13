@@ -11,6 +11,6 @@ import "./pages/gentest2_page.tsp";
 import "./pages/gentest3_page.tsp";
 import "./pages/error-handling_page.tsp";
 
-@OpenAPI.info(#{ title: "demo", version: "1.0.0" })
-@service(#{ title: "demo" })
-namespace demo;
+@OpenAPI.info(#{ title: "service", version: "1.0.0" })
+@service(#{ title: "service" })
+namespace service;

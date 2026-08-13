@@ -6,7 +6,7 @@ using Http;
 
 @tag("error-handling-page")
 @route("/api/error-handling-page")
-namespace demo.error_handling_page;
+namespace service.error_handling_page;
 
 // =========================================
 // Screen Models

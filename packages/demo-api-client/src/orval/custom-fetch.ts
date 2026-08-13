@@ -6,7 +6,7 @@ export function configureClient(fetch: $Fetch) {
   apiFetch = fetch
 }
 
-export const request = async <T>(
+export const customFetch = async <T>(
   url: string,
   options: RequestInit = {},
 ): Promise<T> => {

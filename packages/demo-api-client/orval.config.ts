@@ -1,7 +1,8 @@
 import { defineConfig } from 'orval'
 
 const OUTPUT_DIR = './.generated/orval'
-const INPUT_FILE = './node_modules/demo-api-spec/dist/openapi/openapi-demo.yaml'
+const INPUT_FILE =
+  './node_modules/demo-api-spec/dist/openapi/openapi-service.yaml'
 
 export default defineConfig({
   api: {
@@ -10,10 +11,11 @@ export default defineConfig({
       target: `${OUTPUT_DIR}/op`,
       client: 'fetch',
       mode: 'tags',
-      schemas: {
-        path: `${OUTPUT_DIR}/model`,
-        splitByTags: true,
-      },
+      clean: true,
+      // schemas: {
+      //   path: `${OUTPUT_DIR}/model`,
+      //   splitByTags: true,
+      // },
       formatter: 'prettier',
       mock: {
         indexMockFiles: true,
@@ -32,7 +34,7 @@ export default defineConfig({
         },
         mutator: {
           path: 'src/orval/custom-fetch.ts',
-          name: 'request',
+          name: 'customFetch',
         },
       },
     },
@@ -56,7 +58,11 @@ export default defineConfig({
             response: true,
           },
           coerce: {
+            param: true,
+            query: true,
+            header: false,
             body: true,
+            response: false,
           },
         },
       },

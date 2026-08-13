@@ -1,19 +1,19 @@
 import { http, HttpResponse } from 'msw'
 
-import {
-  type ErrorHandlingPageDoneBody,
-  type ErrorHandlingPageLoadInput,
-} from '../../.generated/orval/model/error-handling-page'
 import { getErrorHandlingPageLoadResponseMock } from '../../.generated/orval/msw/error-handling-page/error-handling-page.msw'
 import {
   getErrorHandlingPageDoneUrl,
   getErrorHandlingPageLoadUrl,
 } from '../../.generated/orval/op/error-handling-page'
+import {
+  type ErrorHandlingPageLoadBody,
+  type ErrorHandlingPageMutationModel,
+} from '../../.generated/orval/op/service.schemas'
 
 export const customMocks = {
   getErrorHandlingPageMock: () => [
     http.post(getErrorHandlingPageLoadUrl(), async ({ request }) => {
-      const body = (await request.json()) as ErrorHandlingPageLoadInput
+      const body = (await request.json()) as ErrorHandlingPageLoadBody
       // statusがエラーステータスコードと想定
       const status = Number(body.status)
       if (!Number.isNaN(status) && status >= 400) {
@@ -44,13 +44,13 @@ export const customMocks = {
           )
         }
       }
-      // 400以上でなければ空のデータを返す
+      // 400以上でなければ正常系のデータを返す
       return HttpResponse.json(getErrorHandlingPageLoadResponseMock(), {
         status: 200,
       })
     }),
     http.post(getErrorHandlingPageDoneUrl(), async ({ request }) => {
-      const body = (await request.json()) as ErrorHandlingPageDoneBody
+      const body = (await request.json()) as ErrorHandlingPageMutationModel
       // statusがエラーステータスコードと想定
       const status = Number(body.data.status)
       if (!Number.isNaN(status) && status >= 400) {
@@ -82,7 +82,7 @@ export const customMocks = {
         }
       }
       // 400以上でなければExampleのデータを返す
-      return HttpResponse.json(getErrorHandlingPageLoadResponseMock(), {
+      return HttpResponse.json(getErrorHandlingPageDoneResponseMock200(), {
         status: 200,
       })
     }),
