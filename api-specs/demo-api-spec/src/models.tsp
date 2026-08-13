@@ -3,7 +3,7 @@ namespace models;
 /**
  * 画面表示モデルの基底モデル。
  */
-model ViewModelBase {
+model ViewModel {
   /** 選択肢。 */
   selectors?: Record<SelectOption[]>;
 }

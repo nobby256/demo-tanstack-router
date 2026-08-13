@@ -12,7 +12,7 @@ namespace service.error_handling_page;
 // Screen Models
 // =========================================
 
-model ViewModel extends models.ViewModelBase {
+model ViewModel is models.ViewModel {
   data: {
     /** status */
     status?: string = "";

@@ -13,7 +13,7 @@ namespace service.detail_page;
 // =========================================
 // Screen Models
 // =========================================
-model ViewModel extends models.ViewModelBase {
+model ViewModel is models.ViewModel {
   data: {
     /** id */
     id: string;
