@@ -1,5 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type FieldValues, useForm, type UseFormReturn } from 'react-hook-form'
+import { useEffect } from 'react'
+import {
+  type DefaultValues,
+  type FieldValues,
+  useForm,
+  type UseFormReturn,
+} from 'react-hook-form'
 import { z } from 'zod'
 
 /**
@@ -55,7 +61,7 @@ export type FormOutput<TForm> =
  *   schema: z.object({
  *     keyword: z.string(),
  *   }),
- *   values: {
+ *   defaultValues: {
  *     keyword: '',
  *   },
  * })
@@ -73,24 +79,32 @@ export function usePlainForm<
   schema: z.ZodType<TOutput, TInput>
 
   /**
-   * RHF が保持する画面用 ViewModel。
+   * RHF が保持する画面用 ViewModel の初期値。
    *
-   * values が変更された場合、
-   * フォーム状態も最新値へ同期される。
+   * defaultValues は画面が保持する値なので、
+   * TOutput ではなく常に TInput で指定する。
    *
-   * submit 後の TOutput ではなく、
-   * 常に TInput を指定する。
+   * defaultValues が変更された場合、
+   * フォームは自動的に reset される。
    */
-  values?: TInput
+  defaultValues?: DefaultValues<TInput>
 }) {
   const formSchema = config.schema.transform((input) =>
     normalizeEmptyStrings(input),
   )
 
-  return useForm<TInput, unknown, TOutput>({
+  const form = useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(formSchema),
-    values: config.values,
+    defaultValues: config.defaultValues,
   })
+
+  useEffect(() => {
+    if (config.defaultValues) {
+      form.reset(config.defaultValues)
+    }
+  }, [config.defaultValues, form])
+
+  return form
 }
 
 /**
@@ -125,7 +139,7 @@ export function usePlainForm<
  *     name: z.string().min(1),
  *     age: z.coerce.number().int().min(0).optional(),
  *   }),
- *   values: {
+ *   defaultValues: {
  *     name: '',
  *     age: '',
  *   },
@@ -164,26 +178,33 @@ export function useRequestForm<
   outputSchema: z.ZodType<TOutput>
 
   /**
-   * RHF が保持する Page ViewModel。
+   * RHF が保持する Page ViewModel の初期値。
    *
-   * load API の結果をそのまま指定することを想定する。
+   * load API の完全な Page ViewModel を、
+   * そのまま指定することを想定する。
    *
-   * values が変更された場合、
-   * フォーム状態も最新値へ同期される。
-   *
-   * データ更新時は自動で同期されるため、
+   * defaultValues が変更された場合、
+   * フォームは自動的に reset されるため、
    * 利用側で reset() を呼ぶ必要はない。
    */
-  values?: TInput
+  defaultValues?: DefaultValues<TInput>
 }) {
   const formSchema = config.inputSchema.transform((input) =>
     config.outputSchema.parse(normalizeEmptyStrings(input)),
   )
 
-  return useForm<TInput, unknown, TOutput>({
+  const form = useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(formSchema),
-    values: config.values,
+    defaultValues: config.defaultValues,
   })
+
+  useEffect(() => {
+    if (config.defaultValues) {
+      form.reset(config.defaultValues)
+    }
+  }, [config.defaultValues, form])
+
+  return form
 }
 
 /**
@@ -221,21 +242,29 @@ export function useTransformForm<
   transform: (input: TParsedInput) => TOutput
 
   /**
-   * RHF が保持する Page ViewModel。
+   * RHF が保持する Page ViewModel の初期値。
    *
-   * values が変更された場合、
-   * フォーム状態も最新値へ同期される。
+   * defaultValues が変更された場合、
+   * フォームは自動的に reset される。
    */
-  values?: TInput
+  defaultValues?: DefaultValues<TInput>
 }) {
   const formSchema = config.inputSchema.transform((input) =>
     config.transform(normalizeEmptyStrings(input)),
   )
 
-  return useForm<TInput, unknown, TOutput>({
+  const form = useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(formSchema),
-    values: config.values,
+    defaultValues: config.defaultValues,
   })
+
+  useEffect(() => {
+    if (config.defaultValues) {
+      form.reset(config.defaultValues)
+    }
+  }, [config.defaultValues, form])
+
+  return form
 }
 
 /**
