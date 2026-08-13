@@ -46,7 +46,7 @@ export default defineConfig({
       formatter: 'prettier',
       override: {
         zod: {
-          // generateReusableSchemas: true,
+          generateReusableSchemas: true,
           generate: {
             param: false,
             query: false,
@@ -55,14 +55,9 @@ export default defineConfig({
             response: true,
           },
           coerce: {
-            // body: ['number', 'boolean', 'bigint', 'date'],
             body: true,
           },
         },
-        // mutator: {
-        //   path: 'src/orval/custom-validate.ts',
-        //   name: 'schema',
-        // },
       },
     },
   },

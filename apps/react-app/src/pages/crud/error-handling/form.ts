@@ -23,12 +23,6 @@ export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
-  const result = schema.ErrorHandlingPageDoneBody.safeParse({
-    data: {
-      status: '400',
-    },
-  })
-
   const form = useRequestForm({
     inputSchema: schema.ErrorHandlingPageLoadResponse,
     outputSchema: schema.ErrorHandlingPageDoneBody,
@@ -36,7 +30,7 @@ export const usePageForm = () => {
   })
   useEffect(() => {
     form.reset(loaderData)
-  }, [loaderData.data])
+  }, [loaderData])
 
   return form
 }

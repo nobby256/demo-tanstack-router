@@ -172,7 +172,7 @@ export function PageComponent() {
               )}
             />
           </div>
-          <button onClick={form.handleSubmit(actions.done)}>submit</button>
+          <button onClick={actions.done}>submit</button>
           <button onClick={() => form.setValue('data.status', '400')}>
             ステータスコード：400
           </button>
