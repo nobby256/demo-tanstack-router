@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import {
   type FormInput,
   type FormOutput,
@@ -25,11 +23,8 @@ export const usePageForm = () => {
   const form = useRequestForm({
     inputSchema: schema.DetailPageLoadResponse,
     outputSchema: schema.DetailPageUpdateBody,
-    defaultValues: loaderData,
+    values: loaderData,
   })
-  useEffect(() => {
-    form.reset(loaderData)
-  }, [loaderData])
 
   return form
 }

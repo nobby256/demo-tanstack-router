@@ -1,10 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  type DefaultValues,
-  type FieldValues,
-  useForm,
-  type UseFormReturn,
-} from 'react-hook-form'
+import { type FieldValues, useForm, type UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
 /**
@@ -60,7 +55,7 @@ export type FormOutput<TForm> =
  *   schema: z.object({
  *     keyword: z.string(),
  *   }),
- *   defaultValues: {
+ *   values: {
  *     keyword: '',
  *   },
  * })
@@ -78,12 +73,15 @@ export function usePlainForm<
   schema: z.ZodType<TOutput, TInput>
 
   /**
-   * RHF の初期値。
+   * RHF が保持する画面用 ViewModel。
    *
-   * defaultValues は画面が保持する値なので、TOutput ではなく
-   * 常に TInput で指定する。
+   * values が変更された場合、
+   * フォーム状態も最新値へ同期される。
+   *
+   * submit 後の TOutput ではなく、
+   * 常に TInput を指定する。
    */
-  defaultValues?: DefaultValues<TInput>
+  values?: TInput
 }) {
   const formSchema = config.schema.transform((input) =>
     normalizeEmptyStrings(input),
@@ -91,7 +89,7 @@ export function usePlainForm<
 
   return useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(formSchema),
-    defaultValues: config.defaultValues,
+    values: config.values,
   })
 }
 
@@ -127,7 +125,7 @@ export function usePlainForm<
  *     name: z.string().min(1),
  *     age: z.coerce.number().int().min(0).optional(),
  *   }),
- *   defaultValues: {
+ *   values: {
  *     name: '',
  *     age: '',
  *   },
@@ -166,12 +164,17 @@ export function useRequestForm<
   outputSchema: z.ZodType<TOutput>
 
   /**
-   * RHF が保持する Page ViewModel の初期値。
+   * RHF が保持する Page ViewModel。
    *
-   * load API の完全な Page ViewModel を、そのまま指定することを想定する。
-   * text input の空値は原則として undefined ではなく "" を使用する。
+   * load API の結果をそのまま指定することを想定する。
+   *
+   * values が変更された場合、
+   * フォーム状態も最新値へ同期される。
+   *
+   * データ更新時は自動で同期されるため、
+   * 利用側で reset() を呼ぶ必要はない。
    */
-  defaultValues: DefaultValues<TInput>
+  values?: TInput
 }) {
   const formSchema = config.inputSchema.transform((input) =>
     config.outputSchema.parse(normalizeEmptyStrings(input)),
@@ -179,7 +182,7 @@ export function useRequestForm<
 
   return useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(formSchema),
-    defaultValues: config.defaultValues,
+    values: config.values,
   })
 }
 
@@ -218,9 +221,12 @@ export function useTransformForm<
   transform: (input: TParsedInput) => TOutput
 
   /**
-   * RHF が保持する Page ViewModel の初期値。
+   * RHF が保持する Page ViewModel。
+   *
+   * values が変更された場合、
+   * フォーム状態も最新値へ同期される。
    */
-  defaultValues: DefaultValues<TInput>
+  values?: TInput
 }) {
   const formSchema = config.inputSchema.transform((input) =>
     config.transform(normalizeEmptyStrings(input)),
@@ -228,7 +234,7 @@ export function useTransformForm<
 
   return useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(formSchema),
-    defaultValues: config.defaultValues,
+    values: config.values,
   })
 }
 
