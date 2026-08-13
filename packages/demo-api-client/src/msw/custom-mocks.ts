@@ -82,7 +82,7 @@ export const customMocks = {
         }
       }
       // 400以上でなければExampleのデータを返す
-      return HttpResponse.json(getErrorHandlingPageDoneResponseMock200(), {
+      return HttpResponse.json(getErrorHandlingPageLoadResponseMock(), {
         status: 200,
       })
     }),

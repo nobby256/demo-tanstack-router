@@ -22,8 +22,7 @@
     "mitt": "catalog:",
     "ofetch": "catalog:",
     "demo-api-client": "workspace:*",
-    "@vendor/router-enhancer": "workspace:*",
-    "@vendor/typespec-validation": "workspace:*"
+    "@vendor/router-enhancer": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "catalog:",

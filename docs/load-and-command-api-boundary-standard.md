@@ -18,7 +18,7 @@
 2. **非 load API**: 更新、登録、削除、操作実行、検索、選択肢取得など、load API 以外の通信
 
 > load API のレスポンスだけを Page ViewModel として特別扱いする。
-> 
+>
 > それ以外の request / response は、原則として API 契約・ドメイン上の自然な型を使用する。
 
 ---
@@ -101,31 +101,31 @@ API 契約は TypeSpec で定義し、OpenAPI を経由して Orval から API c
 
 ### 4.1 通信全体の比較
 
-| 観点 | load API | 非 load API |
-|---|---|---|
-| 主な目的 | ページを描画・編集できる状態へ初期化する | 更新、登録、削除、操作実行、検索、選択肢取得などを行う |
-| API の性格 | page-scoped な BFF API | Command、Query、汎用 API、業務操作 API |
-| HTTP メソッド | POST | POST |
-| request の設計 | API 契約として自然な型を使う | API 契約として自然な型を使う |
-| response の設計 | **Page ViewModel として特別扱いする** | API の目的に応じた自然な response 型 |
-| optional property | request では使用してよい | request / response ともに意味に応じて使用してよい |
-| text の空値 | response では `""` を返す | API 契約に従い省略、`null`、`""` 等を選択する |
-| number / date | response では text input 用なら string で返す | API 契約上の `number` / date 表現を使う |
+| 観点               | load API                                      | 非 load API                                             |
+| ------------------ | --------------------------------------------- | ------------------------------------------------------- |
+| 主な目的           | ページを描画・編集できる状態へ初期化する      | 更新、登録、削除、操作実行、検索、選択肢取得などを行う  |
+| API の性格         | page-scoped な BFF API                        | Command、Query、汎用 API、業務操作 API                  |
+| HTTP メソッド      | POST                                          | POST                                                    |
+| request の設計     | API 契約として自然な型を使う                  | API 契約として自然な型を使う                            |
+| response の設計    | **Page ViewModel として特別扱いする**         | API の目的に応じた自然な response 型                    |
+| optional property  | request では使用してよい                      | request / response ともに意味に応じて使用してよい       |
+| text の空値        | response では `""` を返す                     | API 契約に従い省略、`null`、`""` 等を選択する           |
+| number / date      | response では text input 用なら string で返す | API 契約上の `number` / date 表現を使う                 |
 | フロントでの使い道 | RHF の `defaultValues`、`reset()`、ページ表示 | API 呼び出し結果、メッセージ、遷移判断、必要時の再 load |
 
 ### 4.2 request の比較
 
 load request は UI の入力値を直接表すものではなく、「どのページ状態を取得するか」を表す。したがって、load request に `""` ルールを適用しない。
 
-| 観点 | load request | 更新・操作 request |
-|---|---|---|
-| 役割 | 取得対象・取得条件の指定 | 実行したい業務操作の指定 |
-| 値の型 | `string`、`number`、`boolean`、enum、配列など自然な型 | `string`、`number`、`boolean`、enum、配列など自然な型 |
-| optional | 条件未指定なら `undefined` / プロパティ省略 | 任意項目なら `undefined` / プロパティ省略。意味は API 契約で定義する |
-| 空の text 条件 | 通常は `undefined` / 省略。空文字検索に意味がある場合だけ `""` | 空文字に業務上の意味がある場合だけ `""` |
-| number | `number` | `number` |
-| checkbox 相当 | `boolean` | `boolean` |
-| RHF 用の補正 | 不要 | 不要 |
+| 観点           | load request                                                   | 更新・操作 request                                                   |
+| -------------- | -------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 役割           | 取得対象・取得条件の指定                                       | 実行したい業務操作の指定                                             |
+| 値の型         | `string`、`number`、`boolean`、enum、配列など自然な型          | `string`、`number`、`boolean`、enum、配列など自然な型                |
+| optional       | 条件未指定なら `undefined` / プロパティ省略                    | 任意項目なら `undefined` / プロパティ省略。意味は API 契約で定義する |
+| 空の text 条件 | 通常は `undefined` / 省略。空文字検索に意味がある場合だけ `""` | 空文字に業務上の意味がある場合だけ `""`                              |
+| number         | `number`                                                       | `number`                                                             |
+| checkbox 相当  | `boolean`                                                      | `boolean`                                                            |
+| RHF 用の補正   | 不要                                                           | 不要                                                                 |
 
 例:
 
@@ -164,18 +164,18 @@ JSON では object property の `undefined` は送信されないため、`histo
 
 load response は唯一の例外として、RHF と JSX がそのまま使用できる完全な Page ViewModel を返す。
 
-| 観点 | load response | 非 load response |
-|---|---|---|
-| 役割 | ページ全体の描画・編集状態を提供する | 操作結果、検索結果、選択肢、処理状態などを返す |
-| 形 | ページ専用の完全な ViewModel | API の目的に応じた DTO / Result |
-| text 項目 | 原則 `string`。値なしは `""` | API 契約上の意味に従う |
-| optional property | 原則使用しない | 必要なら使用する |
-| 表示用の値 | `xxxText` / `xxxLabel` のように明示して含める | 必要な場合だけ返す |
-| 入力用の数値 | 原則 `string` | 原則 `number` |
-| 入力用の日付 | 原則 UI が扱う string | API 契約に従う |
-| checkbox | `boolean` | `boolean` |
-| 配列 | 常に `[]` を返す | API 契約に従う |
-| RHF への投入 | そのまま `defaultValues` / `reset` に使う | 原則として直接投入しない |
+| 観点              | load response                                 | 非 load response                               |
+| ----------------- | --------------------------------------------- | ---------------------------------------------- |
+| 役割              | ページ全体の描画・編集状態を提供する          | 操作結果、検索結果、選択肢、処理状態などを返す |
+| 形                | ページ専用の完全な ViewModel                  | API の目的に応じた DTO / Result                |
+| text 項目         | 原則 `string`。値なしは `""`                  | API 契約上の意味に従う                         |
+| optional property | 原則使用しない                                | 必要なら使用する                               |
+| 表示用の値        | `xxxText` / `xxxLabel` のように明示して含める | 必要な場合だけ返す                             |
+| 入力用の数値      | 原則 `string`                                 | 原則 `number`                                  |
+| 入力用の日付      | 原則 UI が扱う string                         | API 契約に従う                                 |
+| checkbox          | `boolean`                                     | `boolean`                                      |
+| 配列              | 常に `[]` を返す                              | API 契約に従う                                 |
+| RHF への投入      | そのまま `defaultValues` / `reset` に使う     | 原則として直接投入しない                       |
 
 ---
 
@@ -561,14 +561,14 @@ type ClearDescriptionRequest = {
 
 非 load response を Page ViewModel として扱ってはならない。非 load response は、その操作の結果として自然な型を返す。
 
-| API 種別 | response の例 | RHF への扱い |
-|---|---|---|
-| 更新 | `{ updatedAt: string, version: string }`、または operation result | 原則、直接 `reset` しない。必要なら load API を再実行する |
-| 登録 | `{ id: string }`、または作成結果 | 遷移、通知、次の load の判断に使う |
-| 削除 | `void`、削除結果 | 遷移、通知に使う |
-| 操作実行 | `{ accepted: boolean }`、処理結果 | 通知、表示制御、必要時の再 load に使う |
-| 検索 | 検索結果 DTO | 一時表示、候補表示、必要に応じた RHF 値への反映 |
-| 選択肢取得 | option DTO 配列 | select / autocomplete の候補に使う |
+| API 種別   | response の例                                                     | RHF への扱い                                              |
+| ---------- | ----------------------------------------------------------------- | --------------------------------------------------------- |
+| 更新       | `{ updatedAt: string, version: string }`、または operation result | 原則、直接 `reset` しない。必要なら load API を再実行する |
+| 登録       | `{ id: string }`、または作成結果                                  | 遷移、通知、次の load の判断に使う                        |
+| 削除       | `void`、削除結果                                                  | 遷移、通知に使う                                          |
+| 操作実行   | `{ accepted: boolean }`、処理結果                                 | 通知、表示制御、必要時の再 load に使う                    |
+| 検索       | 検索結果 DTO                                                      | 一時表示、候補表示、必要に応じた RHF 値への反映           |
+| 選択肢取得 | option DTO 配列                                                   | select / autocomplete の候補に使う                        |
 
 更新 API が page state の再初期化に十分な情報を返す場合でも、戻り値を暗黙に Page ViewModel とみなして `reset()` してはならない。
 

@@ -173,9 +173,6 @@ importers:
       '@vendor/router-enhancer':
         specifier: workspace:*
         version: link:../../vendor/router-enhancer
-      '@vendor/typespec-validation':
-        specifier: workspace:*
-        version: link:../../vendor/typespec-validation
       demo-api-client:
         specifier: workspace:*
         version: link:../../packages/demo-api-client
@@ -284,6 +281,9 @@ importers:
 
   vendor/router-enhancer:
     dependencies:
+      '@hookform/resolvers':
+        specifier: 'catalog:'
+        version: 5.2.2(react-hook-form@7.75.0(react@19.2.7))
       '@tanstack/history':
         specifier: 'catalog:'
         version: 1.162.0
@@ -299,6 +299,9 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.7(react@19.2.7)
+      react-hook-form:
+        specifier: 'catalog:'
+        version: 7.75.0(react@19.2.7)
       zod:
         specifier: 'catalog:'
         version: 4.4.3

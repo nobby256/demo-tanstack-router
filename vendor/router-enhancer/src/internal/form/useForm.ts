@@ -93,7 +93,8 @@ export function usePlainForm<
     normalizeEmptyStrings(input),
   )
 
-  const form = useForm<TInput, unknown, TOutput>({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const form = useForm<TInput, any, TOutput>({
     resolver: zodResolver(formSchema),
     defaultValues: config.defaultValues,
   })
@@ -193,7 +194,8 @@ export function useRequestForm<
     config.outputSchema.parse(normalizeEmptyStrings(input)),
   )
 
-  const form = useForm<TInput, unknown, TOutput>({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const form = useForm<TInput, any, TOutput>({
     resolver: zodResolver(formSchema),
     defaultValues: config.defaultValues,
   })
@@ -253,7 +255,8 @@ export function useTransformForm<
     config.transform(normalizeEmptyStrings(input)),
   )
 
-  const form = useForm<TInput, unknown, TOutput>({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const form = useForm<TInput, any, TOutput>({
     resolver: zodResolver(formSchema),
     defaultValues: config.defaultValues,
   })

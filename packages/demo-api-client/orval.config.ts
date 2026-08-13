@@ -48,7 +48,6 @@ export default defineConfig({
       formatter: 'prettier',
       override: {
         zod: {
-          // variant: 'mini',
           // generateReusableSchemas: true,
           generate: {
             param: false,

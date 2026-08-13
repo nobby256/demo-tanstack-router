@@ -1,8 +1,8 @@
 import type { AlertMessageResolver, Notification } from '../context'
 
 import { addNotifications } from './notifications'
-
 export type FormHandler = {
+  //  setError: UseFormSetError<any>
   setError(
     name: string,
     error: {

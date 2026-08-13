@@ -11,7 +11,7 @@ type Actions = Record<string, ActionHandler>
  * Action Boundary が要求する最低限の Context
  */
 export type ActionContext = {
-  form?: FormHandler // RHF互換のインタフェース
+  form?: FormHandler
 }
 
 export function useActionBoundary<
