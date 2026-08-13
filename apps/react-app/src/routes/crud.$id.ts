@@ -41,7 +41,7 @@ export const Route = createFileRoute('/crud/$id')({
       async () =>
         await load(
           { ...match.params, ...match.deps },
-          match.abortController.signal,
+          { signal: match.abortController.signal },
         ),
     ),
 

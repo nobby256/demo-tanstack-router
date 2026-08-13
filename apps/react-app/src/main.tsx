@@ -43,9 +43,6 @@ if (appConfig.demoMode) {
 configureClient(
   ofetch.create({
     baseURL: appConfig.apiBaseUrl,
-    headers: {
-      Accept: 'application/problem+json, application/json',
-    },
   }),
 )
 

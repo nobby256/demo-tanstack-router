@@ -14,11 +14,9 @@ export const loadSchema = schema.ErrorHandlingPageLoadBody
 
 export async function load(
   body: z.infer<typeof loadSchema>,
-  signal: AbortSignal,
+  options: RequestInit,
 ) {
-  const result = await operation.errorHandlingPageLoad(body, {
-    signal,
-  })
+  const result = await operation.errorHandlingPageLoad(body, options)
   // 通信で省略されたdefault値をセットする
   return schema.ErrorHandlingPageLoadResponse.parse(result)
 }

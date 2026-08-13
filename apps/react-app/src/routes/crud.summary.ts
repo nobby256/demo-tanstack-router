@@ -40,7 +40,7 @@ export const Route = createFileRoute('/crud/summary')({
       async () =>
         await load(
           { ...match.params, ...match.deps },
-          match.abortController.signal,
+          { signal: match.abortController.signal },
         ),
     ),
 

@@ -14,11 +14,9 @@ export const loadSchema = schema.SummaryPageLoadBody
 
 export async function load(
   body: z.infer<typeof loadSchema>,
-  signal: AbortSignal,
+  options: RequestInit,
 ) {
-  const result = await operation.summaryPageLoad(body, {
-    signal,
-  })
+  const result = await operation.summaryPageLoad(body, options)
   // 通信で省略されたdefault値をセットする
   return schema.SummaryPageLoadResponse.parse(result)
 }

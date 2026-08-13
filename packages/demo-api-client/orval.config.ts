@@ -13,8 +13,9 @@ export default defineConfig({
       mode: 'tags',
       clean: true,
       // schemas: {
-      //   path: `${OUTPUT_DIR}/model`,
-      //   splitByTags: true,
+      //   path: `${OUTPUT_DIR}/schemas`,
+      //   // splitByTags: true,
+      //   type: 'zod',
       // },
       formatter: 'prettier',
       mock: {
@@ -31,6 +32,7 @@ export default defineConfig({
       override: {
         fetch: {
           includeHttpResponseReturnType: false,
+          runtimeValidation: true,
         },
         mutator: {
           path: 'src/orval/custom-fetch.ts',

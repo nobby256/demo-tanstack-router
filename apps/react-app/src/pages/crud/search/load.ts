@@ -14,11 +14,9 @@ export const loadSchema = schema.SearchPageLoadBody
 
 export async function load(
   body: z.infer<typeof loadSchema>,
-  signal: AbortSignal,
+  options: RequestInit,
 ) {
-  const result = await operation.searchPageLoad(body, {
-    signal,
-  })
+  const result = await operation.searchPageLoad(body, options)
   // 通信で省略されたdefault値をセットする
   return schema.SearchPageLoadResponse.parse(result)
 }
