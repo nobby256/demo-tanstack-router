@@ -13,45 +13,43 @@ namespace demo.detail_page;
 // =========================================
 // Screen Models
 // =========================================
+model ViewModel extends models.ViewModelBase {
+  data: {
+    /** id */
+    id: string;
 
-model ViewModelData {
-  /** id */
-  id: string;
+    /** name */
+    name?: string = "";
 
-  /** name */
-  name?: string = "";
+    /** num */
+    num?: string = "";
 
-  /** num */
-  num?: string = "";
+    /** description */
+    description?: string = "";
 
-  /** description */
-  description?: string = "";
-
-  /** version */
-  version: int64;
+    /** version */
+    version: int64;
+  };
 }
 
-model MutationModelData {
-  /** id */
-  id: string;
+model MutationModel {
+  data: {
+    /** id */
+    id: string;
 
-  /** name */
-  name: string;
+    /** name */
+    name: string;
 
-  /** num */
-  num: int32;
+    /** num */
+    num: int32;
 
-  /** description */
-  description?: string;
+    /** description */
+    description?: string;
 
-  /** version */
-  version: int64;
+    /** version */
+    version: int64;
+  };
 }
-
-model ViewModel extends models.ViewModel<ViewModelData> {
-  // none
-}
-model MutationModel is models.MutationModel<MutationModelData>;
 
 // =========================================
 // ViewModel Operations

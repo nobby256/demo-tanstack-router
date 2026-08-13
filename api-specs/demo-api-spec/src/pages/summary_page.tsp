@@ -14,16 +14,14 @@ namespace demo.summary_page;
 // Screen Models
 // =========================================
 
-model ViewModelData {
-  /** id */
-  id: string;
+model ViewModel extends models.ViewModelBase {
+  data: {
+    /** id */
+    id: string;
 
-  /** name */
-  name?: string = "";
-}
-
-model ViewModel extends models.ViewModel<ViewModelData[]> {
-  // none
+    /** name */
+    name?: string = "";
+  }[];
 }
 
 // =========================================

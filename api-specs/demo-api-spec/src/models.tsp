@@ -1,25 +1,11 @@
 namespace models;
 
 /**
- * 画面表示モデル。
+ * 画面表示モデルの基底モデル。
  */
-model ViewModel<TData> {
-  /** 表示データ。 */
-  data: TData;
-
+model ViewModelBase {
   /** 選択肢。 */
   selectors?: Record<SelectOption[]>;
-}
-
-/**
- * 操作実行モデル。
- */
-model MutationModel<TData, TArgs extends {} = never> {
-  /** 送信データ。 */
-  data: TData;
-
-  /** 操作引数。 */
-  args?: TArgs;
 }
 
 /**

@@ -14,13 +14,11 @@ namespace demo.search_page;
 // Screen Models
 // =========================================
 
-model ViewModelData {
-  keyword?: string = "";
-  category?: string = "";
-}
-
-model ViewModel extends models.ViewModel<ViewModelData> {
-  // none
+model ViewModel extends models.ViewModelBase {
+  data: {
+    keyword?: string = "";
+    category?: string = "";
+  };
 }
 
 // =========================================

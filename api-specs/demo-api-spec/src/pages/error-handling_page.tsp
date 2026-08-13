@@ -12,24 +12,23 @@ namespace demo.error_handling_page;
 // Screen Models
 // =========================================
 
-model ViewModelData {
-  /** status */
-  status?: string = "";
+model ViewModel extends models.ViewModelBase {
+  data: {
+    /** status */
+    status?: string = "";
 
-  // check: boolean;
+    // check: boolean;
+  };
 }
 
-model MutationModelData {
-  /** status */
-  status: int32;
+model MutationModel {
+  data: {
+    /** status */
+    status: int32;
 
-  // check: boolean;
+    // check: boolean;
+  };
 }
-
-model ViewModel extends models.ViewModel<ViewModelData> {
-  // none
-}
-model MutationModel is models.MutationModel<MutationModelData>;
 
 // =========================================
 // ViewModel Operations
@@ -55,12 +54,9 @@ op done(@bodyRoot body: MutationModel): models.ResultModel;
 @post
 @route("/done2")
 op done2(
-  @bodyRoot body: models.MutationModel<
-    MutationModelData,
-    {
-      param: string;
-    }
-  >,
+  @bodyRoot body: MutationModel,
+  @query hoge?: string,
+  @query hoge2?: int32,
 ): models.ResultModel;
 
 // =========================================
