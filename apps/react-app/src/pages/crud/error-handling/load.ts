@@ -16,7 +16,9 @@ export async function load(
   body: z.infer<typeof loadSchema>,
   signal: AbortSignal,
 ) {
-  return await operation.errorHandlingPageLoad(body, {
+  const result = await operation.errorHandlingPageLoad(body, {
     signal,
   })
+  // 通信で省略されたdefault値をセットする
+  return schema.ErrorHandlingPageLoadResponse.parse(result)
 }

@@ -55,8 +55,8 @@ export default defineConfig({
             response: true,
           },
           coerce: {
-            body: ['number', 'boolean', 'bigint', 'date'],
-            // response: ['number', 'boolean', 'bigint', 'date'],
+            // body: ['number', 'boolean', 'bigint', 'date'],
+            body: true,
           },
         },
         // mutator: {

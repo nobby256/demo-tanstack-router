@@ -43,8 +43,7 @@
   },
   "dependencies": {
     "msw": "catalog:",
-    "@faker-js/faker": "catalog:",
-    "@vendor/typespec-validation": "workspace:*"
+    "@faker-js/faker": "catalog:"
   },
   "devDependencies": {
     "vite": "catalog:",
@@ -52,7 +51,6 @@
     "orval": "catalog:",
     "tsdown": "catalog:",
     "demo-api-spec": "workspace:*",
-    "@orval/zod": "workspace:*",
     "@vendor/tsconfig": "workspace:*",
     "@vendor/tsdown-config": "workspace:*",
     "tsx": "4.23.12"

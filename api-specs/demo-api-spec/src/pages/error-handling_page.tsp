@@ -12,47 +12,56 @@ namespace demo.error_handling_page;
 // Screen Models
 // =========================================
 
-model ViewModel extends viewmodel.ViewModelBase {
-  data: {
-    /** id */
-    status?: string = "";
-  };
+model ViewModelData {
+  /** status */
+  status?: string = "";
+
+  // check: boolean;
 }
 
-model ActionModel<TArgs extends {} = never>
-  extends viewmodel.ActionModelBase<TArgs> {
-  data: {
-    /** id */
-    status: int32;
-  };
+model MutationModelData {
+  /** status */
+  status: int32;
+
+  // check: boolean;
 }
+
+model ViewModel extends models.ViewModel<ViewModelData> {
+  // none
+}
+model MutationModel is models.MutationModel<MutationModelData>;
 
 // =========================================
 // ViewModel Operations
 // =========================================
 
-/**
- * load operation の入力。
- */
-model LoadInput {
-  status?: string;
-}
-
-/**
- * load operation。
- */
 @post
 @route("/load")
 @opExample(#{ returnType: #{ data: #{ status: "" } } })
-op load(@bodyRoot body: LoadInput): ViewModel;
+op load(
+  @bodyRoot body: {
+    status?: string;
+  },
+): ViewModel;
 
 // =========================================
-// ActionModel Operations
+// MutationModel Operations
 // =========================================
 
 @post
 @route("/done")
-op done(@bodyRoot body: ActionModel): viewmodel.ActionResult;
+op done(@bodyRoot body: MutationModel): models.ResultModel;
+
+@post
+@route("/done2")
+op done2(
+  @bodyRoot body: models.MutationModel<
+    MutationModelData,
+    {
+      param: string;
+    }
+  >,
+): models.ResultModel;
 
 // =========================================
 // Other Operations
