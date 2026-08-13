@@ -24,7 +24,7 @@ export const usePageForm = () => {
   const form = useRequestForm({
     inputSchema: schema.ErrorHandlingPageLoadResponse,
     outputSchema: schema.ErrorHandlingPageDoneBody,
-    values: loaderData,
+    defaultValues: loaderData,
   })
 
   return form

@@ -23,7 +23,7 @@ export const usePageForm = () => {
   const form = useRequestForm({
     inputSchema: schema.DetailPageLoadResponse,
     outputSchema: schema.DetailPageUpdateBody,
-    values: loaderData,
+    defaultValues: loaderData,
   })
 
   return form

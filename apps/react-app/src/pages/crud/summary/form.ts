@@ -23,7 +23,7 @@ export const usePageForm = () => {
 
   const form = usePlainForm({
     schema: schema.SummaryPageLoadResponse,
-    values: loaderData,
+    defaultValues: loaderData,
   })
 
   return form
