@@ -41,8 +41,6 @@ export function PageComponent() {
   // Route
   // ─────────────────────────────
 
-  const loaderData = Route.useLoaderData()
-
   // ─────────────────────────────
   // Form
   // ─────────────────────────────
@@ -59,7 +57,7 @@ export function PageComponent() {
   // DerivedData (watch/memo)
   // ─────────────────────────────
 
-  const data = loaderData.data
+  const data = form.getValues('data')
 
   // ─────────────────────────────
   // Behavior Hooks (effect)
@@ -115,7 +113,7 @@ export function PageComponent() {
         </div>
         <button
           type="button"
-          onClick={form.handleSubmit(actions.submitUpdate)}
+          onClick={actions.update}
           disabled={!form.formState.isDirty}
           style={{ display: 'block' }}
         >

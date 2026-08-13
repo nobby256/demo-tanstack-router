@@ -14,31 +14,22 @@ namespace demo.summary_page;
 // Screen Models
 // =========================================
 
-model ViewModel extends viewmodel.ViewModelBase {
-  data: {
-    /** id */
-    id: string;
+model ViewModelData {
+  /** id */
+  id: string;
 
-    /** name */
-    name?: string = "";
-  }[];
+  /** name */
+  name?: string = "";
+}
+
+model ViewModel extends models.ViewModel<ViewModelData[]> {
+  // none
 }
 
 // =========================================
 // ViewModel Operations
 // =========================================
 
-/**
- * load operation の入力。
- */
-model LoadInput {
-  keyword?: string;
-  category?: string;
-}
-
-/**
- * load operation。
- */
 @post
 @route("/load")
 @opExample(#{
@@ -46,10 +37,15 @@ model LoadInput {
     data: #[#{ id: "1", name: "Item 1" }, #{ id: "2", name: "Item 2" }],
   },
 })
-op load(@bodyRoot body: LoadInput): ViewModel;
+op load(
+  @bodyRoot body: {
+    keyword?: string;
+    category?: string;
+  },
+): ViewModel;
 
 // =========================================
-// ActionModel Operations
+// MutationModel Operations
 // =========================================
 
 // =========================================

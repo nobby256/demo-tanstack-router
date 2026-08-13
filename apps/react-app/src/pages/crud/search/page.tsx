@@ -40,8 +40,6 @@ export function PageComponent() {
   // Route
   // ─────────────────────────────
 
-  const _loaderData = Route.useLoaderData()
-
   // ─────────────────────────────
   // Form
   // ─────────────────────────────
@@ -62,6 +60,8 @@ export function PageComponent() {
   // Behavior Hooks (effect)
   // ─────────────────────────────
 
+  const _data = form.getValues('data')
+
   // ─────────────────────────────
   // JSX
   // ─────────────────────────────
@@ -76,7 +76,7 @@ export function PageComponent() {
         <h2>Search</h2>
         <div>
           <Controller
-            name="keyword"
+            name="data.keyword"
             control={form.control}
             render={({ field, fieldState }) => (
               <>
@@ -90,7 +90,7 @@ export function PageComponent() {
         </div>
         <div>
           <Controller
-            name="category"
+            name="data.category"
             control={form.control}
             render={({ field, fieldState }) => (
               <>
@@ -111,7 +111,7 @@ export function PageComponent() {
           _check1:useQueryState使用
         </div>
         <div>
-          <button type="button" onClick={form.handleSubmit(actions.submit)}>
+          <button type="button" onClick={actions.submit}>
             Search
           </button>
         </div>

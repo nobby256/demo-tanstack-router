@@ -21,8 +21,10 @@ export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 export const usePageForm = () => {
   const form = usePlainForm({
     schema: z.strictObject({
-      keyword: z.string().optional(),
-      category: z.string().optional(),
+      data: z.object({
+        keyword: z.string().optional().default(''),
+        category: z.string().optional().default(''),
+      }),
     }),
   })
   return form

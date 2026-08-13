@@ -1,7 +1,6 @@
 import "@typespec/openapi";
 
 import "./models.tsp";
-import "./viewmodel.tsp";
 import "./problem.tsp";
 
 import "./pages/search_page.tsp";

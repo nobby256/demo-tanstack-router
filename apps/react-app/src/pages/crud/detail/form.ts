@@ -29,7 +29,7 @@ export const usePageForm = () => {
   })
   useEffect(() => {
     form.reset(loaderData)
-  }, [loaderData.data])
+  }, [loaderData])
 
   return form
 }

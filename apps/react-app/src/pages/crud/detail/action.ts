@@ -19,19 +19,17 @@ type ActionContext = {
 // Action Hook
 // ─────────────────────────────────────
 
-export const useActions = useActionBoundary(
-  ({ form: _form }: ActionContext) => {
-    const router = useRouter()
+export const useActions = useActionBoundary(({ form }: ActionContext) => {
+  const router = useRouter()
 
-    const submitUpdate = async (values: PageFormOutputValues) => {
-      await operation.detailPageUpdate(values)
+  const update = async (values: PageFormOutputValues) => {
+    await operation.detailPageUpdate(values)
 
-      //loaderの強制再実行
-      await router.invalidate()
-    }
+    //loaderの強制再実行
+    await router.invalidate()
+  }
 
-    return {
-      submitUpdate,
-    }
-  },
-)
+  return {
+    update: form.handleSubmit(update),
+  }
+})
