@@ -14,7 +14,7 @@ namespace service.search_page;
 // Screen Models
 // =========================================
 
-model ViewModel is models.ViewModel {
+model ViewModel is ViewModelBase {
   data: {
     keyword?: string = "";
     category?: string = "";

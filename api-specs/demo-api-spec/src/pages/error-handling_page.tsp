@@ -12,7 +12,7 @@ namespace service.error_handling_page;
 // Screen Models
 // =========================================
 
-model ViewModel is models.ViewModel {
+model ViewModel is ViewModelBase {
   data: {
     /** status */
     status?: string = "";
@@ -49,7 +49,7 @@ op load(
 
 @post
 @route("/done")
-op done(@bodyRoot body: MutationModel): models.ResultModel;
+op done(@bodyRoot body: MutationModel): ResultModel;
 
 @post
 @route("/done2")
@@ -57,7 +57,7 @@ op done2(
   @bodyRoot body: MutationModel,
   @query hoge?: string,
   @query hoge2?: int32,
-): models.ResultModel;
+): ResultModel;
 
 // =========================================
 // Other Operations

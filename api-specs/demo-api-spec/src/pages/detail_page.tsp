@@ -13,7 +13,7 @@ namespace service.detail_page;
 // =========================================
 // Screen Models
 // =========================================
-model ViewModel is models.ViewModel {
+model ViewModel is ViewModelBase {
   data: {
     /** id */
     id: string;
@@ -80,7 +80,7 @@ op load(
 
 @post
 @route("/update")
-op update(@bodyRoot body: MutationModel): models.ResultModel;
+op update(@bodyRoot body: MutationModel): ResultModel;
 
 // =========================================
 // Other Operations

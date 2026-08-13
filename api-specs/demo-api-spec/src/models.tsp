@@ -1,11 +1,11 @@
-namespace models;
+// namespace models;
 
 /**
  * 画面表示モデルの基底モデル。
  */
-model ViewModel {
+model ViewModelBase {
   /** 選択肢。 */
-  selectors?: Record<SelectOption[]>;
+  selectors?: Selectors;
 }
 
 /**
@@ -18,6 +18,11 @@ model SelectOption {
   /** 表示名。 */
   label: string;
 }
+
+/**
+ * 選択肢モデルのマップ。
+ */
+model Selectors is Record<SelectOption[]>;
 
 /**
  * 正常応答モデル。

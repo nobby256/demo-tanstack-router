@@ -14,7 +14,7 @@ namespace service.summary_page;
 // Screen Models
 // =========================================
 
-model ViewModel is models.ViewModel {
+model ViewModel is ViewModelBase {
   data: {
     /** id */
     id: string;
