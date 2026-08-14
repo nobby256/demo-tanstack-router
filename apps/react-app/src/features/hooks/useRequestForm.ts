@@ -16,7 +16,7 @@ export type FormInput<TForm> =
 export type FormOutput<TForm> =
   TForm extends UseFormReturn<any, any, infer TOutput> ? TOutput : never
 
-export function useRequestForm2<
+export function useRequestForm<
   TResponseSchema extends z.ZodType,
   TRequestSchema extends z.ZodType,
 >(config: {
