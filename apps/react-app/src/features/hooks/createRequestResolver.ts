@@ -31,7 +31,9 @@ export function createRequestResolver<
       options.criteriaMode === 'all' && !options.shouldUseNativeValidation
 
     for (const issue of result.error.issues) {
-      const path = issue.path.join('.') || 'root'
+      const path =
+        issue.path.length === 0 ? 'root.validation' : issue.path.join('.')
+
       const currentError = errors[path]
 
       if (!currentError) {
