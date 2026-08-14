@@ -1,4 +1,9 @@
-import type { FieldError, FieldValues, Resolver } from 'react-hook-form'
+import type {
+  FieldError,
+  FieldValues,
+  MultipleFieldErrors,
+  Resolver,
+} from 'react-hook-form'
 
 import { toNestErrors } from '@hookform/resolvers'
 import { z } from 'zod'
@@ -22,12 +27,22 @@ export function createRequestResolver<
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const errors: Record<string, FieldError> = Object.create(null)
 
+    const validateAllFieldCriteria =
+      options.criteriaMode === 'all' && !options.shouldUseNativeValidation
+
     for (const issue of result.error.issues) {
       const path = issue.path.join('.') || 'root'
+      const currentError = errors[path]
 
-      errors[path] = {
-        type: issue.code,
-        message: issue.message,
+      if (!currentError) {
+        errors[path] = {
+          type: issue.code,
+          message: issue.message,
+        }
+      }
+
+      if (validateAllFieldCriteria) {
+        appendError(errors[path], issue)
       }
     }
 
@@ -37,6 +52,22 @@ export function createRequestResolver<
     }
   }
 }
+
+function appendError(error: FieldError, issue: z.ZodIssue): void {
+  const types = error.types ?? {}
+  const currentMessage = types[issue.code]
+
+  error.types = {
+    ...types,
+    [issue.code]:
+      currentMessage === undefined
+        ? issue.message
+        : Array.isArray(currentMessage)
+          ? [...currentMessage, issue.message]
+          : [currentMessage, issue.message],
+  } as MultipleFieldErrors
+}
+
 function normalizeEmptyStrings<T>(value: T): T {
   if (value === '') {
     return undefined as T

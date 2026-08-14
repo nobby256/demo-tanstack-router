@@ -4,6 +4,7 @@ import {
   type DefaultValues,
   type FieldValues,
   useForm,
+  type UseFormProps,
   type UseFormReturn,
 } from 'react-hook-form'
 import { z } from 'zod'
@@ -21,10 +22,15 @@ export type RequestValues<TForm> =
 export function useRequestForm<
   TFormValues extends FieldValues,
   TRequestSchema extends z.ZodType,
->(config: { requestSchema: TRequestSchema; defaultValues: TFormValues }) {
+>(config: {
+  requestSchema: TRequestSchema
+  defaultValues: TFormValues
+  criteriaMode?: UseFormProps<TFormValues>['criteriaMode']
+}) {
   type TRequestValues = z.output<TRequestSchema> & FieldValues
 
   const form = useForm<TFormValues, unknown, TRequestValues>({
+    criteriaMode: config.criteriaMode,
     resolver: createRequestResolver<TFormValues, TRequestSchema>(
       config.requestSchema,
     ),
