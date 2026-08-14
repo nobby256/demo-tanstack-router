@@ -1,18 +1,16 @@
-import type { FieldValues, Resolver } from 'react-hook-form'
+import type { FieldError, FieldValues, Resolver } from 'react-hook-form'
 
 import { toNestErrors } from '@hookform/resolvers'
 import { z } from 'zod'
 
 export function createRequestResolver<
   TInput extends FieldValues,
-  TRequestSchema extends z.ZodType,
+  TRequestSchema extends z.ZodTypeAny,
 >(
   requestSchema: TRequestSchema,
 ): Resolver<TInput, unknown, z.output<TRequestSchema> & FieldValues> {
-  return async (values, _context, options) => {
-    const result = await requestSchema.safeParseAsync(
-      normalizeEmptyStrings(values),
-    )
+  return (values, _context, options) => {
+    const result = requestSchema.safeParse(normalizeEmptyStrings(values))
 
     if (result.success) {
       return {
@@ -21,11 +19,15 @@ export function createRequestResolver<
       }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const errors: Record<string, any> = {}
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const errors: Record<string, FieldError> = Object.create(null)
 
     for (const issue of result.error.issues) {
       const path = issue.path.join('.')
+
+      if (!path) {
+        continue
+      }
 
       errors[path] = {
         type: issue.code,
