@@ -24,7 +24,7 @@
   },
   "scripts": {
     "clean": "rimraf .turbo dist .generated",
-    "type-check": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "format": "eslint --fix .",
     "generate": "orval --config ./orval.config.ts",
