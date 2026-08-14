@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 export function createRequestResolver<
   TInput extends FieldValues,
-  TRequestSchema extends z.ZodTypeAny,
+  TRequestSchema extends z.ZodType,
 >(
   requestSchema: TRequestSchema,
 ): Resolver<TInput, unknown, z.output<TRequestSchema> & FieldValues> {
@@ -23,11 +23,7 @@ export function createRequestResolver<
     const errors: Record<string, FieldError> = Object.create(null)
 
     for (const issue of result.error.issues) {
-      const path = issue.path.join('.')
-
-      if (!path) {
-        continue
-      }
+      const path = issue.path.join('.') || 'root'
 
       errors[path] = {
         type: issue.code,
@@ -41,7 +37,6 @@ export function createRequestResolver<
     }
   }
 }
-
 function normalizeEmptyStrings<T>(value: T): T {
   if (value === '') {
     return undefined as T
