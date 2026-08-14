@@ -10,39 +10,32 @@ import { z } from 'zod'
 
 import { createRequestResolver } from './createRequestResolver'
 
-export type FormInput<TForm> =
-  TForm extends UseFormReturn<infer TInput, any, any> ? TInput : never
+export type FormValues<TForm> =
+  TForm extends UseFormReturn<infer TFormValues, any, any> ? TFormValues : never
 
-export type FormOutput<TForm> =
-  TForm extends UseFormReturn<any, any, infer TOutput> ? TOutput : never
+export type RequestValues<TForm> =
+  TForm extends UseFormReturn<any, any, infer TRequestValues>
+    ? TRequestValues
+    : never
 
 export function useRequestForm<
-  TResponseSchema extends z.ZodType,
+  TFormValues extends FieldValues,
   TRequestSchema extends z.ZodType,
->(config: {
-  responseSchema: TResponseSchema
+>(config: { requestSchema: TRequestSchema; defaultValues: TFormValues }) {
+  type TRequestValues = z.output<TRequestSchema> & FieldValues
 
-  requestSchema: TRequestSchema
-
-  defaultValues?: DefaultValues<z.output<TResponseSchema> & FieldValues>
-}) {
-  type TInput = z.output<TResponseSchema> & FieldValues
-
-  type TOutput = z.output<TRequestSchema> & FieldValues
-
-  const form = useForm<TInput, unknown, TOutput>({
-    resolver: createRequestResolver<TInput, TRequestSchema>(
+  const form = useForm<TFormValues, unknown, TRequestValues>({
+    resolver: createRequestResolver<TFormValues, TRequestSchema>(
       config.requestSchema,
     ),
-
-    defaultValues: config.defaultValues,
+    // この hook は完全なロード済みフォーム値を要求する。
+    // 完全値は RHF の DeepPartial な DefaultValues として安全に扱える。
+    defaultValues: config.defaultValues as DefaultValues<TFormValues>,
   })
 
   useEffect(() => {
-    if (config.defaultValues) {
-      form.reset(config.defaultValues)
-    }
-  }, [config.defaultValues, form])
+    form.reset(config.defaultValues)
+  }, [config.defaultValues, form.reset])
 
   return form
 }
