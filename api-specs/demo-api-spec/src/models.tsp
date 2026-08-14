@@ -5,7 +5,7 @@
  */
 model ViewModelBase {
   /** 選択肢。 */
-  selectors?: Selectors;
+  selectors?: Selectors = #{};
 }
 
 /**
