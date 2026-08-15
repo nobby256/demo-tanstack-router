@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf .turbo dist",
     "lint": "eslint .",
-    "checktypes": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
     "format": "eslint --fix ."
   },
   "peerDependencies": {

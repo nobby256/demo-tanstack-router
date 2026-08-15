@@ -14,12 +14,12 @@ import { createMutationResolver } from './createMutationResolver'
 export type FormValues<TForm> =
   TForm extends UseFormReturn<infer TFormValues, any, any> ? TFormValues : never
 
-export type RequestValues<TForm> =
+export type MutationValues<TForm> =
   TForm extends UseFormReturn<any, any, infer TRequestValues>
     ? TRequestValues
     : never
 
-export function useRequestForm<
+export function useMutationForm<
   TFormValues extends FieldValues,
   TRequestSchema extends z.ZodType,
 >(config: {

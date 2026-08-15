@@ -22,6 +22,7 @@
     "mitt": "catalog:",
     "ofetch": "catalog:",
     "demo-api-client": "workspace:*",
+    "@vendor/mutation-form": "workspace:*",
     "@vendor/router-enhancer": "workspace:*"
   },
   "devDependencies": {

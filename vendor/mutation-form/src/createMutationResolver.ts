@@ -10,15 +10,16 @@ import { z } from 'zod'
 
 export function createMutationResolver<
   TInput extends FieldValues,
-  TOutput extends FieldValues,
-  TRequestSchema extends z.ZodType<TOutput>,
->(requestSchema: TRequestSchema): Resolver<TInput, unknown, TOutput> {
+  TRequestSchema extends z.ZodType,
+>(
+  requestSchema: TRequestSchema,
+): Resolver<TInput, unknown, z.output<TRequestSchema> & FieldValues> {
   return (values, _context, options) => {
     const result = requestSchema.safeParse(normalizeEmptyStrings(values))
 
     if (result.success) {
       return {
-        values: result.data,
+        values: result.data as z.output<TRequestSchema> & FieldValues,
         errors: {},
       }
     }

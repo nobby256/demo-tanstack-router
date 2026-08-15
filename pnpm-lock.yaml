@@ -170,6 +170,9 @@ importers:
       '@tanstack/router-core':
         specifier: 'catalog:'
         version: 1.171.13
+      '@vendor/mutation-form':
+        specifier: workspace:*
+        version: link:../../vendor/mutation-form
       '@vendor/router-enhancer':
         specifier: workspace:*
         version: link:../../vendor/router-enhancer
