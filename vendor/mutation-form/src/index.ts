@@ -1,5 +1,5 @@
 export {
   useMutationForm,
-  type FormValues,
-  type MutationValues,
+  type FormInput,
+  type FormOutput,
 } from './useMutationForm'

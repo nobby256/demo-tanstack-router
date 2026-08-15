@@ -1,6 +1,6 @@
 import {
-  type FormValues,
-  type MutationValues,
+  type FormInput,
+  type FormOutput,
   useMutationForm,
 } from '@vendor/mutation-form'
 
@@ -10,8 +10,8 @@ import { Route, zod } from './-page-deps-internal'
 // ─────────────────────────────
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormInputValues = FormValues<UsePageFormReturn>
-export type PageFormOutputValues = MutationValues<UsePageFormReturn>
+export type PageFormInputValues = FormInput<UsePageFormReturn>
+export type PageFormOutputValues = FormOutput<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook

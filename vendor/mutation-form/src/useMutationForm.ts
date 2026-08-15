@@ -11,10 +11,10 @@ import { z } from 'zod'
 
 import { createMutationResolver } from './createMutationResolver'
 
-export type FormValues<TForm> =
+export type FormInput<TForm> =
   TForm extends UseFormReturn<infer TFormValues, any, any> ? TFormValues : never
 
-export type MutationValues<TForm> =
+export type FormOutput<TForm> =
   TForm extends UseFormReturn<any, any, infer TRequestValues>
     ? TRequestValues
     : never
