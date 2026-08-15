@@ -19,9 +19,7 @@
     "@tanstack/react-router": "catalog:",
     "@tanstack/router-core": "catalog:",
     "@tanstack/history": "catalog:",
-    "zod": "catalog:",
-    "react-hook-form": "catalog:",
-    "@hookform/resolvers": "catalog:"
+    "zod": "catalog:"
   },
   "dependencies": {},
   "devDependencies": {
