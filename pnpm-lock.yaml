@@ -327,9 +327,6 @@ importers:
       react:
         specifier: 'catalog:'
         version: 19.2.7
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.7(react@19.2.7)
       zod:
         specifier: 'catalog:'
         version: 4.4.3
@@ -340,9 +337,6 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.17
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.17)
       '@vendor/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig

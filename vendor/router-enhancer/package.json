@@ -15,7 +15,6 @@
   },
   "peerDependencies": {
     "react": "catalog:",
-    "react-dom": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/router-core": "catalog:",
     "@tanstack/history": "catalog:",
@@ -25,7 +24,6 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
     "tsdown": "catalog:",
     "@vendor/tsconfig": "workspace:*",
     "@vendor/tsdown-config": "workspace:*"
