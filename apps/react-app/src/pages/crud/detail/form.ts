@@ -1,8 +1,9 @@
 import {
-  type FormInput,
-  type FormOutput,
+  type FormValues,
+  type RequestValues,
   useRequestForm,
-} from '@vendor/router-enhancer'
+  // } from '@vendor/router-enhancer'
+} from '#/features/hooks/useRequestForm'
 
 import { Route, schema } from './-page-deps-internal'
 // ─────────────────────────────
@@ -10,8 +11,8 @@ import { Route, schema } from './-page-deps-internal'
 // ─────────────────────────────
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormInputValues = FormInput<UsePageFormReturn>
-export type PageFormOutputValues = FormOutput<UsePageFormReturn>
+export type PageFormInputValues = FormValues<UsePageFormReturn>
+export type PageFormOutputValues = RequestValues<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -21,8 +22,7 @@ export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
   const form = useRequestForm({
-    inputSchema: schema.DetailPageLoadResponse,
-    outputSchema: schema.DetailPageUpdateBody,
+    requestSchema: schema.DetailPageUpdateBody,
     defaultValues: loaderData,
   })
 
