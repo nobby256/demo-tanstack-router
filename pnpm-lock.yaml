@@ -290,9 +290,6 @@ importers:
       react:
         specifier: 'catalog:'
         version: 19.2.7
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.7(react@19.2.7)
       react-hook-form:
         specifier: 'catalog:'
         version: 7.75.0(react@19.2.7)
@@ -306,9 +303,6 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.17
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.17)
       '@vendor/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig

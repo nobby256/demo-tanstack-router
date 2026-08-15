@@ -17,7 +17,6 @@
   },
   "peerDependencies": {
     "react": "catalog:",
-    "react-dom": "catalog:",
     "zod": "catalog:",
     "react-hook-form": "catalog:",
     "@hookform/resolvers": "catalog:"
@@ -26,7 +25,6 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
     "tsdown": "catalog:",
     "@vendor/tsconfig": "workspace:*",
     "@vendor/tsdown-config": "workspace:*"
