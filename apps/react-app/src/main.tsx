@@ -8,7 +8,6 @@ import { ErrorComponent } from '#/features/components/ErrorComponent'
 
 import { appConfig } from './app-config'
 import { routeTree } from './routeTree.gen'
-
 // ─────────────────────────────────────
 // Router Settings
 // ─────────────────────────────────────

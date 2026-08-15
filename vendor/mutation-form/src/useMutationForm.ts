@@ -23,7 +23,7 @@ export function useMutationForm<
   TFormValues extends FieldValues,
   TRequestSchema extends z.ZodType,
 >(config: {
-  requestSchema: TRequestSchema
+  mutationSchema: TRequestSchema
   defaultValues: TFormValues
   criteriaMode?: UseFormProps<TFormValues>['criteriaMode']
 }) {
@@ -32,7 +32,7 @@ export function useMutationForm<
   const form = useForm<TFormValues, unknown, TRequestValues>({
     criteriaMode: config.criteriaMode,
     resolver: createMutationResolver<TFormValues, TRequestSchema>(
-      config.requestSchema,
+      config.mutationSchema,
     ),
     // この hook は完全なロード済みフォーム値を要求する。
     // 完全値は RHF の DeepPartial な DefaultValues として安全に扱える。

@@ -12,10 +12,10 @@ export function createMutationResolver<
   TInput extends FieldValues,
   TRequestSchema extends z.ZodType,
 >(
-  requestSchema: TRequestSchema,
+  mutationSchema: TRequestSchema,
 ): Resolver<TInput, unknown, z.output<TRequestSchema> & FieldValues> {
   return (values, _context, options) => {
-    const result = requestSchema.safeParse(normalizeEmptyStrings(values))
+    const result = mutationSchema.safeParse(normalizeEmptyStrings(values))
 
     if (result.success) {
       return {

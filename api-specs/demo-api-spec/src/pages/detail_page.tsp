@@ -21,9 +21,6 @@ model ViewModel is ViewModelBase {
     /** name */
     name?: string = "";
 
-    /** num */
-    num?: string = "";
-
     /** description */
     description?: string = "";
 
@@ -39,9 +36,6 @@ model MutationModel {
 
     /** name */
     name: string;
-
-    /** num */
-    num: int32;
 
     /** description */
     description?: string;
@@ -62,7 +56,6 @@ model MutationModel {
     data: #{
       id: "1",
       name: "Item 1",
-      num: "123.45",
       description: "This is item 1",
       version: 1,
     },

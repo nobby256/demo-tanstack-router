@@ -59,11 +59,7 @@ export default defineConfig({
             response: true,
           },
           coerce: {
-            param: true,
-            query: true,
-            header: false,
-            body: true,
-            response: false,
+            body: ['number', 'boolean', 'bigint', 'date', 'array'],
           },
         },
       },

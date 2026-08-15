@@ -1,9 +1,8 @@
 import {
   type FormValues,
-  type RequestValues,
-  useRequestForm,
-  // } from '@vendor/router-enhancer'
-} from '#/features/hooks/useRequestForm'
+  type MutationValues,
+  useMutationForm,
+} from '@vendor/mutation-form'
 
 import { Route, schema } from './-page-deps-internal'
 
@@ -13,7 +12,7 @@ import { Route, schema } from './-page-deps-internal'
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
 export type PageFormInputValues = FormValues<UsePageFormReturn>
-export type PageFormOutputValues = RequestValues<UsePageFormReturn>
+export type PageFormOutputValues = MutationValues<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -22,8 +21,8 @@ export type PageFormOutputValues = RequestValues<UsePageFormReturn>
 export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
-  const form = useRequestForm({
-    requestSchema: schema.ErrorHandlingPageDoneBody,
+  const form = useMutationForm({
+    mutationSchema: schema.ErrorHandlingPageDoneBody,
     defaultValues: loaderData,
   })
 
