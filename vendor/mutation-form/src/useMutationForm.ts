@@ -15,23 +15,23 @@ export type FormInput<TForm> =
   TForm extends UseFormReturn<infer TFormValues, any, any> ? TFormValues : never
 
 export type FormOutput<TForm> =
-  TForm extends UseFormReturn<any, any, infer TRequestValues>
-    ? TRequestValues
+  TForm extends UseFormReturn<any, any, infer TMutationSchema>
+    ? TMutationSchema
     : never
 
 export function useMutationForm<
   TFormValues extends FieldValues,
-  TRequestSchema extends z.ZodType,
+  TMutationSchema extends z.ZodType,
 >(config: {
-  mutationSchema: TRequestSchema
+  mutationSchema: TMutationSchema
   defaultValues: TFormValues
   criteriaMode?: UseFormProps<TFormValues>['criteriaMode']
 }) {
-  type TRequestValues = z.output<TRequestSchema> & FieldValues
+  type TRequestValues = z.output<TMutationSchema> & FieldValues
 
   const form = useForm<TFormValues, unknown, TRequestValues>({
     criteriaMode: config.criteriaMode,
-    resolver: createMutationResolver<TFormValues, TRequestSchema>(
+    resolver: createMutationResolver<TFormValues, TMutationSchema>(
       config.mutationSchema,
     ),
     // この hook は完全なロード済みフォーム値を要求する。
