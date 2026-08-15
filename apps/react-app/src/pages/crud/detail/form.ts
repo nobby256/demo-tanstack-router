@@ -10,8 +10,8 @@ import { Route, zod } from './-page-deps-internal'
 // ─────────────────────────────
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormInputValues = FormInput<UsePageFormReturn>
-export type PageFormOutputValues = FormOutput<UsePageFormReturn>
+export type PageFormInput = FormInput<UsePageFormReturn>
+export type PageFormOutput = FormOutput<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook

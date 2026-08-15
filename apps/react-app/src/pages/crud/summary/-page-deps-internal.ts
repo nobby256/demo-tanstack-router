@@ -23,8 +23,8 @@ export * as zod from 'demo-api-client/zod/service.schemas'
 export { Route } from '#/routes/crud.summary'
 export {
   usePageForm,
-  type PageFormInputValues,
-  type PageFormOutputValues,
+  type PageFormInput,
+  type PageFormOutput,
   type UsePageFormReturn,
 } from './form'
 export { useActions } from './action'

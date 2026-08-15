@@ -3,7 +3,7 @@ import { useActionBoundary } from '@vendor/router-enhancer'
 
 import {
   operation,
-  type PageFormOutputValues,
+  type PageFormOutput,
   type UsePageFormReturn,
 } from './-page-deps-internal'
 
@@ -22,7 +22,7 @@ type ActionContext = {
 export const useActions = useActionBoundary(({ form }: ActionContext) => {
   const router = useRouter()
 
-  const update = async (values: PageFormOutputValues) => {
+  const update = async (values: PageFormOutput) => {
     await operation.detailPageUpdate(values)
 
     //loaderの強制再実行

@@ -1,7 +1,7 @@
 import { useActionBoundary } from '@vendor/router-enhancer'
 
 import {
-  type PageFormOutputValues,
+  type PageFormOutput,
   Route,
   type UsePageFormReturn,
 } from './-page-deps-internal'
@@ -21,7 +21,7 @@ type ActionContext = {
 export const useActions = useActionBoundary(({ form: form }: ActionContext) => {
   const navigate = Route.useNavigate()
 
-  const submit = async (values: PageFormOutputValues) => {
+  const submit = async (values: PageFormOutput) => {
     await navigate({
       to: '/crud/summary',
       search: {
