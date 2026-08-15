@@ -12,11 +12,11 @@ export default defineConfig({
       client: 'fetch',
       mode: 'tags',
       clean: true,
-      // schemas: {
-      //   path: `${OUTPUT_DIR}/schemas`,
-      //   // splitByTags: true,
-      //   type: 'zod',
-      // },
+      schemas: {
+        path: `${OUTPUT_DIR}/model`,
+        splitByTags: true,
+        // type: 'zod',
+      },
       formatter: 'prettier',
       mock: {
         indexMockFiles: true,
@@ -50,7 +50,7 @@ export default defineConfig({
       formatter: 'prettier',
       override: {
         zod: {
-          // generateReusableSchemas: true,
+          generateReusableSchemas: true,
           generate: {
             param: false,
             query: false,

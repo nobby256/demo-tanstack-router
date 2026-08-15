@@ -17,8 +17,9 @@
  */
 
 export * as operation from 'demo-api-client/op/summary-page'
-export * as model from 'demo-api-client/op/service.schemas'
+export * as model from 'demo-api-client/model/summary-page'
 export * as schema from 'demo-api-client/zod/summary-page'
+export * as zod from 'demo-api-client/zod/service.schemas'
 export { Route } from '#/routes/crud.summary'
 export {
   usePageForm,

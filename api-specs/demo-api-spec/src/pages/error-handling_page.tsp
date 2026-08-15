@@ -1,6 +1,4 @@
 import "@typespec/http";
-import "../viewmodel.tsp";
-import "../problem.tsp";
 
 using Http;
 

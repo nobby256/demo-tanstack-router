@@ -4,7 +4,7 @@ import {
   useMutationForm,
 } from '@vendor/mutation-form'
 
-import { Route, schema } from './-page-deps-internal'
+import { Route, zod } from './-page-deps-internal'
 
 // ─────────────────────────────
 // Types
@@ -22,7 +22,7 @@ export const usePageForm = () => {
   const loaderData = Route.useLoaderData()
 
   const form = useMutationForm({
-    mutationSchema: schema.ErrorHandlingPageDoneBody,
+    mutationSchema: zod.ErrorHandlingPageMutationModel,
     defaultValues: loaderData,
   })
 

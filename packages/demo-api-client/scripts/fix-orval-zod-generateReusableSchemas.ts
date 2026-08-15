@@ -8,7 +8,7 @@
  */
 import { readFile, writeFile } from 'node:fs/promises'
 
-const schemaFile = './.generated/orval/zod/demo.schemas.ts'
+const schemaFile = './.generated/orval/zod/service.schemas.ts'
 const source = await readFile(schemaFile, 'utf8')
 
 const hasZodImport = /\bfrom\s+['"]zod['"]/.test(source)

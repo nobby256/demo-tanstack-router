@@ -24,6 +24,12 @@ model ViewModel is ViewModelBase {
   }[];
 }
 
+model MutationModel {
+  data: {
+    // none
+  };
+}
+
 // =========================================
 // ViewModel Operations
 // =========================================

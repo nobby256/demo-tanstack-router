@@ -1,14 +1,14 @@
 import { http, HttpResponse } from 'msw'
 
+import {
+  type ErrorHandlingPageLoadBody,
+  type ErrorHandlingPageMutationModel,
+} from '../../.generated/orval/model'
 import { getErrorHandlingPageLoadResponseMock } from '../../.generated/orval/msw/error-handling-page/error-handling-page.msw'
 import {
   getErrorHandlingPageDoneUrl,
   getErrorHandlingPageLoadUrl,
 } from '../../.generated/orval/op/error-handling-page'
-import {
-  type ErrorHandlingPageLoadBody,
-  type ErrorHandlingPageMutationModel,
-} from '../../.generated/orval/op/service.schemas'
 
 export const customMocks = {
   getErrorHandlingPageMock: () => [

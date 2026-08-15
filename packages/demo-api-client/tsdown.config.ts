@@ -7,6 +7,7 @@ export default defineConfig([
     ...neutralConfig,
     entry: {
       'op/*': ['./.generated/orval/op/*.ts'],
+      'model/*': ['./.generated/orval/model/*/*.ts'],
       'zod/*': './.generated/orval/zod/*.ts',
       fetch: './src/orval/custom-fetch.ts',
       msw: './src/msw/index.ts',

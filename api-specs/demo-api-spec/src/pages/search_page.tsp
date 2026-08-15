@@ -21,6 +21,13 @@ model ViewModel is ViewModelBase {
   };
 }
 
+model MutationModel {
+  data: {
+    keyword?: string;
+    category?: string;
+  };
+}
+
 // =========================================
 // ViewModel Operations
 // =========================================
