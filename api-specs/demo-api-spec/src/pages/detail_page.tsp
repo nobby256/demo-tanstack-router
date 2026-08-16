@@ -13,8 +13,14 @@ namespace service.detail_page;
 // =========================================
 // Screen Models
 // =========================================
+
 model ViewModel is ViewModelBase {
-  data: {
+  data: view.Data;
+}
+
+// ViewModelの内部モデル用ネームスペース
+namespace view {
+  model Data {
     /** id */
     id: string;
 
@@ -26,11 +32,16 @@ model ViewModel is ViewModelBase {
 
     /** version */
     version: int64;
-  };
+  }
 }
 
 model MutationModel {
-  data: {
+  data: mut.Data;
+}
+
+// MutationModelの内部モデル用ネームスペース
+namespace mut {
+  model Data {
     /** id */
     id: string;
 
@@ -42,7 +53,7 @@ model MutationModel {
 
     /** version */
     version: int64;
-  };
+  }
 }
 
 // =========================================

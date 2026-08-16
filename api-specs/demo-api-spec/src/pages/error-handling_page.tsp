@@ -11,21 +11,31 @@ namespace service.error_handling_page;
 // =========================================
 
 model ViewModel is ViewModelBase {
-  data: {
+  data: view.Data;
+}
+
+// ViewModelの内部モデル用ネームスペース
+namespace view {
+  model Data {
     /** status */
     status?: string = "";
 
     // check: boolean;
-  };
+  }
 }
 
 model MutationModel {
-  data: {
+  data: mut.Data;
+}
+
+// MutationModelの内部モデル用ネームスペース
+namespace mut {
+  model Data {
     /** status */
     status: int32;
 
     // check: boolean;
-  };
+  }
 }
 
 // =========================================
