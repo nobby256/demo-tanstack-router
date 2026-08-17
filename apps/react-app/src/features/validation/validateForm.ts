@@ -9,7 +9,7 @@ export function validateForm<
   TInput extends FieldValues,
   TSchema extends z.ZodType,
 >(
-  form: Pick<UseFormReturn<TInput>, 'getValues' | 'setError' | 'clearErrors'>,
+  form: UseFormReturn<TInput>,
   schema: TSchema,
   options?: {
     criteriaMode?: 'firstError' | 'all'
