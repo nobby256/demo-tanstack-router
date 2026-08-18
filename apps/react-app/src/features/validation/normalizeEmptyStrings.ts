@@ -1,16 +1,17 @@
 // src/validation/normalizeEmptyStrings.ts
 
 /**
- * React controlled input が扱う空文字列を、
+ * React controlled input が扱う空文字列、または空白文字だけから成る文字列を、
  * 検証境界で「値なし」を意味する undefined に正規化する。
  *
  * 例:
- * { name: '', details: { memo: '' } }
- * ↓
- * { name: undefined, details: { memo: undefined } }
+ * ''       -> undefined
+ * '   '    -> undefined
+ * '\t\n'   -> undefined
+ * ' 山田 ' -> ' 山田 '  // 文字列そのものは変更しない
  */
 export function normalizeEmptyStrings<T>(value: T): T {
-  if (value === '') {
+  if (typeof value === 'string' && value.trim() === '') {
     return undefined as T
   }
 
