@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { type FormInput } from '#/features/form/helper'
 
-import { Route } from './-page-deps-internal'
+import { model, Route } from './-page-deps-internal'
 
 // ─────────────────────────────
 // Types
@@ -19,7 +19,7 @@ export type PageFormValues = FormInput<UsePageFormReturn>
 export const usePageForm = () => {
   const defaultValues = Route.useLoaderData()
 
-  const form = useForm({
+  const form = useForm<model.ErrorHandlingPageViewModel>({
     defaultValues,
   })
   useEffect(() => {
