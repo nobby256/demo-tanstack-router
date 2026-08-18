@@ -1,7 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
+import { validateForm } from '@vendor/form'
 import { useActionBoundary } from '@vendor/router-enhancer'
-
-import { validateForm } from '#/features/validation'
 
 import {
   operation,

@@ -1,6 +1,5 @@
+import { isRequiredIssue } from '@vendor/form'
 import { z } from 'zod'
-
-import { isRequiredIssue } from '#/features/validation'
 
 export const zodConfig: Partial<z.core.$ZodConfig> = {
   customError: (issue) => {
