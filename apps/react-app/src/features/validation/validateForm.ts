@@ -1,8 +1,9 @@
+// validateForm.ts
 import type { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 import { z } from 'zod'
 
-import { createFieldErrors } from './createFieldErrors'
+import { createFieldErrors, isRHFRootErrorPath } from './createFieldErrors'
 
 export type ValidateFormOptions = {
   criteriaMode?: 'firstError' | 'all'
@@ -10,34 +11,42 @@ export type ValidateFormOptions = {
 }
 
 export function validateForm<
-  TInput extends FieldValues,
-  TSchema extends z.ZodType,
+  TSchema extends z.ZodTypeAny,
+  TInput extends FieldValues & z.input<TSchema>,
 >(
   form: UseFormReturn<TInput>,
   schema: TSchema,
-  options?: ValidateFormOptions,
-):
-  | z.ZodSafeParseSuccess<z.output<TSchema>>
-  | z.ZodSafeParseError<z.output<TSchema>> {
+  {
+    criteriaMode = 'firstError',
+    shouldFocusError = false,
+  }: ValidateFormOptions = {},
+) {
   form.clearErrors()
 
   const values = form.getValues()
   const normalizedValues = normalizeEmptyStrings(values)
-  const result = schema.safeParse(normalizedValues)
 
-  if (!result.success) {
-    const errors = createFieldErrors(result.error, options?.criteriaMode)
+  const result = schema.safeParse(normalizedValues, {
+    reportInput: true,
+  })
 
-    for (const [path, error] of Object.entries(errors)) {
-      form.setError(path as Path<TInput>, error)
-    }
+  if (result.success) {
+    return result
+  }
 
-    if (options?.shouldFocusError) {
-      const firstIssue = result.error.issues[0]
+  const errors = createFieldErrors(result.error, criteriaMode)
 
-      if (firstIssue?.path.length) {
-        form.setFocus(firstIssue.path.join('.') as Path<TInput>)
-      }
+  for (const [name, error] of Object.entries(errors)) {
+    form.setError(name as Path<TInput>, error)
+  }
+
+  if (shouldFocusError) {
+    const firstFocusablePath = Object.keys(errors).find(
+      (name) => !isRHFRootErrorPath(name),
+    )
+
+    if (firstFocusablePath) {
+      form.setFocus(firstFocusablePath as Path<TInput>)
     }
   }
 
@@ -53,7 +62,7 @@ export function normalizeEmptyStrings<T>(value: T): T {
     return value.map(normalizeEmptyStrings) as T
   }
 
-  if (value && typeof value === 'object' && !(value instanceof Date)) {
+  if (isNormalizableObject(value)) {
     return Object.fromEntries(
       Object.entries(value).map(([key, item]) => [
         key,
@@ -63,4 +72,30 @@ export function normalizeEmptyStrings<T>(value: T): T {
   }
 
   return value
+}
+
+function isNormalizableObject(
+  value: unknown,
+): value is Record<string, unknown> {
+  if (value === null || typeof value !== 'object') {
+    return false
+  }
+
+  if (value instanceof Date) {
+    return false
+  }
+
+  if (typeof File !== 'undefined' && value instanceof File) {
+    return false
+  }
+
+  if (typeof Blob !== 'undefined' && value instanceof Blob) {
+    return false
+  }
+
+  if (value instanceof Map || value instanceof Set) {
+    return false
+  }
+
+  return Object.getPrototypeOf(value) === Object.prototype
 }

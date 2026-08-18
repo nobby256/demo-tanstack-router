@@ -1,6 +1,9 @@
+// createFieldErrors.ts
 import type { FieldError, MultipleFieldErrors } from 'react-hook-form'
 
 import { z } from 'zod'
+
+const ROOT_ERROR_PREFIX = 'root.'
 
 export function createFieldErrors(
   error: z.ZodError,
@@ -9,44 +12,62 @@ export function createFieldErrors(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const errors: Record<string, FieldError> = Object.create(null)
 
-  const validateAllFieldCriteria = criteriaMode === 'all'
-
   for (const issue of error.issues) {
-    const path =
-      issue.path.length === 0 ? 'root.validation' : issue.path.join('.')
+    const path = toRHFErrorPath(issue.path)
+    const type = toRHFErrorType(issue)
 
     const currentError = errors[path]
 
     if (!currentError) {
       errors[path] = {
-        type: issue.code,
+        type,
         message: issue.message,
       }
     }
 
-    if (validateAllFieldCriteria) {
-      appendError(errors[path], issue)
+    if (criteriaMode === 'all') {
+      appendError(errors[path], type, issue.message)
     }
   }
 
   return errors
 }
 
-function appendError(
-  error: FieldError,
-  issue: z.ZodError['issues'][number],
-): void {
-  const types = error.types ?? {}
+export function isRHFRootErrorPath(path: string): boolean {
+  return path.startsWith(ROOT_ERROR_PREFIX)
+}
 
-  const currentMessage = types[issue.code]
+function toRHFErrorPath(path: PropertyKey[]): string {
+  if (path.length === 0) {
+    return 'root.validation'
+  }
+
+  return path.map(String).join('.')
+}
+
+function toRHFErrorType(issue: z.ZodIssue): string {
+  if (
+    issue.code === 'invalid_type' &&
+    'input' in issue &&
+    issue.input === undefined
+  ) {
+    return 'required'
+  }
+
+  return issue.code
+}
+
+function appendError(error: FieldError, type: string, message: string): void {
+  const types = error.types ?? {}
+  const currentMessage = types[type]
 
   error.types = {
     ...types,
-    [issue.code]:
+    [type]:
       currentMessage === undefined
-        ? issue.message
+        ? message
         : Array.isArray(currentMessage)
-          ? [...currentMessage, issue.message]
-          : [currentMessage, issue.message],
+          ? [...currentMessage, message]
+          : [currentMessage, message],
   } as MultipleFieldErrors
 }
