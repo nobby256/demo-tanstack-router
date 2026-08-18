@@ -3,43 +3,23 @@ import type { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 
 import { createFieldErrors } from './createFieldErrors'
-import { findFirstErrorPath } from './findFirstErrorPath'
-import { normalizeEmptyStrings } from './normalizeEmptyStrings'
 
 export type ValidateFormOptions = {
   criteriaMode?: 'firstError' | 'all'
   shouldFocusError?: boolean
 }
 
-type ValidationFailedResult = {
-  success: false
-}
-
-export async function validateForm<
+export function validateForm<
   TInput extends FieldValues,
   TSchema extends z.ZodType,
 >(
   form: UseFormReturn<TInput>,
   schema: TSchema,
   options?: ValidateFormOptions,
-): Promise<z.ZodSafeParseSuccess<z.output<TSchema>> | ValidationFailedResult> {
+):
+  | z.ZodSafeParseSuccess<z.output<TSchema>>
+  | z.ZodSafeParseError<z.output<TSchema>> {
   form.clearErrors()
-
-  const rhfValid = await form.trigger()
-
-  if (!rhfValid) {
-    if (options?.shouldFocusError) {
-      const firstErrorPath = findFirstErrorPath(form.formState.errors)
-
-      if (firstErrorPath) {
-        form.setFocus(firstErrorPath as Path<TInput>)
-      }
-    }
-
-    return {
-      success: false,
-    }
-  }
 
   const values = form.getValues()
   const normalizedValues = normalizeEmptyStrings(values)
@@ -59,11 +39,28 @@ export async function validateForm<
         form.setFocus(firstIssue.path.join('.') as Path<TInput>)
       }
     }
-
-    return {
-      success: false,
-    }
   }
 
   return result
+}
+
+export function normalizeEmptyStrings<T>(value: T): T {
+  if (value === '') {
+    return undefined as T
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(normalizeEmptyStrings) as T
+  }
+
+  if (value && typeof value === 'object' && !(value instanceof Date)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [
+        key,
+        normalizeEmptyStrings(item),
+      ]),
+    ) as T
+  }
+
+  return value
 }
