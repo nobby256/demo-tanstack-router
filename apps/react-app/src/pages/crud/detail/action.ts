@@ -1,9 +1,11 @@
 import { useRouter } from '@tanstack/react-router'
 import { useActionBoundary } from '@vendor/router-enhancer'
 
+import { validateForm } from '#/features/validation'
+
 import {
   operation,
-  type PageFormOutput,
+  schema,
   type UsePageFormReturn,
 } from './-page-deps-internal'
 
@@ -22,14 +24,19 @@ type ActionContext = {
 export const useActions = useActionBoundary(({ form }: ActionContext) => {
   const router = useRouter()
 
-  const update = async (values: PageFormOutput) => {
-    await operation.detailPageUpdate(values)
+  const update = async () => {
+    const result = validateForm(form, schema.DetailPageUpdateBody)
+    if (!result.success) {
+      return
+    }
+
+    await operation.detailPageUpdate(result.data)
 
     //loaderの強制再実行
     await router.invalidate()
   }
 
   return {
-    update: form.handleSubmit(update),
+    update: update,
   }
 })

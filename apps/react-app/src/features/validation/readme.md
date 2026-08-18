@@ -166,18 +166,11 @@ const result = schema.safeParse(normalizedValues, {
 以下の条件を満たす issue は、RHF 用には `required` エラーへ再分類する。
 
 ```ts
-issue.code === 'invalid_type' &&
-'input' in issue &&
-issue.input === undefined
+issue.code === 'invalid_type' && 'input' in issue && issue.input === undefined
 ```
 
 ```ts
-function isRequiredIssue(
-  issue: {
-    code: string
-    input?: unknown
-  },
-): boolean {
+function isRequiredIssue(issue: { code: string; input?: unknown }): boolean {
   return (
     issue.code === 'invalid_type' &&
     'input' in issue &&
@@ -187,12 +180,8 @@ function isRequiredIssue(
 ```
 
 ```ts
-function toFieldErrorType(
-  issue: z.core.$ZodIssue,
-): string {
-  return isRequiredIssue(issue)
-    ? 'required'
-    : issue.code
+function toFieldErrorType(issue: z.core.$ZodIssue): string {
+  return isRequiredIssue(issue) ? 'required' : issue.code
 }
 ```
 
@@ -258,9 +247,7 @@ RHF FieldError
 
 ```ts
 const path =
-  issue.path.length === 0
-    ? 'root.validation'
-    : issue.path.map(String).join('.')
+  issue.path.length === 0 ? 'root.validation' : issue.path.map(String).join('.')
 ```
 
 ```ts
@@ -319,10 +306,7 @@ export function validateForm<
   })
 
   if (!result.success) {
-    const errors = createFieldErrors(
-      result.error,
-      options.criteriaMode,
-    )
+    const errors = createFieldErrors(result.error, options.criteriaMode)
 
     for (const [path, error] of Object.entries(errors)) {
       form.setError(path as Path<TFormValues>, error)
@@ -334,9 +318,7 @@ export function validateForm<
       )
 
       if (firstFieldPath) {
-        form.setFocus(
-          firstFieldPath as Path<TFormValues>,
-        )
+        form.setFocus(firstFieldPath as Path<TFormValues>)
       }
     }
   }
@@ -348,14 +330,10 @@ export function validateForm<
 呼び出し側は、Zod output のみを API へ渡す。
 
 ```ts
-const result = validateForm(
-  form,
-  updateCustomerSchema,
-  {
-    criteriaMode: 'all',
-    shouldFocusError: true,
-  },
-)
+const result = validateForm(form, updateCustomerSchema, {
+  criteriaMode: 'all',
+  shouldFocusError: true,
+})
 
 if (!result.success) {
   return

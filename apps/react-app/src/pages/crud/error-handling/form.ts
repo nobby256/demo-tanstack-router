@@ -1,16 +1,14 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { type FormInput } from '#/features/form/helper'
-
 import { model, Route } from './-page-deps-internal'
 
 // ─────────────────────────────
 // Types
 // ─────────────────────────────
 
+export type ViewModel = model.ErrorHandlingPageViewModelOutput
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormValues = FormInput<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -19,7 +17,7 @@ export type PageFormValues = FormInput<UsePageFormReturn>
 export const usePageForm = () => {
   const defaultValues = Route.useLoaderData()
 
-  const form = useForm<model.ErrorHandlingPageViewModel>({
+  const form = useForm<ViewModel>({
     defaultValues,
   })
   useEffect(() => {

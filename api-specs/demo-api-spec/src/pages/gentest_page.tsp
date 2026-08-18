@@ -179,26 +179,26 @@ namespace service.gentest_page {
     @query inlineStatus: "Active" | "Inactive",
   ): TestModel;
 
-  /**
-   * GET（複合パラメータ）の引数
-   */
-  model SearchCondition {
-    /** id */
-    @query id?: string;
+  // /**
+  //  * GET（複合パラメータ）の引数
+  //  */
+  // model SearchCondition {
+  //   /** id */
+  //   @query id?: string;
 
-    /** name */
-    @query name?: string;
+  //   /** name */
+  //   @query name?: string;
 
-    /** count */
-    @query count?: int32;
-  }
+  //   /** count */
+  //   @query count?: int32;
+  // }
 
-  /**
-   * GET（複合パラメータ）
-   */
-  @get
-  @route("/get/complex")
-  op getComplex(...SearchCondition): TestModel;
+  // /**
+  //  * GET（複合パラメータ）
+  //  */
+  // @get
+  // @route("/get/complex")
+  // op getComplex(...SearchCondition): TestModel;
 
   /**
    * POST（ヘッダ）

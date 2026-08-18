@@ -8,4 +8,4 @@ options:
     emitter-output-dir: '{output-dir}/openapi'
     output-file: 'openapi-{service-name}.{file-type}'
     file-type: yaml
-    omit-unreachable-types: false
+    omit-unreachable-types: true

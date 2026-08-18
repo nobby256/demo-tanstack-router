@@ -19,14 +19,7 @@
 export * as operation from 'demo-api-client/op/detail-page'
 export * as model from 'demo-api-client/model/detail-page'
 export * as schema from 'demo-api-client/zod/detail-page'
-export * as zod from 'demo-api-client/zod/service.schemas'
+// export * as zod from 'demo-api-client/zod/service.schemas'
 export { Route } from '#/routes/crud.$id'
-export {
-  usePageForm,
-  usePageFormContext,
-  type PageFormInput,
-  type PageFormOutput,
-  type UsePageFormReturn,
-  type PageFormControl,
-} from './form'
+export { usePageForm, type UsePageFormReturn, type ViewModel } from './form'
 export { useActions } from './action'
