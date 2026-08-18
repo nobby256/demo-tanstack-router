@@ -1,8 +1,10 @@
-import { type $ZodConfig } from 'zod/v4/core'
+import { z } from 'zod'
 
-export const zodConfig: Partial<$ZodConfig> = {
+import { isRequiredIssue } from '#/features/validation'
+
+export const zodConfig: Partial<z.core.$ZodConfig> = {
   customError: (issue) => {
-    if (issue.code === 'invalid_type' && issue.input === undefined) {
+    if (isRequiredIssue(issue)) {
       return '必須です'
     }
 
