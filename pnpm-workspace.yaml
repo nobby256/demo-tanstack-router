@@ -57,7 +57,6 @@ catalog:
   ofetch: 1.5.1
 
   # Orval
-  # orval: 8.20.0
   orval: 8.24.0
   msw: 2.13.4
   '@faker-js/faker': 10.5.0

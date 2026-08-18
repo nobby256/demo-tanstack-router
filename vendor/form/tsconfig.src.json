@@ -1,0 +1,7 @@
+{
+  "extends": "@vendor/tsconfig/browser.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.cache/ts/tsconfig.src.tsbuildinfo"
+  },
+  "include": ["src"]
+}

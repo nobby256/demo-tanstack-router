@@ -170,9 +170,9 @@ importers:
       '@tanstack/router-core':
         specifier: 'catalog:'
         version: 1.171.13
-      '@vendor/mutation-form':
+      '@vendor/form':
         specifier: workspace:*
-        version: link:../../vendor/mutation-form
+        version: link:../../vendor/form
       '@vendor/router-enhancer':
         specifier: workspace:*
         version: link:../../vendor/router-enhancer
@@ -278,6 +278,34 @@ importers:
       '@vendor/tsdown-config':
         specifier: workspace:*
         version: link:../../../../tsdown-config
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.22.3(tsx@4.23.12)(typescript@6.0.3)(unrun@0.2.39)
+
+  vendor/form:
+    dependencies:
+      react:
+        specifier: 'catalog:'
+        version: 19.2.7
+      react-hook-form:
+        specifier: 'catalog:'
+        version: 7.75.0(react@19.2.7)
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.0
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.17
+      '@vendor/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@vendor/tsdown-config':
+        specifier: workspace:*
+        version: link:../tsdown-config
       tsdown:
         specifier: 'catalog:'
         version: 0.22.3(tsx@4.23.12)(typescript@6.0.3)(unrun@0.2.39)

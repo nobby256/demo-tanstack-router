@@ -15,12 +15,7 @@ namespace service.detail_page;
 // =========================================
 
 model ViewModel is ViewModelBase {
-  data: view.Data;
-}
-
-// ViewModelの内部モデル用ネームスペース
-namespace view {
-  model Data {
+  data: {
     /** id */
     id: string;
 
@@ -32,16 +27,16 @@ namespace view {
 
     /** version */
     version: int64;
-  }
+  };
+}
+
+// ViewModelの内部モデル用ネームスペース
+namespace view {
+
 }
 
 model MutationModel {
-  data: mut.Data;
-}
-
-// MutationModelの内部モデル用ネームスペース
-namespace mut {
-  model Data {
+  data: {
     /** id */
     id: string;
 
@@ -53,7 +48,12 @@ namespace mut {
 
     /** version */
     version: int64;
-  }
+  };
+}
+
+// MutationModelの内部モデル用ネームスペース
+namespace mut {
+
 }
 
 // =========================================
