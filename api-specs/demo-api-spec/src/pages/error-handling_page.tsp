@@ -15,7 +15,7 @@ model ViewModel is ViewModelBase {
     /** status */
     status?: string = "";
 
-    // check: boolean;
+    check?: string = "";
   };
 }
 
@@ -29,7 +29,7 @@ model MutationModel {
     /** status */
     status: int32;
 
-    // check: boolean;
+    check: boolean;
   };
 }
 

@@ -17,8 +17,9 @@ export type RequiredIssueCandidate = {
  */
 export function isRequiredIssue(issue: RequiredIssueCandidate): boolean {
   return (
-    issue.code === 'invalid_type' &&
-    'input' in issue &&
-    issue.input === undefined
+    (issue.code === 'invalid_type' &&
+      'input' in issue &&
+      issue.input === undefined) ||
+    Number.isNaN(issue.input)
   )
 }
