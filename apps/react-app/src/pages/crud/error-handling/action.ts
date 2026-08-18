@@ -1,9 +1,11 @@
 import { useRouter } from '@tanstack/react-router'
 import { useActionBoundary } from '@vendor/router-enhancer'
 
+import { valodateFork } from '#/features/validation/validateForm'
+
 import {
   operation,
-  type PageFormOutput,
+  type PageFormValues,
   type UsePageFormReturn,
 } from './-page-deps-internal'
 
@@ -22,7 +24,7 @@ type ActionContext = {
 export const useActions = useActionBoundary(({ form }: ActionContext) => {
   const router = useRouter()
 
-  const done = async (values: PageFormOutput) => {
+  const done = async () => {
     await operation.errorHandlingPageDone(values)
 
     // URLを変えずにloaderの再実行
@@ -33,6 +35,6 @@ export const useActions = useActionBoundary(({ form }: ActionContext) => {
   }
 
   return {
-    done: form.handleSubmit(done),
+    done,
   }
 })

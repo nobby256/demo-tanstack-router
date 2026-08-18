@@ -3,11 +3,14 @@ import { createEnhancedRouter } from '@vendor/router-enhancer'
 import { configureClient } from 'demo-api-client/fetch'
 import { ofetch } from 'ofetch'
 import ReactDOM from 'react-dom/client'
+import { z } from 'zod'
 
 import { ErrorComponent } from '#/features/components/ErrorComponent'
+import { zodConfig } from '#/features/config/zod-config'
 
 import { appConfig } from './app-config'
 import { routeTree } from './routeTree.gen'
+
 // ─────────────────────────────────────
 // Router Settings
 // ─────────────────────────────────────
@@ -23,6 +26,12 @@ declare module '@tanstack/react-router' {
     router: typeof router
   }
 }
+
+// ─────────────────────────────────────
+// Zod Settings
+// ─────────────────────────────────────
+
+z.config(zodConfig)
 
 // ─────────────────────────────────────
 // API Client Settings

@@ -1,26 +1,16 @@
-import {
-  type FormInput,
-  type FormOutput,
-  useMutationForm,
-} from '@vendor/mutation-form'
-import { type Control, useFormContext } from 'react-hook-form'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { Route, zod } from './-page-deps-internal'
+import { type FormInput } from '#/features/form/helper'
 
-// ─────────────────────────────
-// MutationModel
-// ─────────────────────────────
-
-const mutationSchema = zod.ErrorHandlingPageMutationModel
+import { Route } from './-page-deps-internal'
 
 // ─────────────────────────────
 // Types
 // ─────────────────────────────
 
 export type UsePageFormReturn = ReturnType<typeof usePageForm>
-export type PageFormInput = FormInput<UsePageFormReturn>
-export type PageFormOutput = FormOutput<UsePageFormReturn>
-export type PageFormControl = Control<PageFormInput, unknown, PageFormOutput>
+export type PageFormValues = FormInput<UsePageFormReturn>
 
 // ─────────────────────────────────────
 // Form Hook
@@ -29,14 +19,12 @@ export type PageFormControl = Control<PageFormInput, unknown, PageFormOutput>
 export const usePageForm = () => {
   const defaultValues = Route.useLoaderData()
 
-  const form = useMutationForm({
-    mutationSchema,
+  const form = useForm({
     defaultValues,
   })
+  useEffect(() => {
+    form.reset(defaultValues)
+  }, [defaultValues, form.reset])
 
   return form
-}
-
-export function usePageFormContext() {
-  return useFormContext<PageFormInput, unknown, PageFormOutput>()
 }
