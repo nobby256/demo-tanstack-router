@@ -51,8 +51,15 @@ export type RhfImplicitDefault =
  * createStateSymbol() により、このライブラリ固有の symbol を得る。
  */
 const rhfImplicitDefaultKey = createStateSymbol('rhf-implicit-default')
-const processedAnonymousModelKey = createStateSymbol(
-  'processed-anonymous-model',
+
+/**
+ * parent @rhfContract から再帰走査した anonymous model の処理済み状態。
+ *
+ * 同一 anonymous model を複数経路から辿った場合や、循環的な型参照がある場合に、
+ * 同じ property を重複処理しないために使う。
+ */
+const processedRhfAnonymousModelKey = createStateSymbol(
+  'processed-rhf-anonymous-model',
 )
 
 /**
@@ -69,7 +76,7 @@ function getRhfImplicitDefaultState(
 }
 
 function getProcessedAnonymousModelState(program: Program): Set<Type> {
-  return program.stateSet(processedAnonymousModelKey)
+  return program.stateSet(processedRhfAnonymousModelKey)
 }
 
 /**
