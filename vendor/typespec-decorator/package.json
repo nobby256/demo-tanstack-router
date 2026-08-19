@@ -1,0 +1,31 @@
+{
+  "name": "@vendor/typespec-decorator",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "typespec": "./tsp/index.tsp",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "clean": "rimraf .turbo dist",
+    "check": "pnpm typecheck && pnpm lint",
+    "lint": "eslint .",
+    "typecheck": "tsc -b --noEmit",
+    "build": "tsdown",
+    "format": "eslint --fix ."
+  },
+  "peerDependencies": {
+    "@typespec/compiler": "catalog:"
+  },
+  "dependencies": {
+    "@typespec/openapi": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "@vendor/tsconfig": "workspace:*",
+    "@vendor/tsdown-config": "workspace:*"
+  }
+}
