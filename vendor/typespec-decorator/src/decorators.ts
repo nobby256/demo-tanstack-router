@@ -1,27 +1,28 @@
 import type {
+  ArrayValue,
+  BooleanValue,
   DecoratorContext,
   Model,
   ModelProperty,
+  Scalar,
+  StringValue,
   Type,
+  Value,
 } from '@typespec/compiler'
 
 import {
-  getRhfImplicitDefault,
   hasProcessedAnonymousModel,
   markAnonymousModelProcessed,
   reportDiagnostic,
-  type RhfImplicitDefault,
-  setRhfImplicitDefault,
 } from './lib.js'
 
 /**
- * array default は immutable な共有値として扱う。
+ * @rhfContract が自動付与する default の種類。
  *
- * decorator は semantic model 上の property ごとに default metadata を保存するが、
- * 実際に保存する値は TypeSpec の AST や runtime の配列ではない。
- * emitter が「空配列 default」を識別するための internal metadata である。
+ * defaultValue へ設定する実際の Value object は、
+ * property の型情報とともに createImplicitDefaultValue で生成する。
  */
-const EMPTY_ARRAY_DEFAULT = [] as const
+type RhfImplicitDefaultKind = 'empty-string' | 'false' | 'empty-array'
 
 /**
  * @rhfContract の実装。
@@ -77,8 +78,8 @@ function processProperty(
   /**
    * optional leaf は contract 違反である。
    *
-   * diagnostic を報告した invalid property に default metadata を追加しても
-   * compile 自体は失敗するが、invalid semantic model に余計な metadata を
+   * diagnostic を報告した invalid property には defaultValue を設定しない。
+   * compile は失敗するが、invalid semantic model に余計な metadata を
    * 残さないため、ここで処理を打ち切る。
    */
   if (validateOptionalLeaf(context, ownerModel, property)) {
@@ -86,17 +87,17 @@ function processProperty(
   }
 
   /**
-   * TypeSpec 標準 @default(...) がある場合は、値の内容にかかわらず
-   * 明示指定を最優先する。
+   * TypeSpec 標準 @default(...) または `= <value>` がある場合は、
+   * 値の内容にかかわらず明示指定を最優先する。
    *
    * @default("") / @default("guest") / @default(false) / @default(true) /
    * @default(#[]) / @default(#["A"]) のいずれも変更・検証しない。
    */
   if (!hasExplicitDefault(property)) {
-    const implicitDefault = getAutoDefault(property.type)
+    const defaultKind = getAutoDefaultKind(property.type)
 
-    if (implicitDefault !== undefined) {
-      setDefaultIfAbsent(context, property, implicitDefault)
+    if (defaultKind !== undefined) {
+      setDefaultValueIfAbsent(property, defaultKind)
     }
   }
 
@@ -189,37 +190,32 @@ function isOptionalNestedObjectModel(type: Type): type is Model {
 }
 
 /**
- * TypeSpec 標準 @default(...) の有無。
+ * TypeSpec 標準 @default(...) および `= <value>` の有無。
  *
  * defaultValue が存在すれば、値の内容を確認せず、必ず明示 default を優先する。
- *
- * この decorator は standard @default metadata を変更しない。
- * @rhfContract が補完する default は library 内部の Program stateMap に保存し、
- * 後続の TypeScript emitter が必要に応じて読む。
  */
 function hasExplicitDefault(property: ModelProperty): boolean {
   return property.defaultValue !== undefined
 }
 
 /**
- * 冪等性を保証する。
+ * 標準 defaultValue を設定する。
  *
- * - 標準 @default がある property は呼び出し側で除外済み
- * - 独自 implicit default がすでにあれば上書きしない
+ * OpenAPI emitter は library 独自の stateMap metadata を読まない。
+ * OpenAPI schema に `default` を出力させるため、TypeSpec compiler の
+ * semantic ModelProperty.defaultValue を設定する。
  *
- * 同一 decorator が複数回評価された場合、あるいは anonymous model が複数経路から
- * 到達可能な場合でも、先に保存した RHF default metadata を変更しない。
+ * 明示 @default(...) は呼び出し側で除外済みだが、冪等性のためここでも確認する。
  */
-function setDefaultIfAbsent(
-  context: DecoratorContext,
+function setDefaultValueIfAbsent(
   property: ModelProperty,
-  value: RhfImplicitDefault,
+  defaultKind: RhfImplicitDefaultKind,
 ): void {
-  if (getRhfImplicitDefault(context.program, property) !== undefined) {
+  if (property.defaultValue !== undefined) {
     return
   }
 
-  setRhfImplicitDefault(context.program, property, value)
+  property.defaultValue = createImplicitDefaultValue(property, defaultKind)
 }
 
 /**
@@ -241,20 +237,94 @@ function setDefaultIfAbsent(
  * 将来 custom scalar や alias の扱いを広げる場合は、
  * isBuiltinString / isBuiltinBoolean / isArrayLike のみを拡張する。
  */
-function getAutoDefault(type: Type): RhfImplicitDefault | undefined {
+function getAutoDefaultKind(type: Type): RhfImplicitDefaultKind | undefined {
   if (isBuiltinString(type)) {
-    return { kind: 'string', value: '' }
+    return 'empty-string'
   }
 
   if (isBuiltinBoolean(type)) {
-    return { kind: 'boolean', value: false }
+    return 'false'
   }
 
   if (isArrayLike(type)) {
-    return { kind: 'array', value: EMPTY_ARRAY_DEFAULT }
+    return 'empty-array'
   }
 
   return undefined
+}
+
+/**
+ * TypeSpec semantic model に設定する Value を生成する。
+ *
+ * TypeSpec では model property の default は Value として表現される。
+ * @typespec/openapi3 は ModelProperty.defaultValue を参照して OpenAPI の
+ * schema.default を出力する。
+ *
+ * StringValue / BooleanValue では scalar が必須である。
+ * 現仕様では string / boolean の組込み scalar だけを対象とするため、
+ * property.type を Scalar として使用できる。
+ */
+function createImplicitDefaultValue(
+  property: ModelProperty,
+  defaultKind: RhfImplicitDefaultKind,
+): Value {
+  switch (defaultKind) {
+    case 'empty-string':
+      return createEmptyStringValue(property.type)
+
+    case 'false':
+      return createFalseValue(property.type)
+
+    case 'empty-array':
+      return createEmptyArrayValue(property.type)
+  }
+}
+
+/**
+ * string property 用の StringValue を作る。
+ *
+ * getAutoDefaultKind により、呼び出し時点では property.type は
+ * built-in string Scalar であることが保証される。
+ */
+function createEmptyStringValue(type: Type): StringValue {
+  return {
+    entityKind: 'Value',
+    valueKind: 'StringValue',
+    scalar: type as Scalar,
+    value: '',
+    type,
+  }
+}
+
+/**
+ * boolean property 用の BooleanValue を作る。
+ *
+ * getAutoDefaultKind により、呼び出し時点では property.type は
+ * built-in boolean Scalar であることが保証される。
+ */
+function createFalseValue(type: Type): BooleanValue {
+  return {
+    entityKind: 'Value',
+    valueKind: 'BooleanValue',
+    scalar: type as Scalar,
+    value: false,
+    type,
+  }
+}
+
+/**
+ * T[] / Array<T> property 用の ArrayValue を作る。
+ *
+ * #[] は要素を持たないため、values は空配列になる。
+ * ArrayValue には scalar property は存在しない。
+ */
+function createEmptyArrayValue(type: Type): ArrayValue {
+  return {
+    entityKind: 'Value',
+    valueKind: 'ArrayValue',
+    values: [],
+    type,
+  }
 }
 
 /**
@@ -264,7 +334,7 @@ function getAutoDefault(type: Type): RhfImplicitDefault | undefined {
  * custom scalar を対象にする要件が追加された場合は、この関数で
  * scalar の baseScalar を辿る方針を検討する。
  */
-function isBuiltinString(type: Type): boolean {
+function isBuiltinString(type: Type): type is Scalar {
   return type.kind === 'Scalar' && type.name === 'string'
 }
 
@@ -275,7 +345,7 @@ function isBuiltinString(type: Type): boolean {
  * custom scalar を対象にする要件が追加された場合は、この関数で
  * scalar の baseScalar を辿る方針を検討する。
  */
-function isBuiltinBoolean(type: Type): boolean {
+function isBuiltinBoolean(type: Type): type is Scalar {
   return type.kind === 'Scalar' && type.name === 'boolean'
 }
 
