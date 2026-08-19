@@ -1,13 +1,13 @@
-import type {
-  ArrayValue,
-  BooleanValue,
-  DecoratorContext,
-  Model,
-  ModelProperty,
-  Scalar,
-  StringValue,
-  Type,
-  Value,
+import {
+  type ArrayValue,
+  type BooleanValue,
+  type DecoratorContext,
+  type Model,
+  type ModelProperty,
+  type Scalar,
+  type StringValue,
+  type Type,
+  type Value,
 } from '@typespec/compiler'
 
 import {
@@ -30,6 +30,7 @@ type RhfImplicitDefaultKind = 'empty-string' | 'false' | 'empty-array'
  * 処理対象:
  * - decorator が直接付与された named Model
  * - 上記 Model の内部にある anonymous Model
+ * - 上記 Model の array property の要素型にある anonymous Model
  *
  * 処理対象外:
  * - 継承元の property
@@ -102,18 +103,103 @@ function processProperty(
   }
 
   /**
-   * parent @rhfContract の適用範囲として、inline object / anonymous model
-   * の内部 property は再帰的に処理する。
+   * parent @rhfContract の適用範囲として、次の anonymous model を
+   * 再帰的に処理する。
+   *
+   * - inline object / anonymous model を property 型として直接持つ場合
+   * - array property の要素型が inline object / anonymous model である場合
    *
    * named nested model は共有 DTO 等として利用される可能性があるため、
    * 親 model からは追跡しない。その named model 自身に @rhfContract が
    * 付与されている場合だけ、別途 $rhfContract が実行される。
    */
-  if (isAnonymousNestedModel(property.type)) {
-    processModel(context, property.type, {
+  processAnonymousNestedModels(context, property.type)
+}
+
+/**
+ * property 型から anonymous model を辿り、必要なら再帰処理する。
+ *
+ * array そのものは default `#[]` の対象だが、array の element type が
+ * anonymous model であれば、その内部 property も @rhfContract の
+ * 適用範囲として処理する。
+ *
+ * 例:
+ *
+ * ```typespec
+ * @rhfContract
+ * model Form {
+ *   items: {
+ *     name: string;
+ *     enabled: boolean;
+ *   }[];
+ * }
+ * ```
+ *
+ * この場合:
+ * - items には #[] を設定する
+ * - items の element type の name には "" を設定する
+ * - items の element type の enabled には false を設定する
+ */
+function processAnonymousNestedModels(
+  context: DecoratorContext,
+  type: Type,
+): void {
+  /**
+   * TypeSpec Type を Model に絞り込む。
+   *
+   * `isAnonymousNestedModel(type)` は type predicate であり、先にこれを
+   * 呼ぶと false 側では Model が除外されてしまう。
+   *
+   * そのため、最初に kind で Model かどうかを判定し、Model である範囲内で
+   * direct anonymous model と Array<T> の element type を処理する。
+   */
+  if (type.kind !== 'Model') {
+    return
+  }
+
+  /**
+   * inline object / anonymous model を property 型として直接持つ場合。
+   *
+   * named nested model は共有 DTO 等として利用される可能性があるため、
+   * 親 model からは追跡しない。
+   */
+  if (!type.name) {
+    processModel(context, type, {
       processAnonymousModel: true,
     })
+    return
   }
+
+  /**
+   * T[] / Array<T> の element type を辿る。
+   *
+   * array model 自体は named Model として表現されるため、上の anonymous model
+   * 判定には該当しない。numeric indexer の value が配列の element type となる。
+   */
+  const indexer = type.indexer
+
+  if (indexer === undefined || !isNumericIndexer(indexer.key)) {
+    return
+  }
+
+  const elementType = indexer.value
+
+  /**
+   * named model の配列は親 @rhfContract から追跡しない。
+   *
+   * 例:
+   * `items: SharedItem[];`
+   *
+   * SharedItem 自身に @rhfContract が付いている場合だけ、その decorator
+   * 評価によって SharedItem の内部 property を処理する。
+   */
+  if (elementType.kind !== 'Model' || elementType.name) {
+    return
+  }
+
+  processModel(context, elementType, {
+    processAnonymousModel: true,
+  })
 }
 
 /**
@@ -152,7 +238,7 @@ function validateOptionalLeaf(
    * optional nested model は、panel / section の存在・非存在を表す用途として
    * 許可する。
    *
-   * ただし Array<T> は semantic model 上 Model として現れることがあるため、
+   * ただし Array<T> は semantic model 上 Model として現れるため、
    * type.kind === 'Model' だけで許可してはいけない。
    *
    * tags?: string[] は optional nested model ではなく optional leaf であり、
@@ -182,7 +268,7 @@ function validateOptionalLeaf(
  * - Array<T>: 不許可。tags?: string[] は optional leaf として diagnostic
  *
  * 注意:
- * TypeSpec の Array<T> は semantic model 上 Model として現れることがある。
+ * TypeSpec の Array<T> は semantic model 上 Model として現れる。
  * そのため type.kind === 'Model' だけで判定してはいけない。
  */
 function isOptionalNestedObjectModel(type: Type): type is Model {
@@ -352,52 +438,49 @@ function isBuiltinBoolean(type: Type): type is Scalar {
 /**
  * Array<T> / T[] 判定。
  *
- * TypeSpec 1.13.0 の Array<T> は Model として表現される。
- * model.name が "Array" のものを最低限サポートする。
+ * TypeSpec の array は numeric indexer を持つ Model として表現される。
+ * `T[]` は `Array<T>` の shorthand であり、array model の indexer.value が
+ * 要素型 T になる。
  *
- * alias MyStrings = string[] のような alias 経由については、
- * compiler が解決後に Array model を返す場合には同様に対象になる。
+ * Record<string, T> 等の string indexer model を array と誤認しないため、
+ * indexer.key が numeric scalar であることを確認する。
  *
- * 今後 collection 型の仕様差分を吸収する場合は、この関数だけを修正する。
+ * この実装は TypeSpec 1.13.0 の semantic model を対象とする。
+ * collection 型の扱いを拡張する場合は、この関数と isNumericIndexer を修正する。
  */
-function isArrayLike(type: Type): type is Model {
-  return type.kind === 'Model' && isBuiltinArrayModel(type)
+function isArrayLike(type: Type): boolean {
+  if (type.kind !== 'Model') {
+    return false
+  }
+
+  const indexer = type.indexer
+
+  return indexer !== undefined && isNumericIndexer(indexer.key)
 }
 
 /**
- * TypeSpec 組込み Array<T> model の判定。
+ * Model indexer が配列用の numeric indexer かを判定する。
  *
- * この判定は TypeSpec 1.13.0 の semantic model を inspection test で
- * 実測して確定させる必要がある。
+ * TypeSpec の array model は numeric scalar を key にする indexer を持つ。
+ * 組込み Array<T> の indexer key は通常 integer 系 scalar である。
  *
- * 現時点では Array<T> が次の形で解決される前提である:
- * - type.kind === 'Model'
- * - model.name === 'Array'
- * - model.namespace?.name === 'TypeSpec'
- *
- * 実測結果が異なる場合は、この関数だけを修正する。
- * optional array の禁止と empty-array default の付与は、必ずこの関数を
- * 経由して判定される。
+ * numeric scalar の派生型も許容できるよう、baseScalar を辿って確認する。
+ * ただし今回の対象は compiler が生成する Array<T> であり、
+ * 利用者が定義した任意の numeric-indexed model を array とみなすことは
+ * 意図していない。必要なら後で namespace / template 情報による絞り込みを追加する。
  */
-function isBuiltinArrayModel(model: Model): boolean {
-  return model.name === 'Array' && model.namespace?.name === 'TypeSpec'
-}
+function isNumericIndexer(key: Scalar): boolean {
+  let current: Scalar | undefined = key
 
-/**
- * 無名 nested model の判定。
- *
- * named nested model は親の @rhfContract から追跡しない。
- * 無名 model は親の適用範囲として再帰処理する。
- *
- * TypeSpec compiler の実装や version により、anonymous Model の name は
- * 空文字列または undefined になり得るため、空文字列への完全一致ではなく
- * falsy 判定を用いる。
- *
- * TypeSpec 1.13.0 の inspection test で実際の name を確認し、
- * 必要であればこの判定だけを調整する。
- */
-function isAnonymousNestedModel(type: Type): type is Model {
-  return type.kind === 'Model' && !type.name
+  while (current !== undefined) {
+    if (current.name === 'integer' || current.name === 'numeric') {
+      return true
+    }
+
+    current = current.baseScalar
+  }
+
+  return false
 }
 
 /**
