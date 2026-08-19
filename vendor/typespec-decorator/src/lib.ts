@@ -1,6 +1,7 @@
 import {
   createTypeSpecLibrary,
   type Model,
+  paramMessage,
   type Program,
 } from '@typespec/compiler'
 
@@ -10,8 +11,7 @@ export const $lib = createTypeSpecLibrary({
     'optional-leaf': {
       severity: 'error',
       messages: {
-        default:
-          "Property '{propertyName}' in @rhfContract model '{modelName}' must not be optional. Optional scalar and array properties are not allowed.",
+        default: paramMessage`Property '${'propertyName'}' in @rhfContract model '${'modelName'}' must not be optional. Optional scalar and array properties are not allowed.`,
       },
     },
   },
